@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button should render 1`] = `
+<div>
+  <a
+    class="MuiTypography-root MuiLink-root MuiLink-underlineAlways MuiTypography-colorPrimary"
+    data-testautomation-id="link"
+    href="#"
+  >
+    Text
+  </a>
+</div>
+`;

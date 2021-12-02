@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Typography should render 1`] = `
+<div>
+  <p
+    class="MuiTypography-root MuiTypography-body1"
+    data-testautomation-id="typography"
+  >
+    Text
+  </p>
+</div>
+`;

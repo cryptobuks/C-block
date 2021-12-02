@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switch should render 1`] = `
+<div>
+  <span
+    class="MuiSwitch-root"
+  >
+    <span
+      aria-disabled="false"
+      class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-checked-2 Mui-checked"
+      data-testautomation-id="switch"
+    >
+      <span
+        class="MuiIconButton-label"
+      >
+        <input
+          checked=""
+          class="PrivateSwitchBase-input-4 MuiSwitch-input"
+          type="checkbox"
+          value=""
+        />
+        <span
+          class="MuiSwitch-thumb"
+        />
+      </span>
+    </span>
+    <span
+      class="MuiSwitch-track"
+    />
+  </span>
+  <span
+    class="MuiSwitch-root"
+  >
+    <span
+      aria-disabled="false"
+      class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+      data-testautomation-id="switch"
+    >
+      <span
+        class="MuiIconButton-label"
+      >
+        <input
+          class="PrivateSwitchBase-input-4 MuiSwitch-input"
+          type="checkbox"
+          value=""
+        />
+        <span
+          class="MuiSwitch-thumb"
+        />
+      </span>
+    </span>
+    <span
+      class="MuiSwitch-track"
+    />
+  </span>
+  <span
+    class="MuiSwitch-root"
+  >
+    <span
+      aria-disabled="true"
+      class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-checked-2 Mui-checked PrivateSwitchBase-disabled-3 Mui-disabled Mui-disabled Mui-disabled"
+      data-testautomation-id="switch"
+      tabindex="-1"
+    >
+      <span
+        class="MuiIconButton-label"
+      >
+        <input
+          checked=""
+          class="PrivateSwitchBase-input-4 MuiSwitch-input"
+          disabled=""
+          type="checkbox"
+          value=""
+        />
+        <span
+          class="MuiSwitch-thumb"
+        />
+      </span>
+    </span>
+    <span
+      class="MuiSwitch-track"
+    />
+  </span>
+  <span
+    class="MuiSwitch-root"
+  >
+    <span
+      aria-disabled="true"
+      class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-disabled-3 Mui-disabled Mui-disabled Mui-disabled"
+      data-testautomation-id="switch"
+      tabindex="-1"
+    >
+      <span
+        class="MuiIconButton-label"
+      >
+        <input
+          class="PrivateSwitchBase-input-4 MuiSwitch-input"
+          disabled=""
+          type="checkbox"
+          value=""
+        />
+        <span
+          class="MuiSwitch-thumb"
+        />
+      </span>
+    </span>
+    <span
+      class="MuiSwitch-track"
+    />
+  </span>
+</div>
+`;

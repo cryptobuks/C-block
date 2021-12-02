@@ -1,0 +1,23 @@
+import React from 'react';
+
+import { Box } from '@material-ui/core';
+
+import { {{ properCase name }} } from './{{ properCase name}}';
+import { {{ camelCase name }}PropsMocked } from "./{{ properCase name }}.mock";
+
+export default {
+  title: "components/{{ properCase name }}",
+  component: {{ properCase name }},
+};
+
+export const Default: React.FC = () => {
+  return (
+    <>
+      <Box>
+        <{{ properCase name }}
+          {...{{camelCase name}}PropsMocked}
+        />
+      </Box>
+    </>
+  );
+};

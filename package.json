@@ -1,0 +1,108 @@
+{
+  "name": "c-block",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "EXTEND_ESLINT=true react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "storybook": "start-storybook ./public -p 6006",
+    "eject": "react-scripts eject",
+    "new": "plop --plopfile generators/index.js",
+    "lint": "eslint --cache"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --cache",
+      "bash -c tsc"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@amfi/connect-wallet": "1.1.13-beta1.2",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@material-ui/styles": "^4.11.4",
+    "@reduxjs/toolkit": "^1.6.2",
+    "bignumber.js": "^9.0.1",
+    "clsx": "^1.1.1",
+    "ethereum-types": "^3.2.0",
+    "formik": "^2.2.6",
+    "history": "^4.10.0",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.4",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
+    "react-router-dom": "6",
+    "react-scripts": "^4.0.3",
+    "redux-persist": "^6.0.0",
+    "redux-saga": "^1.1.3",
+    "use-debounce": "^7.0.1",
+    "web3": "^1.2.11",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-typescript": "^7.15.0",
+    "@storybook/addon-actions": "^6.3.8",
+    "@storybook/addon-essentials": "^6.3.8",
+    "@storybook/addon-links": "^6.3.8",
+    "@storybook/addon-storyshots": "^6.3.8",
+    "@storybook/addon-storyshots-puppeteer": "^6.3.8",
+    "@storybook/addons": "^6.3.8",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.8",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.0",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.2",
+    "@types/lodash": "^4.14.173",
+    "@types/react": "^17.0.21",
+    "@types/redux-persist": "^4.3.1",
+    "eslint-config-airbnb-typescript": "9.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "husky": "^7.0.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-css-modules": "^2.1.0",
+    "lint-staged": ">=10",
+    "opener": "^1.5.2",
+    "plop": "2.7.4",
+    "prettier": "2.4.1",
+    "react-docgen-typescript-loader": "^3.7.2",
+    "react-scripts": "^4.0.3",
+    "react-test-renderer": "^17.0.2",
+    "typescript": "^4.4.3"
+  },
+  "resolutions": {
+    "babel-loader": "8.1.0"
+  }
+}
