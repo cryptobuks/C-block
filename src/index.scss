@@ -75,14 +75,21 @@ button {
 }
 
 .Toastify__toast-container {
+  padding: 0 !important;
+  width: fit-content !important;
+  height: fit-content !important;
 }
 .Toastify__toast {
+  padding: 0 !important;
   display: flex;
   // box-shadow: 0px 4px 30px rgba(38, 150, 83, 0.4);
+  color: none;
+  overflow: visible;
   border-radius: 30px;
   width: 100%;
-  margin: 0;
-
+  overflow: visible;
+  background: none !important;
+  
   & > svg {
     position: absolute;
     right: 16px;
@@ -90,7 +97,6 @@ button {
   }
 
   &--success {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #269653;
   }
 
   &--error {
@@ -99,6 +105,9 @@ button {
 
   &--info {
   }
+}
+.Toastify__toast-theme--light {
+  background: none;
 }
 
 .Toastify__close-button {

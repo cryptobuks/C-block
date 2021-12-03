@@ -23,7 +23,7 @@ export const CreateContract = () => {
     dispatch(toggleTestnet());
     setNotification({
       type: 'info',
-      message: `Please change network to ${isMainnet ? 'Celo Mainnet' : 'Alfahores Testnet'} in your wallet`,
+      message: `Please change network to ${!isMainnet ? 'Celo Mainnet' : 'Alfahores Testnet'} in your wallet`,
     });
   }, [isMainnet]);
 
