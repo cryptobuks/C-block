@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext } from 'react';
 
-import { contractsProxy as contracts, getProduction } from 'config';
+import { contracts, getProduction } from 'config';
 
 import { UserState, WalletProviders } from 'types';
 import { connectWalletState, disconnectWalletState } from 'store/user/reducer';

@@ -35,8 +35,9 @@ export const CreateContract = () => {
         </Grid>
         <Grid container>
           {createContractHelpers.map((contractType) => (
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={contractType.title}>
               <ContractCard
+                // eslint-disable-next-line react/no-array-index-key
                 {...contractType}
               />
             </Grid>

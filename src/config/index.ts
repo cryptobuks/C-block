@@ -104,8 +104,9 @@ function getProduction() {
   contractsProxy.type = store.store.getState().user.isMainnet ? 'mainnet' : 'testnet';
   chainsProxy['Trust'].chainId = store.store.getState().user.isMainnet ? 1 : 0;
   chainsProxy['Celo-Chain'].chainId = store.store.getState().user.isMainnet ? 42220 : 44787;
-  chainsProxy['Celo-Chain'].provider.WalletConnect.provider.rpc.rpc = store.store.getState().user.isMainnet ? 'https://forno.celo.org/'
-    : 'https://alfajores-forno.celo-testnet.org/';
+  chainsProxy['Celo-Chain'].provider.WalletConnect.provider.rpc.rpc = store.store.getState().user.isMainnet
+    ? { 42220: 'https://forno.celo.org/' }
+    : { 44787: 'https://alfajores-forno.celo-testnet.org/' };
   return store.store.getState().user.isMainnet;
 }
 
