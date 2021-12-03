@@ -11,6 +11,7 @@ import { State, UserState } from 'types';
 function App() {
   const { isLight } = useShallowSelector<State, UserState>(userSelector.getUser);
   const selectedTheme = isLight ? lightTheme : theme;
+
   return (
     <ThemeProvider theme={selectedTheme}>
       <BreakpointsProvider>

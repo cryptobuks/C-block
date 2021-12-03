@@ -26,7 +26,7 @@ export const useStyles = makeStyles((theme: Theme) => {
     copyBtn: {
       position: 'absolute',
       right: theme.spacing(3),
-      zIndex: 999,
+      zIndex: 9,
       '&:hover': {
         '& > *': {
           '& > *': {

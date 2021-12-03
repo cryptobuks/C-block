@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext } from 'react';
 
-import { contracts, isProduction } from 'config';
+import { contractsProxy as contracts, getProduction } from 'config';
 
 import { UserState, WalletProviders } from 'types';
 import { connectWalletState, disconnectWalletState } from 'store/user/reducer';
@@ -53,12 +53,12 @@ any,
 
   componentDidMount() {
     this.state.provider.connectWallet.initWeb3(
-      isProduction
-        ? 'https://bsc-dataseed.binance.org/'
-        : 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+      getProduction()
+        ? 'https://forno.celo.org/'
+        : 'https://alfajores-forno.celo-testnet.org/',
     );
     const promises: Array<Promise<any>> = contracts.names.map((contract) => {
-      const { address, abi } = contracts.params[contract][isProduction ? 'mainnet' : 'testnet'];
+      const { address, abi } = contracts.params[contract][getProduction() ? 'mainnet' : 'testnet'];
 
       return this.state.provider.connectWallet.addContract({
         name: contract,

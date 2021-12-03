@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserState } from 'types';
 
@@ -7,12 +6,17 @@ const initialState: UserState = {
   address: '',
   wallet: '',
   isLight: false,
+  isMainnet: true,
 };
 
 export const userReducer = createSlice({
   name: 'counter',
   initialState,
   reducers: {
+    toggleTestnet: (state) => ({
+      ...state,
+      isMainnet: !state.isMainnet,
+    }),
     toggleTheme: (state) => ({
       ...state,
       isLight: !state.isLight,
@@ -31,6 +35,8 @@ export const userReducer = createSlice({
   },
 });
 
-export const { connectWalletState, disconnectWalletState, toggleTheme } = userReducer.actions;
+export const {
+  connectWalletState, disconnectWalletState, toggleTheme, toggleTestnet,
+} = userReducer.actions;
 
 export default userReducer.reducer;

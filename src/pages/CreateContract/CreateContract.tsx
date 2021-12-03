@@ -1,24 +1,35 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Box,
   Container, Grid, Switch, Typography,
 } from '@material-ui/core';
 import { ContractCard } from 'components/ContractCard';
+import { useDispatch } from 'react-redux';
+import { toggleTestnet } from 'store/user/reducer';
+import { useShallowSelector } from 'hooks';
+import { State, UserState } from 'types';
+import userSelector from 'store/user/selectors';
 import { createContractHelpers } from './CreateContract.helpers';
 import { useStyles } from './CreateContract.styles';
 
 export const CreateContract = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleTestnetChange = useCallback(() => {
+    dispatch(toggleTestnet());
+  }, []);
+
+  const { isMainnet } = useShallowSelector<State, UserState>(userSelector.getUser);
 
   return (
     <>
-      {/* <Typography className="acidGreen" variant="h2">Choose contract</Typography> */}
       <Container>
         <Grid container>
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
             <Box className={classes.testnetSwitcher}>
               <Typography>Test net</Typography>
-              <Switch />
+              <Switch checked={!isMainnet} onClick={handleTestnetChange} />
             </Box>
           </Grid>
         </Grid>

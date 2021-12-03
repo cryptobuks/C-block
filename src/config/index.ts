@@ -1,7 +1,8 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IConnectWallet, IContracts } from 'types';
 
-import { isProduction } from './constants';
+import store from 'store/configureStore';
 
 export * from './constants';
 
@@ -17,7 +18,7 @@ export const chains: {
 } = {
   Trust: {
     name: 'Trust Wallet',
-    chainId: isProduction ? 1 : 0,
+    chainId: 1,
     provider: {
       WalletConnect: {
         name: 'WalletConnect',
@@ -30,30 +31,9 @@ export const chains: {
       },
     },
   },
-  'Binance-Smart-Chain': {
-    name: 'Binance-Smart-Chain',
-    chainId: isProduction ? 56 : 97,
-    provider: {
-      MetaMask: { name: 'MetaMask' },
-      WalletConnect: {
-        name: 'WalletConnect',
-        useProvider: 'rpc',
-        provider: {
-          rpc: {
-            rpc: {
-              [isProduction ? 56 : 97]: isProduction
-                ? 'https://bsc-dataseed.binance.org/'
-                : 'https://data-seed-prebsc-1-s1.binance.org:8545/',
-            },
-            chainId: isProduction ? 56 : 97,
-          },
-        },
-      },
-    },
-  },
   'Celo-Chain': {
     name: 'Celo',
-    chainId: isProduction ? 42220 : 44787,
+    chainId: 42220,
     provider: {
       MetaMask: { name: 'MetaMask' },
       WalletConnect: {
@@ -62,11 +42,9 @@ export const chains: {
         provider: {
           rpc: {
             rpc: {
-              [isProduction ? 42220 : 44787]: isProduction
-                ? 'https://forno.celo.org/'
-                : 'https://alfajores-forno.celo-testnet.org/',
+              42220: 'https://forno.celo.org/',
             },
-            chainId: isProduction ? 42220 : 44787,
+            chainId: 42220,
           },
         },
       },
@@ -98,9 +76,37 @@ export enum ContractsNames {
 export type IContractsNames = keyof typeof ContractsNames;
 
 export const contracts: IContracts = {
-  type: isProduction ? 'mainnet' : 'testnet',
+  type: 'mainnet',
   names: Object.keys(ContractsNames),
   decimals: 18,
   params: {
   },
 };
+
+export const contractsProxy = new Proxy(contracts, {
+  set(target, value) {
+    target.type = value ? 'mainnet' : 'testnet';
+    return true;
+  },
+});
+
+export const chainsProxy = new Proxy(chains, {
+  set(target, value) {
+    target['Trust'].chainId = value ? 1 : 0;
+    target['Celo-Chain'].chainId = value ? 42220 : 44787;
+    target['Celo-Chain'].provider.WalletConnect.provider.rpc.rpc = value ? 'https://forno.celo.org/'
+      : 'https://alfajores-forno.celo-testnet.org/';
+    return true;
+  },
+});
+
+function getProduction() {
+  contractsProxy.type = store.store.getState().user.isMainnet ? 'mainnet' : 'testnet';
+  chainsProxy['Trust'].chainId = store.store.getState().user.isMainnet ? 1 : 0;
+  chainsProxy['Celo-Chain'].chainId = store.store.getState().user.isMainnet ? 42220 : 44787;
+  chainsProxy['Celo-Chain'].provider.WalletConnect.provider.rpc.rpc = store.store.getState().user.isMainnet ? 'https://forno.celo.org/'
+    : 'https://alfajores-forno.celo-testnet.org/';
+  return store.store.getState().user.isMainnet;
+}
+
+store.store.subscribe(getProduction);
