@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
 import { Box, Typography } from '@material-ui/core';
+import { CloseIcon } from 'theme/icons';
 import { useStyles } from './Toastify.styles';
 import { toastifyHelper } from './Toastify.helper';
 
@@ -21,7 +22,10 @@ export const Toastify:FC<ToastifyProps> = ({
       <Box className={classes.icon}>
         {toastifyHelper[type]}
       </Box>
-      <Typography variant="body1">{message}</Typography>
+      <Typography className={classes[`text${type}`]} variant="body1">{message}</Typography>
+      <Box className={clsx(classes.closeBtnContainer, classes[`icon${type}`])}>
+        <CloseIcon />
+      </Box>
     </Box>
   );
 };
