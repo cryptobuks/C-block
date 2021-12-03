@@ -20,8 +20,10 @@ export const SidebarTab: VFC<SidebarTabProps> = ({
 }) => {
   const classes = useStyles({ isSelected });
   return (
-    <Link to={link} className={clsx(classes.tab, className)}>
-      <Box className={classes.iconWrapper}><Icon /></Box>
+    <Link to={link} hrefLang={link} className={clsx(classes.tab, className)}>
+      <Box className={classes.iconWrapper}>
+        <Icon />
+      </Box>
       <Typography variant="body1" className={classes.tabLabel}>{label}</Typography>
     </Link>
   );

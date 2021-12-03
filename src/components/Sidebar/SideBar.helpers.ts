@@ -1,6 +1,6 @@
 import { routes } from 'appConstants';
 import {
-  AtIcon, FileTextIcon, PlusCircleIcon, SettingGearIcon,
+  FileTextIcon, PlusCircleIcon, SettingGearIcon,
 } from 'theme/icons';
 
 export const navigationTabs = [
@@ -18,10 +18,5 @@ export const navigationTabs = [
     Icon: SettingGearIcon,
     label: 'Custom development',
     link: routes.customDevelopment.root,
-  },
-  {
-    Icon: AtIcon,
-    label: 'Support',
-    link: routes.support.root,
   },
 ];

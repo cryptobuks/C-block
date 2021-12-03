@@ -11,8 +11,6 @@ div[id="root"] {
   height: 100%;
   width: 100%;
   font-family: sans-serif, Arial, Helvetica, sans-serif;
-  // background-color: #000000;
-
 }
 
 button,
@@ -74,4 +72,51 @@ button {
 
 .slide-enter-done {
   transform: translateX(0);
+}
+
+.Toastify__toast-container {
+}
+.Toastify__toast {
+  display: flex;
+  // box-shadow: 0px 4px 30px rgba(38, 150, 83, 0.4);
+  border-radius: 30px;
+  width: 100%;
+  margin: 0;
+
+  & > svg {
+    position: absolute;
+    right: 16px;
+    top: 20px;
+  }
+
+  &--success {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #269653;
+  }
+
+  &--error {
+    // background: $color-orange;
+  }
+
+  &--info {
+  }
+}
+
+.Toastify__close-button {
+  align-self: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: red;
+  background: blue;
+
+  & > svg {
+    display: none;
+  }
+
+  // custom cross
+  &:after {
+    content: '\e80a';
+    font-family: 'Fontello', Arial, Helvetica, sans-serif;
+  }
+
 }

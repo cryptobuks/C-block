@@ -4,7 +4,7 @@ import { Box, IconButton } from '@material-ui/core';
 import clsx from 'clsx';
 
 import { useLocation } from 'react-router-dom';
-import { CloseIcon } from 'theme/icons';
+import { AtIcon, CloseIcon } from 'theme/icons';
 import { State, UserState } from 'types';
 import { useShallowSelector } from 'hooks';
 import userSelector from 'store/user/selectors';
@@ -43,6 +43,17 @@ export const Sidebar: VFC<SidebarProps> = ({ closeSidebar, className }) => {
             key={link}
           />
         ))}
+        <a
+          href="https://stackoverflow.com/questions/17492888/how-to-place-a-div-over-a-image"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SidebarTab
+            Icon={AtIcon}
+            label="Support"
+            link=""
+          />
+        </a>
       </Box>
       <Box className={classes.contentWrapper}>
         <Disclaimer className={classes.sidebarDisclaimer} />

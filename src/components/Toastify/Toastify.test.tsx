@@ -2,16 +2,15 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 
-import { ThemeProvider } from '../testUtils';
+import { Toastify } from './Toastify';
+import { toastifyPropsMocked } from './Toastify.mock';
 
-import { ErrorIcon } from './components/ErrorIcon';
-
-describe('Icons', () => {
+describe('Toastify', () => {
   it('should render', () => {
     const { container } = render(
-      <ThemeProvider>
-        <ErrorIcon />
-      </ThemeProvider>,
+      <Toastify
+        {...toastifyPropsMocked}
+      />,
     );
     expect(container).toMatchSnapshot();
   });

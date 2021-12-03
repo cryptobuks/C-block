@@ -8,7 +8,4 @@ export const routes = {
   customDevelopment: {
     root: '/custom-development',
   },
-  support: {
-    root: '/support',
-  },
 };

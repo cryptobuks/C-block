@@ -9,6 +9,7 @@ import { toggleTestnet } from 'store/user/reducer';
 import { useShallowSelector } from 'hooks';
 import { State, UserState } from 'types';
 import userSelector from 'store/user/selectors';
+import { setNotification } from 'utils';
 import { createContractHelpers } from './CreateContract.helpers';
 import { useStyles } from './CreateContract.styles';
 
@@ -16,11 +17,15 @@ export const CreateContract = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const { isMainnet } = useShallowSelector<State, UserState>(userSelector.getUser);
+
   const handleTestnetChange = useCallback(() => {
     dispatch(toggleTestnet());
-  }, []);
-
-  const { isMainnet } = useShallowSelector<State, UserState>(userSelector.getUser);
+    setNotification({
+      type: 'info',
+      message: `Please change network to ${isMainnet ? 'Celo Mainnet' : 'Alfahores Testnet'} in your wallet`,
+    });
+  }, [isMainnet]);
 
   return (
     <>

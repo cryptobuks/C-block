@@ -17,3 +17,7 @@ export { TrashIcon } from './components/TrashIcon';
 export { ChevronIcon } from './components/ChevronIcon';
 export { Menu } from './components/Menu';
 export { SunIcon } from './components/SunIcon';
+export { ErrorIcon } from './components/ErrorIcon';
+export { SuccessIcon } from './components/SuccessIcon';
+export { WarningIcon } from './components/WarningIcon';
+export { InfoIcon } from './components/InfoIcon';
