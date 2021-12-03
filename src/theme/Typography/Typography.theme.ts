@@ -1,6 +1,6 @@
 import { TypographyOptions } from '@material-ui/core/styles/createTypography';
 
-import { COLOR_AKZ, COLOR_BLACK, COLOR_GREY_1 } from 'theme/colors';
+import { COLOR_AKZ, COLOR_BLACK } from 'theme/colors';
 
 // eslint-disable-next-line no-shadow
 export enum FontWeights {
@@ -9,7 +9,7 @@ export enum FontWeights {
   fontWeightBold = 600,
 }
 
-export const getTypographyOptions = (): TypographyOptions => {
+export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions => {
   const boldStyles = {
     '& strong': {
       fontWeight: FontWeights.fontWeightMedium,
@@ -23,7 +23,7 @@ export const getTypographyOptions = (): TypographyOptions => {
     fontWeightBold: FontWeights.fontWeightBold,
 
     allVariants: {
-      color: COLOR_GREY_1,
+      color,
       fontWeight: FontWeights.fontWeightRegular,
       textAlign: 'left',
       fontStyle: 'normal',

@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import { createStyles, Theme } from '@material-ui/core/styles';
-import { COLOR_BLACK_1 } from 'theme/colors';
+// import { COLOR_BLACK_1 } from 'theme/colors';
 import { flexHelper } from 'utils';
 
 export const useStyles = makeStyles((theme: Theme) => {
@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme: Theme) => {
       flexDirection: 'column',
       height: '100vh',
       padding: theme.spacing(3),
-      background: COLOR_BLACK_1,
+      background: theme.palette.primary.main,
     },
     contentWrapper: {
       width: '100%',

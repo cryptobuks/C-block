@@ -5,6 +5,9 @@ import clsx from 'clsx';
 
 import { useLocation } from 'react-router-dom';
 import { CloseIcon } from 'theme/icons';
+import { State, UserState } from 'types';
+import { useShallowSelector } from 'hooks';
+import userSelector from 'store/user/selectors';
 import { useStyles } from './Sidebar.styles';
 import { navigationTabs } from './SideBar.helpers';
 import { Logo } from '../Logo';
@@ -20,11 +23,13 @@ export interface SidebarProps {
 export const Sidebar: VFC<SidebarProps> = ({ closeSidebar, className }) => {
   const classes = useStyles();
   const location = useLocation();
+
+  const { isLight } = useShallowSelector<State, UserState>(userSelector.getUser);
   return (
     <Box className={clsx(classes.root, className)}>
       <Box className={classes.contentWrapper}>
         <Box className={classes.sidebarHead}>
-          <Logo />
+          <Logo isLight={isLight} />
           <IconButton onClick={closeSidebar} color="primary" className={classes.sidebarCloseBtn}>
             <CloseIcon />
           </IconButton>

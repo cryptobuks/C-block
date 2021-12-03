@@ -1,14 +1,14 @@
 import { makeStyles } from '@material-ui/core';
 import { createStyles, Theme } from '@material-ui/core/styles';
-import { COLOR_ACID_GREEN, COLOR_BLACK_1, COLOR_BLACK_2 } from 'theme/colors';
+import { COLOR_ACID_GREEN } from 'theme/colors';
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     cursor: 'pointer',
     padding: theme.spacing(3),
-    background: COLOR_BLACK_1,
+    background: theme.palette.primary.light,
     borderRadius: theme.spacing(2),
-    border: `1px solid ${COLOR_BLACK_2}`,
+    border: `1px solid ${theme.palette.primary.light}`,
     minHeight: 260,
     '&:hover': {
       border: `1px solid ${COLOR_ACID_GREEN}`,

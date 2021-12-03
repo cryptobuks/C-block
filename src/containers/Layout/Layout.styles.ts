@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import { createStyles, Theme } from '@material-ui/core/styles';
-import { COLOR_ACID_GREEN, COLOR_BLACK } from 'theme/colors';
+import { COLOR_ACID_GREEN } from 'theme/colors';
 
 export const useStyles = makeStyles<Theme, { isSidebarOpen: boolean }>(
   (theme: Theme) => createStyles({
@@ -9,7 +9,7 @@ export const useStyles = makeStyles<Theme, { isSidebarOpen: boolean }>(
       zIndex: 2,
       width: '100%',
       display: 'flex',
-      background: COLOR_BLACK,
+      background: theme.palette.primary.contrastText,
       overflow: 'hidden',
     },
     sidebar: {

@@ -5,9 +5,7 @@ import {
   COLOR_BLACK,
   COLOR_AKZ,
   COLOR_WHITE,
-  COLOR_BLACK_1,
   COLOR_BLACK_3,
-  COLOR_ACID_GREEN,
 } from 'theme/colors';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,12 +30,12 @@ export const getMuiIconButton = (theme: Theme): Overrides['MuiIconButton'] => ({
   },
   colorPrimary: {
     color: COLOR_WHITE,
-    background: COLOR_BLACK_1,
+    background: theme.palette.primary.light,
     border: `1px solid ${COLOR_BLACK_3}`,
     width: 48,
     height: 48,
     '&:hover': {
-      background: `${COLOR_BLACK_3} !important`,
+      background: `${theme.palette.primary.dark} !important`,
     },
     '&:active': {
       background: COLOR_BLACK,
@@ -48,7 +46,7 @@ export const getMuiIconButton = (theme: Theme): Overrides['MuiIconButton'] => ({
     },
     '& > *': {
       '& > *': {
-        fill: COLOR_ACID_GREEN,
+        fill: theme.palette.secondary.dark,
       },
     },
   },

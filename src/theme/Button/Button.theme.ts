@@ -19,7 +19,7 @@ export const getMuiButton = (theme: Theme): Overrides['MuiButton'] => {
     color: COLOR_WHITE,
     borderRadius: 100,
     border: `1px solid ${COLOR_ACID_GREEN}`,
-    backgroundColor: COLOR_BLACK,
+    backgroundColor: theme.palette.primary.light,
     transition: '200ms',
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),

@@ -1,6 +1,5 @@
 import { LinkProps, Theme } from '@material-ui/core';
 import { Overrides } from '@material-ui/core/styles/overrides';
-import { COLOR_GREY_1 } from '../colors';
 
 export const getMuiLinkDefaultProps = (): LinkProps => ({
   underline: 'always',
@@ -10,7 +9,7 @@ export const getMuiLinkDefaultProps = (): LinkProps => ({
 export const getMuiLinkOverride = (theme: Theme): Overrides['MuiLink'] => ({
   root: {
     cursor: 'pointer',
-    color: COLOR_GREY_1,
+    color: theme.palette.primary.dark,
     fontWeight: 'inherit',
     fontStyle: 'inherit',
   },

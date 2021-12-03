@@ -11,5 +11,9 @@ export const COLOR_BLACK_4 = '#64656A';
 
 export const COLOR_GREY = '#F2F2F2';
 export const COLOR_GREY_1 = '#C4C4C4';
+export const COLOR_GREY_2 = '#B5BDCE';
+export const COLOR_GREY_3 = '#DAE3F5';
+export const COLOR_GREY_4 = '#C6CEE0';
+export const COLOR_GREY_5 = '#6C778F';
 
 export const COLOR_ERROR = '#FF4040';

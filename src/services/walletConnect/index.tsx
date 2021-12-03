@@ -84,9 +84,10 @@ any,
 
   connect = async (provider: WalletProviders) => {
     if (provider !== 'Celo') {
+      console.log(provider, 'IN CONNECT');
       try {
         const isConnected = await this.state.provider.initWalletConnect(
-          'Binance-Smart-Chain',
+          'Celo-Chain',
           provider,
         );
         if (isConnected) {

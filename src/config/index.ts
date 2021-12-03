@@ -51,6 +51,27 @@ export const chains: {
       },
     },
   },
+  'Celo-Chain': {
+    name: 'Celo',
+    chainId: isProduction ? 42220 : 44787,
+    provider: {
+      MetaMask: { name: 'MetaMask' },
+      WalletConnect: {
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [isProduction ? 42220 : 44787]: isProduction
+                ? 'https://forno.celo.org/'
+                : 'https://alfajores-forno.celo-testnet.org/',
+            },
+            chainId: isProduction ? 42220 : 44787,
+          },
+        },
+      },
+    },
+  },
 };
 
 export const connectWallet = (newChainName: string): IConnectWallet => {

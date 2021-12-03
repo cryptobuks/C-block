@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import { createStyles, Theme } from '@material-ui/core/styles';
-import { COLOR_ACID_GREEN, COLOR_GREEN, COLOR_GREY_1 } from 'theme/colors';
+import { COLOR_ACID_GREEN } from 'theme/colors';
 
 export const useStyles = makeStyles<Theme, { isSelected: boolean }>((theme: Theme) => createStyles({
   tab: {
@@ -12,12 +12,12 @@ export const useStyles = makeStyles<Theme, { isSelected: boolean }>((theme: Them
     marginLeft: -theme.spacing(3),
     marginRight: -theme.spacing(3),
     paddingLeft: theme.spacing(3),
-    background: ({ isSelected }) => (isSelected ? COLOR_GREEN : 'unset'),
+    background: ({ isSelected }) => (isSelected ? theme.palette.secondary.main : 'unset'),
     borderLeft: ({ isSelected }) => (isSelected ? `2px solid ${COLOR_ACID_GREEN}` : 'unset'),
     '& > *': {
       color: ({ isSelected }) => (isSelected ? COLOR_ACID_GREEN : 'unset'),
       '& > *': {
-        fill: ({ isSelected }) => (isSelected ? COLOR_ACID_GREEN : COLOR_GREY_1),
+        fill: ({ isSelected }) => (isSelected ? COLOR_ACID_GREEN : theme.palette.primary.dark),
       },
     },
     '&:hover': {

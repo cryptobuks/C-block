@@ -18,7 +18,7 @@ const sagaMiddleware = createSagaMiddleware();
 const userPersistConfig = {
   key: 'user',
   storage,
-  whitelist: ['address', 'wallet', 'colorTheme'],
+  whitelist: ['address', 'wallet', 'isLight'],
 };
 
 const reducers = {

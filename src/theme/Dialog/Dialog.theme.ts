@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { Overrides } from '@material-ui/core/styles/overrides';
 import { ComponentsProps } from '@material-ui/core/styles/props';
-import { COLOR_BLACK_2, COLOR_BLACK_3 } from 'theme/colors';
+import { COLOR_BLACK_3 } from 'theme/colors';
 
 export const getMuiDialogProps = (theme: Theme): Overrides['MuiDialog'] => ({
   root: {
@@ -12,7 +12,7 @@ export const getMuiDialogProps = (theme: Theme): Overrides['MuiDialog'] => ({
     paddingRight: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     paddingLeft: theme.spacing(3),
-    background: COLOR_BLACK_2,
+    background: theme.palette.secondary.light,
     borderRadius: theme.spacing(2),
   },
 });

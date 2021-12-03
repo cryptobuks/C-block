@@ -31,6 +31,7 @@ export const ConnectDropdown: VFC<ConnectDropdownProps> = ({
   const disconnect = useCallback(async () => {
     onClose();
     setTimeout(() => dispatch(disconnectWalletState()), 10);
+    // localStorage.removeItem()
   }, [onClose]);
 
   return (

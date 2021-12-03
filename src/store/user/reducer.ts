@@ -6,13 +6,17 @@ import { UserState } from 'types';
 const initialState: UserState = {
   address: '',
   wallet: '',
-  colorTheme: 'dark',
+  isLight: false,
 };
 
 export const userReducer = createSlice({
   name: 'counter',
   initialState,
   reducers: {
+    toggleTheme: (state) => ({
+      ...state,
+      isLight: !state.isLight,
+    }),
     connectWalletState: (state, action: PayloadAction<UserState>) => ({
       ...state, ...action.payload,
     }),
@@ -27,6 +31,6 @@ export const userReducer = createSlice({
   },
 });
 
-export const { connectWalletState, disconnectWalletState } = userReducer.actions;
+export const { connectWalletState, disconnectWalletState, toggleTheme } = userReducer.actions;
 
 export default userReducer.reducer;
