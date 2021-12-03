@@ -7,7 +7,7 @@ import { Layout, Routes } from 'containers';
 import { useShallowSelector } from 'hooks';
 import userSelector from 'store/user/selectors';
 import { State, UserState } from 'types';
-import { ToastContainer } from 'react-toastify';
+import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CloseIcon } from 'theme/icons';
 
@@ -21,8 +21,8 @@ function App() {
         <StylesProvider>
           <CssBaseline />
           <ToastContainer
-            // transition={Slide}
-            autoClose={50000000000}
+            transition={Slide}
+            autoClose={5000}
             hideProgressBar
             position="top-right"
             closeButton={<CloseIcon />}
