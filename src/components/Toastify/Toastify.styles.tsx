@@ -17,7 +17,6 @@ export const useStyles = makeStyles((theme: Theme) => {
       ...flexHelper('flex-start', 'flex-start'),
       border: `1px solid ${COLOR_BLACK_4}`,
       background: theme.palette.secondary.light,
-      minWidth: 320,
       maxWidth: 450,
       minHeight: 56,
       borderRadius: theme.spacing(1.5),
