@@ -9,7 +9,6 @@ import userSelector from 'store/user/selectors';
 import { State, UserState } from 'types';
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CloseIcon } from 'theme/icons';
 
 function App() {
   const { isLight } = useShallowSelector<State, UserState>(userSelector.getUser);
@@ -25,7 +24,6 @@ function App() {
             autoClose={5000}
             hideProgressBar
             position="top-right"
-            closeButton={<CloseIcon />}
           />
           <Layout>
             <Routes />
