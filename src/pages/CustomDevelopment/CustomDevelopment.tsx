@@ -38,7 +38,10 @@ export const CustomDevelopment = () => {
             validationSchema={validationSchema}
             onSubmit={(
               values: CustomDevelopmentFormValues,
+              { resetForm },
             ) => {
+              console.log(resetForm, 123123);
+              resetForm();
               alert(JSON.stringify(values));
             }}
           >
