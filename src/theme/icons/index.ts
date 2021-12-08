@@ -21,3 +21,4 @@ export { ErrorIcon } from './components/ErrorIcon';
 export { SuccessIcon } from './components/SuccessIcon';
 export { WarningIcon } from './components/WarningIcon';
 export { InfoIcon } from './components/InfoIcon';
+export { CircleCloseIcon } from './components/CircleCloseIcon';

@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useState, VFC,
+  useCallback, useMemo, useState, VFC,
 } from 'react';
 
 import {
@@ -38,7 +38,13 @@ export const Header: VFC<HeaderProps> = ({ openSidebar, className }) => {
     setModalOpen(false);
   }, []);
 
-  const isContractCreatePage = location.pathname === '/';
+  const titleHelper = useMemo(() => {
+    if (location.pathname === '/custom-development') {
+      return 'Custom Development';
+    }
+
+    return 'Choose contract';
+  }, [location.pathname]);
   return (
     <Container className={clsx(classes.root, className)}>
       <Box className={classes.headerLogo}>
@@ -56,9 +62,7 @@ export const Header: VFC<HeaderProps> = ({ openSidebar, className }) => {
           xl={8}
           className={clsx(classes.headerContent, classes.title)}
         >
-          {isContractCreatePage ? (
-            <Typography align="left" className={isLight ? '' : 'acidGreen'} variant="h2">Choose contract</Typography>
-          ) : 'Breadcrumbs'}
+          <Typography align="left" className={isLight ? '' : 'acidGreen'} variant="h2">{titleHelper}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={4} xl={4} className={classes.headerContent}>
           <ConnectButton

@@ -42,6 +42,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       lineHeight: '24px',
       letterSpacing: '0px',
       textTransform: 'capitalize',
+      height: '30px',
 
       '&.acidGreen': {
         background: COLOR_AKZ,

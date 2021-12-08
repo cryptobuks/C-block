@@ -5,8 +5,10 @@ import {
   COLOR_BLACK,
   COLOR_BLACK_1,
   COLOR_BLACK_2,
+  COLOR_BLACK_4,
   COLOR_ERROR,
   COLOR_GREEN,
+  COLOR_GREY,
   COLOR_GREY_1,
   COLOR_GREY_2,
   COLOR_GREY_3,
@@ -21,11 +23,21 @@ import { getMuiGrid, breakpointOptions, getMuiGridDefaultProps } from './Grid';
 import { getMuiIconButton } from './IconButton';
 import { getMuiLinkDefaultProps, getMuiLinkOverride } from './Link';
 import { getMuiSwitch, getMuiSwitchDefaultProps } from './Switch/Switch.theme';
+import {
+  getMuiFormHelperText,
+  getMuiInputBase,
+  getMuiInputLabel,
+  getMuiInputLabelDefaultProps,
+  getMuiOutlinedInput,
+  getMuiTextField,
+  getMuiTextFieldDefaultProps,
+} from './TextField';
 import { getTypographyOptions } from './Typography';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let theme = createTheme({
   palette: {
+    type: 'dark',
     error: {
       main: COLOR_ERROR,
     },
@@ -40,10 +52,15 @@ export let theme = createTheme({
       dark: COLOR_ACID_GREEN,
       light: COLOR_BLACK_2,
     },
+    text: {
+      secondary: COLOR_GREY,
+      hint: COLOR_BLACK_4,
+    },
   },
   typography: getTypographyOptions({ color: COLOR_GREY_1 }),
   breakpoints: breakpointOptions,
   spacing: 8,
+
 });
 
 theme = createTheme(theme, {
@@ -57,6 +74,8 @@ theme = createTheme(theme, {
     MuiButton: getMuiButtonDefaultProps(),
     MuiSwitch: getMuiSwitchDefaultProps(),
     MuiDialog: getMuiDialogDefaultProps(),
+    MuiInputLabel: getMuiInputLabelDefaultProps(),
+    MuiTextField: getMuiTextFieldDefaultProps(),
   },
   overrides: {
     MuiCssBaseline: getMuiCssBaseline(theme),
@@ -67,11 +86,17 @@ theme = createTheme(theme, {
     MuiIconButton: getMuiIconButton(theme),
     MuiSwitch: getMuiSwitch(theme),
     MuiDialog: getMuiDialogProps(theme),
+    MuiInputBase: getMuiInputBase(theme),
+    MuiOutlinedInput: getMuiOutlinedInput(theme),
+    MuiInputLabel: getMuiInputLabel(theme),
+    MuiTextField: getMuiTextField(),
+    MuiFormHelperText: getMuiFormHelperText(),
   },
 });
 // eslint-disable-next-line import/no-mutable-exports
 export let lightTheme = createTheme({
   palette: {
+    type: 'light',
     error: {
       main: COLOR_ERROR,
     },
@@ -86,6 +111,10 @@ export let lightTheme = createTheme({
       dark: COLOR_BLACK,
       light: COLOR_GREY_4,
     },
+    text: {
+      secondary: COLOR_BLACK,
+      hint: COLOR_GREY_5,
+    },
   },
   typography: getTypographyOptions({ color: COLOR_BLACK_1 }),
   breakpoints: breakpointOptions,
@@ -99,10 +128,12 @@ lightTheme = createTheme(lightTheme, {
     MuiButtonBase: { disableRipple: true },
     MuiContainer: getMuiContainerDefaultProps(),
     MuiGrid: getMuiGridDefaultProps(),
-    MuiTypography: getTypographyOptions({ color: COLOR_BLACK_1 }),
+    MuiTypography: getTypographyOptions({ color: COLOR_GREY_1 }),
     MuiButton: getMuiButtonDefaultProps(),
     MuiSwitch: getMuiSwitchDefaultProps(),
     MuiDialog: getMuiDialogDefaultProps(),
+    MuiInputLabel: getMuiInputLabelDefaultProps(),
+    MuiTextField: getMuiTextFieldDefaultProps(),
   },
   overrides: {
     MuiCssBaseline: getMuiCssBaseline(lightTheme),
@@ -113,5 +144,10 @@ lightTheme = createTheme(lightTheme, {
     MuiIconButton: getMuiIconButton(lightTheme),
     MuiSwitch: getMuiSwitch(lightTheme),
     MuiDialog: getMuiDialogProps(lightTheme),
+    MuiInputBase: getMuiInputBase(lightTheme),
+    MuiOutlinedInput: getMuiOutlinedInput(lightTheme),
+    MuiInputLabel: getMuiInputLabel(lightTheme),
+    MuiTextField: getMuiTextField(),
+    MuiFormHelperText: getMuiFormHelperText(),
   },
 });

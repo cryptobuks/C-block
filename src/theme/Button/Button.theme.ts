@@ -4,12 +4,25 @@ import { ComponentsProps } from '@material-ui/core/styles/props';
 import { CSSProperties } from '@material-ui/styles';
 
 import {
-  COLOR_AKZ,
   COLOR_ACID_GREEN,
   COLOR_BLACK,
   COLOR_WHITE,
   COLOR_BLACK_1,
   COLOR_BLACK_3,
+  COLOR_BLACK_5,
+  COLOR_BUTTON_PRIMARY_DARK_DEFAULT,
+  COLOR_BUTTON_PRIMARY_LIGHT_DEFAULT,
+  COLOR_BUTTON_PRIMARY_DARK_HOVER,
+  COLOR_BUTTON_PRIMARY_LIGHT_HOVER,
+  COLOR_BUTTON_PRIMARY_LIGHT_ACTIVE,
+  COLOR_BUTTON_PRIMARY_DARK_ACTIVE,
+  COLOR_BUTTON_PRIMARY_DARK_DISABLED,
+  COLOR_BUTTON_PRIMARY_LIGHT_DISABLED,
+  COLOR_BUTTON_SECONDARY_DARK_DEFAULT,
+  COLOR_BUTTON_SECONDARY_LIGHT_DEFAULT,
+  COLOR_BUTTON_SECONDARY_DARK_HOVER,
+  COLOR_BUTTON_SECONDARY_LIGHT_HOVER,
+  COLOR_GREY_2,
   COLOR_BLACK_4,
 } from 'theme/colors';
 import { FontWeights } from 'theme/Typography';
@@ -19,7 +32,7 @@ export const getMuiButton = (theme: Theme): Overrides['MuiButton'] => {
     color: COLOR_WHITE,
     borderRadius: 100,
     border: `1px solid ${COLOR_ACID_GREEN}`,
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.type === 'dark' ? COLOR_BUTTON_PRIMARY_DARK_DEFAULT : COLOR_BUTTON_PRIMARY_LIGHT_DEFAULT,
     transition: '200ms',
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
@@ -50,7 +63,7 @@ export const getMuiButton = (theme: Theme): Overrides['MuiButton'] => {
     },
     '&:hover': {
       color: COLOR_BLACK,
-      background: COLOR_AKZ,
+      background: theme.palette.type === 'dark' ? COLOR_BUTTON_PRIMARY_DARK_HOVER : COLOR_BUTTON_PRIMARY_LIGHT_HOVER,
       '& $startIcon': {
         '& > *': {
           fill: COLOR_BLACK_3,
@@ -59,7 +72,7 @@ export const getMuiButton = (theme: Theme): Overrides['MuiButton'] => {
     },
     '&:active': {
       color: COLOR_BLACK,
-      background: COLOR_ACID_GREEN,
+      background: theme.palette.type === 'dark' ? COLOR_BUTTON_PRIMARY_DARK_ACTIVE : COLOR_BUTTON_PRIMARY_LIGHT_ACTIVE,
       '& $startIcon': {
         '& > *': {
           fill: COLOR_BLACK_3,
@@ -69,11 +82,16 @@ export const getMuiButton = (theme: Theme): Overrides['MuiButton'] => {
     '&$disabled': {
       opacity: 0.5,
       borderWidth: 0,
-      color: `${COLOR_BLACK_4} !important`,
-      background: COLOR_BLACK_1,
+      color: `${theme.palette.type === 'dark' ? COLOR_BUTTON_PRIMARY_DARK_DISABLED : COLOR_BUTTON_PRIMARY_LIGHT_DISABLED} !important`,
+      background: theme.palette.type === 'dark' ? COLOR_BLACK_4 : COLOR_GREY_2,
       '& $startIcon': {
         '& > *': {
-          fill: COLOR_BLACK_3,
+          fill: `${theme.palette.type === 'dark' ? COLOR_BUTTON_PRIMARY_DARK_DISABLED : COLOR_BUTTON_PRIMARY_LIGHT_DISABLED} !important`,
+        },
+      },
+      '& $endIcon': {
+        '& > *': {
+          fill: theme.palette.type === 'dark' ? COLOR_BUTTON_PRIMARY_DARK_DISABLED : COLOR_BUTTON_PRIMARY_LIGHT_DISABLED,
         },
       },
     },
@@ -85,7 +103,14 @@ export const getMuiButton = (theme: Theme): Overrides['MuiButton'] => {
       ...theme.typography.body2,
     },
     outlinedPrimary: outlinedCommon,
-    outlinedSecondary: outlinedCommon,
+    outlinedSecondary: {
+      ...outlinedCommon,
+      background: `${theme.palette.type === 'dark' ? COLOR_BUTTON_SECONDARY_DARK_DEFAULT : COLOR_BUTTON_SECONDARY_LIGHT_DEFAULT} !important`,
+      color: `${theme.palette.type === 'dark' ? COLOR_BLACK_1 : COLOR_BLACK_5} !important`,
+      '&:hover': {
+        background: `${theme.palette.type === 'dark' ? COLOR_BUTTON_SECONDARY_DARK_HOVER : COLOR_BUTTON_SECONDARY_LIGHT_HOVER} !important`,
+      },
+    },
 
     startIcon: {
       marginRight: theme.spacing(1.5),
