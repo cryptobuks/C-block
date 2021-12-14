@@ -9,6 +9,9 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     background: theme.palette.type === 'dark' ? COLOR_BLACK_1 : COLOR_GREY_2,
     borderRadius: theme.spacing(2.5),
     marginBottom: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      padding: `${theme.spacing(5)}px ${theme.spacing(2)}px`,
+    },
   },
   title: {
     ...flexHelper('space-between', 'flex-start'),

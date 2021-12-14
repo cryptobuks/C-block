@@ -18,9 +18,9 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
 
   return {
     fontFamily: 'Arial',
-    fontWeightRegular: FontWeights.fontWeightRegular,
-    fontWeightMedium: FontWeights.fontWeightMedium,
-    fontWeightBold: FontWeights.fontWeightBold,
+    // fontWeightRegular: FontWeights.fontWeightRegular,
+    // fontWeightMedium: FontWeights.fontWeightMedium,
+    // fontWeightBold: FontWeights.fontWeightBold,
 
     allVariants: {
       color,

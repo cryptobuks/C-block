@@ -66,7 +66,7 @@ const TokenContract = () => {
                   <Grid
                     item
                     xs={12}
-                    sm={12}
+                    sm={isShort ? 6 : 12}
                     md={isShort ? 3 : 6}
                     lg={isShort ? 3 : 6}
                     xl={isShort ? 3 : 6}
@@ -116,7 +116,7 @@ const TokenContract = () => {
                           <Grid
                             item
                             xs={12}
-                            sm={12}
+                            sm={isShort ? 6 : 12}
                             md={isShort ? 3 : 6}
                             lg={isShort ? 3 : 6}
                             xl={isShort ? 3 : 6}

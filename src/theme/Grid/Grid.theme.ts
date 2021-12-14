@@ -6,7 +6,7 @@ import { ComponentsProps } from '@material-ui/core/styles/props';
 export const breakpointOptions: BreakpointsOptions = {
   keys: ['xs', 'sm', 'md', 'lg', 'xl'],
   values: {
-    xs: 560, sm: 768, md: 1024, lg: 1153, xl: 1680,
+    xs: 320, sm: 600, md: 1024, lg: 1153, xl: 1680,
   },
 };
 
