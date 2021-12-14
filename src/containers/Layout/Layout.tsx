@@ -6,7 +6,6 @@ import { Box } from '@material-ui/core';
 
 import { Sidebar } from 'components/Sidebar';
 import { Header } from 'containers';
-import { useWindowState } from 'hooks/useWindowState';
 import { useStyles } from './Layout.styles';
 
 export interface LayoutProps {
@@ -16,10 +15,6 @@ export interface LayoutProps {
 export const Layout: FC<LayoutProps> = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const classes = useStyles({ isSidebarOpen });
-  const { width } = useWindowState();
-  const isMobile = width < 800;
-  console.log(isMobile);
-
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!isSidebarOpen);
   }, [isSidebarOpen]);

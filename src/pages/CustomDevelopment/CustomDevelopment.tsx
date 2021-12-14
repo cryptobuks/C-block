@@ -40,7 +40,6 @@ export const CustomDevelopment = () => {
               values: CustomDevelopmentFormValues,
               { resetForm },
             ) => {
-              console.log(resetForm, 123123);
               resetForm();
               alert(JSON.stringify(values));
             }}

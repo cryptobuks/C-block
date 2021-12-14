@@ -1,6 +1,6 @@
 import { TypographyOptions } from '@material-ui/core/styles/createTypography';
 
-import { COLOR_AKZ, COLOR_BLACK } from 'theme/colors';
+import { COLOR_AKZ, COLOR_BLACK, COLOR_BLACK_4 } from 'theme/colors';
 
 // eslint-disable-next-line no-shadow
 export enum FontWeights {
@@ -42,7 +42,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       lineHeight: '24px',
       letterSpacing: '0px',
       textTransform: 'capitalize',
-      height: '30px',
+      minHeight: '30px',
 
       '&.acidGreen': {
         background: COLOR_AKZ,
@@ -88,8 +88,11 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       fontSize: '16px',
       lineHeight: '24px',
       letterSpacing: '0.02em',
-
       ...boldStyles,
+
+      '&.colorSeconadry': {
+        color: COLOR_BLACK_4,
+      },
 
       '&.l': {
         fontFamily: 'Arial Black',

@@ -7,16 +7,16 @@ export const navigationTabs = [
   {
     Icon: PlusCircleIcon,
     label: 'Create Contract',
-    link: routes.main.root,
+    link: routes.root,
   },
   {
     Icon: FileTextIcon,
     label: 'My contracts',
-    link: routes.myContracts.root,
+    link: routes['my-contracts'].root,
   },
   {
     Icon: SettingGearIcon,
     label: 'Custom development',
-    link: routes.customDevelopment.root,
+    link: routes['custom-development'].root,
   },
 ];

@@ -1,11 +1,23 @@
+import React from 'react';
+import { ContractToken } from 'theme/icons';
+
 export const routes = {
-  main: {
-    root: '/',
+  root: '/create-contract',
+  title: 'Create Contract',
+  icon: null,
+  'token-contract': {
+    root: '/create-contract/token-contract',
+    title: 'Token Contract',
+    icon: <ContractToken />,
   },
-  myContracts: {
+  'my-contracts': {
     root: '/my-contracts',
+    title: 'My contracts',
+    icon: null,
   },
-  customDevelopment: {
+  'custom-development': {
     root: '/custom-development',
+    title: 'Custom development',
+    icon: null,
   },
 };

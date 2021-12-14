@@ -42,7 +42,6 @@ export class WalletService {
   }
 
   public Web3() {
-    console.log(this.connectWallet.currentWeb3());
     return this.connectWallet.currentWeb3();
   }
 

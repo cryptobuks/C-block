@@ -10,6 +10,7 @@ import { useShallowSelector } from 'hooks';
 import { State, UserState } from 'types';
 import userSelector from 'store/user/selectors';
 import { setNotification } from 'utils';
+import { NavLink } from 'react-router-dom';
 import { createContractHelpers } from './CreateContract.helpers';
 import { useStyles } from './CreateContract.styles';
 
@@ -41,10 +42,11 @@ export const CreateContract = () => {
         <Grid container>
           {createContractHelpers.map((contractType) => (
             <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={contractType.title}>
-              <ContractCard
-                // eslint-disable-next-line react/no-array-index-key
-                {...contractType}
-              />
+              <NavLink style={{ width: '100%' }} to={contractType.link}>
+                <ContractCard
+                  {...contractType}
+                />
+              </NavLink>
             </Grid>
           ))}
         </Grid>

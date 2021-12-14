@@ -54,7 +54,6 @@ export const chains: {
 
 export const connectWallet = (newChainName: string): IConnectWallet => {
   const chain = chains[newChainName];
-
   return {
     network: {
       chainName: chain.name,
@@ -107,6 +106,8 @@ function getProduction() {
   chainsProxy['Celo-Chain'].provider.WalletConnect.provider.rpc.rpc = store.store.getState().user.isMainnet
     ? { 42220: 'https://forno.celo.org/' }
     : { 44787: 'https://alfajores-forno.celo-testnet.org/' };
+  chainsProxy['Celo-Chain'].provider.WalletConnect.provider.rpc.chainId = store.store.getState().user.isMainnet
+    ? 42220 : 44787;
   return store.store.getState().user.isMainnet;
 }
 

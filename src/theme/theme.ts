@@ -8,7 +8,6 @@ import {
   COLOR_BLACK_4,
   COLOR_ERROR,
   COLOR_GREEN,
-  COLOR_GREY,
   COLOR_GREY_1,
   COLOR_GREY_2,
   COLOR_GREY_3,
@@ -53,7 +52,7 @@ export let theme = createTheme({
       light: COLOR_BLACK_2,
     },
     text: {
-      secondary: COLOR_GREY,
+      secondary: COLOR_BLACK_4,
       hint: COLOR_BLACK_4,
     },
   },

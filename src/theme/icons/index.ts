@@ -22,3 +22,5 @@ export { SuccessIcon } from './components/SuccessIcon';
 export { WarningIcon } from './components/WarningIcon';
 export { InfoIcon } from './components/InfoIcon';
 export { CircleCloseIcon } from './components/CircleCloseIcon';
+export { Snowflake } from './components/Snowflake';
+export { Calendar } from './components/Calendar';

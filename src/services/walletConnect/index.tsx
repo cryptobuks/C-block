@@ -84,7 +84,6 @@ any,
 
   connect = async (provider: WalletProviders) => {
     if (provider !== 'Celo') {
-      console.log(provider, 'IN CONNECT');
       try {
         const isConnected = await this.state.provider.initWalletConnect(
           'Celo-Chain',
@@ -92,13 +91,11 @@ any,
         );
         if (isConnected) {
           const userAccount = await this.state.provider.getAccount();
-          console.log(userAccount);
           this.props.connectWallet({
             // @ts-expect-error: wrong types in lib
             address: userAccount?.address,
             wallet: provider,
           });
-          console.log(userAccount, 'USER ACC IN WALLET');
           // if (this.state.address && userAccount.address !== this.state.address) {
           //   this.disconnect();
           // } else {
