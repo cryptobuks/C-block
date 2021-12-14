@@ -21,9 +21,10 @@ function App() {
           <CssBaseline />
           <ToastContainer
             transition={Slide}
-            autoClose={5000}
+            autoClose={500000000000}
             hideProgressBar
             position="top-right"
+            closeButton={false}
           />
           <Layout>
             <Routes />
