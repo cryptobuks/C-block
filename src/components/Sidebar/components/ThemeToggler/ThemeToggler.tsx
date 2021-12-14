@@ -30,7 +30,7 @@ export const ThemeToggler: VFC<ThemeTogglerProps> = ({ className }) => {
     <Box className={clsx(className, classes.root)}>
       {!isLight ? <MoonIcon /> : <SunIcon />}
       <Typography>{`${isLight ? 'Light' : 'Dark'} Mode`}</Typography>
-      <Switch onClick={changeTheme} />
+      <Switch size="small" checked={isLight} onClick={changeTheme} />
     </Box>
   );
 };

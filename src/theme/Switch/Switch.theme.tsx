@@ -8,8 +8,8 @@ import {
 
 export const getMuiSwitch = (theme: Theme): Overrides['MuiSwitch'] => {
   const trackSize = {
-    width: '32px',
-    height: '20px',
+    width: '56px',
+    height: '32px',
     borderRadius: '64px',
     padding: 0,
   };
@@ -33,7 +33,8 @@ export const getMuiSwitch = (theme: Theme): Overrides['MuiSwitch'] => {
       },
     },
     track: {
-      ...trackSize,
+      // ...trackSize,
+      borderRadius: '64px',
       opacity: 0.5,
       backgroundColor: COLOR_BLACK_4,
 
@@ -52,6 +53,30 @@ export const getMuiSwitch = (theme: Theme): Overrides['MuiSwitch'] => {
       },
       '.MuiSwitch-switchBase.Mui-disabled + &': {
         opacity: 0.25,
+      },
+    },
+    sizeSmall: {
+      padding: 0,
+      width: 32,
+      height: 20,
+      '&.MuiSwitch-sizeSmall .MuiSwitch-switchBase': {
+        width: 32,
+        height: 20,
+        transform: 'translateX(calc(37px - 100%))',
+        '&.MuiSwitch-track': {
+          width: '32px !important',
+          height: '20px !important',
+        },
+        '&.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+          width: 32,
+          height: 20,
+        },
+        '&$checked': {
+          '&, &:hover, &:active': {
+            background: 'transparent',
+          },
+          transform: 'translateX(calc(27px - 100%))',
+        },
       },
     },
     switchBase: {
@@ -74,13 +99,14 @@ export const getMuiSwitch = (theme: Theme): Overrides['MuiSwitch'] => {
     input: {
       top: 0,
       left: 0,
+      width: '100%',
       // ...switchBaseSize,
     },
     thumb: {
       backgroundColor: COLOR_BLACK,
       boxShadow: 'unset',
-      width: 18,
-      height: 18,
+      width: 26,
+      height: 26,
       border: 'none',
     },
   };

@@ -12,14 +12,18 @@ export const useStyles = makeStyles((theme: Theme) => {
   };
   return createStyles({
     form: {
+      width: '90%',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     },
     tokenContractFormSection: {
       borderTop: `1px solid ${theme.palette.type === 'dark' ? COLOR_BLACK_3 : COLOR_GREY_5}`,
       padding: `${theme.spacing(5)}px 0px`,
     },
     shortInput: {
-      minWidth: '190px',
-      width: '40%',
+      minWidth: theme.palette.type === 'dark' ? '190px' : '190px',
+      width: `${theme.palette.type === 'dark' ? '40%' : '40%'} !important`,
     },
     submitButton: {
       width: '150px !important',

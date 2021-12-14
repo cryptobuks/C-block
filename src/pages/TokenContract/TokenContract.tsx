@@ -20,6 +20,7 @@ import {
 import clsx from 'clsx';
 import { CircleCloseIcon, PlusIcon } from 'theme/icons';
 import { CheckBox } from 'components/CheckBox';
+import { formattedDate } from 'utils';
 import {
   tokenContractFormConfigStart,
   initFormValues,
@@ -42,9 +43,7 @@ const TokenContract = () => {
         validationSchema={validationSchema}
         onSubmit={(
           values: CustomDevelopmentFormValues,
-          { resetForm },
         ) => {
-          resetForm();
           alert(JSON.stringify(values));
         }}
       >
@@ -64,7 +63,15 @@ const TokenContract = () => {
                 {formSection.map(({
                   id, name, renderProps, helperText, isShort,
                 }) => (
-                  <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={id}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={isShort ? 3 : 6}
+                    lg={isShort ? 3 : 6}
+                    xl={isShort ? 3 : 6}
+                    key={id}
+                  >
                     <FastField
                       id={id}
                       name={name}
@@ -72,12 +79,10 @@ const TokenContract = () => {
                         ({ form: { isSubmitting } }: FieldProps) => (
                           <TextField
                             {...renderProps}
-                            className={clsx({ [classes.shortInput]: isShort })}
                             disabled={isSubmitting}
                             onChange={handleChange}
                             value={values[name]}
                             onBlur={handleBlur}
-                            helperText={(errors[name] && touched[name]) && `Error ${name}`}
                             error={errors[name] && touched[name]}
                           />
                         )
@@ -97,7 +102,6 @@ const TokenContract = () => {
                 {({ remove, push }) => (values.tokens.map((token, i) => {
                   const tokensErrors = (errors.tokens?.length && errors.tokens[i]) || {};
                   const tokensTouched = (touched.tokens?.length && touched.tokens[i]) || {};
-
                   const totalTokenAmount = values.tokens.reduce((acc, tokenForm) => {
                     // eslint-disable-next-line no-param-reassign
                     acc += +tokenForm.amount;
@@ -109,7 +113,16 @@ const TokenContract = () => {
                         {dynamicFormDataConfig.map(({
                           id, name, renderProps, icon, isShort,
                         }, index) => (
-                          <Grid item xs={12} sm={12} md={6} lg={6} xl={6} key={`${name}_${index}`} className={classes[name]}>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={12}
+                            md={isShort ? 3 : 6}
+                            lg={isShort ? 3 : 6}
+                            xl={isShort ? 3 : 6}
+                            key={`${name}_${index}`}
+                            className={clsx(classes[name])}
+                          >
                             <FastField
                               id={`tokens[${i}].${id}`}
                               name={`tokens[${i}].${name}`}
@@ -136,12 +149,10 @@ const TokenContract = () => {
                                   <TextField
                                     {...renderProps}
                                     name={`tokens[${i}].${name}`}
-                                    className={clsx({ [classes.shortInput]: isShort })}
                                     disabled={isSubmitting}
                                     onChange={handleChange(`tokens[${i}].${name}`)}
                                     value={token[name]}
                                     onBlur={handleBlur}
-                                    helperText={tokensErrors[name] && tokensTouched[name] && `Error ${name}`}
                                     error={tokensErrors[name] && tokensTouched[name]}
                                   />
                                 );
@@ -153,13 +164,15 @@ const TokenContract = () => {
                       </TokenBlockForm>
                       {i === values.tokens.length - 1 && (
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                          <Button
-                            variant="outlined"
-                            onClick={() => push(dynamicFormData)}
-                            endIcon={<PlusIcon />}
-                          >
-                            Mint Tokens
-                          </Button>
+                          {i < 4 && (
+                            <Button
+                              variant="outlined"
+                              onClick={() => push(dynamicFormData)}
+                              endIcon={<PlusIcon />}
+                            >
+                              Mint Tokens
+                            </Button>
+                          )}
                           <Typography variant="body1" className={clsx(classes.helperText, 's')} color="textSecondary">
                             You can reserve the tokens for Team, Bonuses, Bounties - these
                             tokens will be created,but can’t be sold until token sale completion.

@@ -1,5 +1,7 @@
+/* eslint-disable newline-per-chained-call */
 import React, { ReactElement } from 'react';
 import { Snowflake } from 'theme/icons';
+import { formattedDate } from 'utils';
 import * as Yup from 'yup';
 
 export type CustomDevelopmentFormValues = {
@@ -15,7 +17,7 @@ export type CustomDevelopmentFormValues = {
     name: string;
     amount: string;
     isFrozen: boolean;
-    frozenUntilDate: number;
+    frozenUntilDate: string;
   }[];
 };
 
@@ -24,7 +26,7 @@ export const dynamicFormData = {
   name: '',
   amount: '',
   isFrozen: false,
-  frozenUntilDate: Date.now(),
+  frozenUntilDate: formattedDate(),
 };
 
 export const initFormValues = {
@@ -38,10 +40,13 @@ export const initFormValues = {
   freezable: false,
 };
 
+const latinAndNumbers = /^[A-Za-z][A-Za-z0-9][0-9A-Za-z]*$/;
+const yesterday = new Date(Date.now() - 86400000);
+
 export const validationSchema = Yup.object().shape({
-  tokenName: Yup.string().min(5).required(),
+  tokenName: Yup.string().matches(latinAndNumbers).min(5).required(),
   tokenOwner: Yup.string().length(42).required(),
-  tokenSymbol: Yup.string().min(3).max(4).required(),
+  tokenSymbol: Yup.string().matches(latinAndNumbers).min(3).max(4).required(),
   decimals: Yup.number().max(18).required(),
   futureMinting: Yup.boolean().required(),
   burnable: Yup.boolean().required(),
@@ -49,10 +54,10 @@ export const validationSchema = Yup.object().shape({
   tokens: Yup.array().of(
     Yup.object().shape({
       address: Yup.string().length(42).required(),
-      name: Yup.string().min(5).required(),
+      name: Yup.string().matches(latinAndNumbers).min(5).required(),
       amount: Yup.number().required(),
       isFrozen: Yup.boolean().required(),
-      frozenUntilDate: Yup.date().required(),
+      frozenUntilDate: Yup.date().min(yesterday).required(),
     }),
   ),
 });

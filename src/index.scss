@@ -11,6 +11,17 @@ div[id="root"] {
   height: 100%;
   width: 100%;
   font-family: sans-serif, Arial, Helvetica, sans-serif;
+  ::-webkit-datetime-edit-fields-wrapper {
+    position: absolute;
+    left: 12px;
+    top: 35%;
+  }
+  ::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 12px;
+    top: 33%;
+    background-image: url('../src/assets/img/calendar.svg');
+  }
 
 }
 
