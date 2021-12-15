@@ -10,7 +10,7 @@ const initialState: UserState = {
 };
 
 export const userReducer = createSlice({
-  name: 'counter',
+  name: 'user',
   initialState,
   reducers: {
     toggleTestnet: (state) => ({

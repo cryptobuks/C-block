@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React, { Fragment } from 'react';
 import {
@@ -20,30 +18,36 @@ import {
 import clsx from 'clsx';
 import { CircleCloseIcon, PlusIcon } from 'theme/icons';
 import { CheckBox } from 'components/CheckBox';
+import contractFormsSelector from 'store/contractForms/selectors';
+import { ContractFormsState, State, TokenContract as TokenContractType } from 'types';
+import { useShallowSelector } from 'hooks';
+import { dynamicFormDataTemplate, setTokenContractForm } from 'store/contractForms/reducer';
+import { useDispatch } from 'react-redux';
 import {
   tokenContractFormConfigStart,
-  initFormValues,
   validationSchema,
   dynamicFormDataConfig,
   tokenContractFormConfigEnd,
-  CustomDevelopmentFormValues,
-  dynamicFormData,
 } from './TokenContract.helpers';
 import { useStyles } from './TokenContract.styles';
 import { TokenBlockForm } from './components';
 
 const TokenContract = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const {
+    tokenContract,
+  } = useShallowSelector<State, ContractFormsState>(contractFormsSelector.getContractForms);
   return (
     <Container>
       <Formik
         enableReinitialize
-        initialValues={initFormValues}
+        initialValues={tokenContract}
         validationSchema={validationSchema}
         onSubmit={(
-          values: CustomDevelopmentFormValues,
+          values: TokenContractType,
         ) => {
-          alert(JSON.stringify(values));
+          dispatch(setTokenContractForm(values));
         }}
       >
         {({
@@ -127,16 +131,12 @@ const TokenContract = () => {
                               name={`tokens[${i}].${name}`}
                               render={
                               ({ form: { isSubmitting } }: FieldProps) => {
-                                console.log('VALUES', values);
                                 if (renderProps.type === 'switch') {
                                   const updatedHandleChange = (e) => {
                                     handleChange(`tokens[${i}].${name}`)(e);
-                                    console.log('BEFORE', values);
                                     if (name === 'isFrozen' && !values.freezable) {
-                                      console.log('CHANGE');
                                       setFieldValue('freezable', true);
                                       setFieldTouched('freezable', true);
-                                      console.log('AFTER', values);
                                     }
                                   };
                                   return (
@@ -170,13 +170,17 @@ const TokenContract = () => {
                           {i < 4 && (
                             <Button
                               variant="outlined"
-                              onClick={() => push(dynamicFormData)}
+                              onClick={() => push(dynamicFormDataTemplate)}
                               endIcon={<PlusIcon />}
                             >
                               Mint Tokens
                             </Button>
                           )}
-                          <Typography variant="body1" className={clsx(classes.helperText, 's')} color="textSecondary">
+                          <Typography
+                            variant="body1"
+                            className={clsx(classes.helperText, 's')}
+                            color="textSecondary"
+                          >
                             You can reserve the tokens for Team, Bonuses, Bounties - these
                             tokens will be created,but can’t be sold until token sale completion.
                           </Typography>
@@ -199,7 +203,7 @@ const TokenContract = () => {
             </Box>
             <Grid container className={classes.tokenContractFormSection}>
               {tokenContractFormConfigEnd.map(({
-                id, name, renderProps, helperText, isShort,
+                id, name, renderProps, helperText,
               }) => (
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={id}>
                   <Field
@@ -216,7 +220,12 @@ const TokenContract = () => {
                       }
                   />
                   {helperText.map((text, i) => (
-                    <Typography key={i} variant="body1" className={clsx({ [classes.helperText]: i === 0 }, 's')} color="textSecondary">
+                    <Typography
+                      key={i}
+                      variant="body1"
+                      className={clsx({ [classes.helperText]: i === 0 }, 's')}
+                      color="textSecondary"
+                    >
                       {text}
                     </Typography>
                   ))}

@@ -1,44 +1,7 @@
 /* eslint-disable newline-per-chained-call */
 import React, { ReactElement } from 'react';
 import { Snowflake } from 'theme/icons';
-import { formattedDate } from 'utils';
 import * as Yup from 'yup';
-
-export type CustomDevelopmentFormValues = {
-  tokenName: string;
-  tokenOwner: string;
-  tokenSymbol: string;
-  decimals: string;
-  futureMinting: boolean;
-  burnable: boolean;
-  freezable: boolean;
-  tokens: {
-    address: string;
-    name: string;
-    amount: string;
-    isFrozen: boolean;
-    frozenUntilDate: string;
-  }[];
-};
-
-export const dynamicFormData = {
-  address: '',
-  name: '',
-  amount: '',
-  isFrozen: false,
-  frozenUntilDate: formattedDate(),
-};
-
-export const initFormValues = {
-  tokenName: '',
-  tokenOwner: '',
-  tokenSymbol: '',
-  decimals: '',
-  tokens: [dynamicFormData],
-  futureMinting: false,
-  burnable: false,
-  freezable: false,
-};
 
 const latinAndNumbers = /^[A-Za-z][A-Za-z0-9][0-9A-Za-z]*$/;
 const yesterday = new Date(Date.now() - 86400000);
