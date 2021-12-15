@@ -13,14 +13,13 @@ import {
 import {
   Formik,
   Form,
-  FastField,
+  Field,
   FieldProps,
   FieldArray,
 } from 'formik';
 import clsx from 'clsx';
 import { CircleCloseIcon, PlusIcon } from 'theme/icons';
 import { CheckBox } from 'components/CheckBox';
-import { formattedDate } from 'utils';
 import {
   tokenContractFormConfigStart,
   initFormValues,
@@ -72,7 +71,7 @@ const TokenContract = () => {
                     xl={isShort ? 3 : 6}
                     key={id}
                   >
-                    <FastField
+                    <Field
                       id={id}
                       name={name}
                       render={
@@ -123,17 +122,21 @@ const TokenContract = () => {
                             key={`${name}_${index}`}
                             className={clsx(classes[name])}
                           >
-                            <FastField
+                            <Field
                               id={`tokens[${i}].${id}`}
                               name={`tokens[${i}].${name}`}
                               render={
                               ({ form: { isSubmitting } }: FieldProps) => {
+                                console.log('VALUES', values);
                                 if (renderProps.type === 'switch') {
                                   const updatedHandleChange = (e) => {
                                     handleChange(`tokens[${i}].${name}`)(e);
-                                    if (name === 'isFrozen') {
-                                      setFieldValue('freezable', !values.freezable);
-                                      setTimeout(() => setFieldTouched('freezable', true));
+                                    console.log('BEFORE', values);
+                                    if (name === 'isFrozen' && !values.freezable) {
+                                      console.log('CHANGE');
+                                      setFieldValue('freezable', true);
+                                      setFieldTouched('freezable', true);
+                                      console.log('AFTER', values);
                                     }
                                   };
                                   return (
@@ -198,8 +201,8 @@ const TokenContract = () => {
               {tokenContractFormConfigEnd.map(({
                 id, name, renderProps, helperText, isShort,
               }) => (
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={name}>
-                  <FastField
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={id}>
+                  <Field
                     id={id}
                     name={name}
                     render={
