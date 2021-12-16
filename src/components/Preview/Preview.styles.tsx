@@ -11,5 +11,13 @@ export const useStyles = makeStyles((theme: Theme) => {
       [formatMedia.BREAKPOINT_TABLET]: {
       },
     },
+    content: {
+
+    },
+    title: {
+
+    },
+    stamp: {},
+    controls: {},
   });
 });
