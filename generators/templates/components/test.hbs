@@ -6,11 +6,11 @@ import { {{ properCase name }} } from './{{ properCase name }}';
 import { {{ camelCase name }}PropsMocked } from './{{ properCase name }}.mock';
 
 describe('{{ properCase name }}', () => {
-  it("should render", () => {
+  it('should render', () => {
     const { container } = render(
       <{{ properCase name }}
         {...{{ camelCase name }}PropsMocked}
-      />
+      />,
     );
     expect(container).toMatchSnapshot();
   });

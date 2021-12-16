@@ -1,7 +1,7 @@
 import React, { VFC } from 'react';
 
-import { Box } from "@material-ui/core";
-import clsx from "clsx";
+import { Box } from '@material-ui/core';
+import clsx from 'clsx';
 
 import { useStyles } from './{{ properCase name }}.styles';
 
@@ -10,9 +10,10 @@ export interface {{ properCase name }}Props {
 }
 
 export const {{ properCase name }}: VFC<{{ properCase name }}Props> = ({ className }) => {
-	const classes = useStyles();
-	return (
-	<Box className={clsx(classes.root, className)}>
-		Hello World!
-	</Box>
-)};
+  const classes = useStyles();
+  return (
+    <Box className={clsx(classes.root, className)}>
+      Hello World!
+    </Box>
+  );
+};
