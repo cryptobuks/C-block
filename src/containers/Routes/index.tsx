@@ -1,9 +1,9 @@
 import React from 'react';
 import { routes } from 'appConstants';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { CreateContract } from 'pages/CreateContract';
-import { CustomDevelopment } from 'pages/CustomDevelopment';
-import TokenContract from 'pages/TokenContract/TokenContract';
+import {
+  CreateContract, CustomDevelopment, TokenContract, CrowdsaleContract,
+} from 'pages';
 
 const RoutesContainer = () => (
   <Routes>
