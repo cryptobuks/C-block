@@ -1,14 +1,21 @@
 import React from 'react';
-import { ContractToken } from 'theme/icons';
+import { ContractToken, CrowdsaleIcon } from 'theme/icons';
+
+const CREATE_CONTRACT = '/create-contract';
 
 export const routes = {
-  root: '/create-contract',
+  root: CREATE_CONTRACT,
   title: 'Create Contract',
   icon: null,
   'token-contract': {
-    root: '/create-contract/token-contract',
+    root: `${CREATE_CONTRACT}/token-contract`,
     title: 'Token Contract',
     icon: <ContractToken />,
+  },
+  'crowdsale-contract': {
+    root: `${CREATE_CONTRACT}/crowdsale-contract`,
+    title: 'Crowdsale Contract',
+    icon: <CrowdsaleIcon />,
   },
   'my-contracts': {
     root: '/my-contracts',
