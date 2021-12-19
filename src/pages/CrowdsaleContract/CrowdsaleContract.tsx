@@ -31,9 +31,10 @@ import {
   dynamicFormDataConfig,
   tokenContractFormConfigEnd,
   crowdsaleContractFormConfigSoftcap,
+  crowdsaleContractFormConfigSaleDuration,
 } from './CrowdsaleContract.helpers';
 import { useStyles } from './CrowdsaleContract.styles';
-import { TokenBlockForm } from './components';
+import { InfoBlock, TokenBlockForm } from './components';
 
 export const CrowdsaleContract: FC = () => {
   const classes = useStyles();
@@ -98,10 +99,7 @@ export const CrowdsaleContract: FC = () => {
                       {helperText.map((text, i) => (
                         <Typography
                           key={i.toString()}
-                          className={clsx(
-                            { [classes.helperText]: i === 0 },
-                            's',
-                          )}
+                          className={clsx(classes.helperText)}
                           variant="body1"
                           color="textSecondary"
                         >
@@ -170,16 +168,10 @@ export const CrowdsaleContract: FC = () => {
                                   />
                                 )}
                               />
-                              {helperText.map((text, helperTextIndex) => (
+                              {helperText.map((text) => (
                                 <Typography
                                   key={i.toString()}
-                                  className={clsx(
-                                    {
-                                      [classes.helperText]:
-                                          helperTextIndex === 0,
-                                    },
-                                    's',
-                                  )}
+                                  className={clsx(classes.helperText)}
                                   variant="body1"
                                   color="textSecondary"
                                 >
@@ -255,11 +247,73 @@ export const CrowdsaleContract: FC = () => {
                 ),
               )}
             </Grid>
+
             <Grid
               className={classes.crowdsaleContractFormSection}
               container
             >
               {crowdsaleContractFormConfigSoftcap.map(
+                ({
+                  id, name, renderProps, helperText, infoText,
+                }) => (
+                  <Fragment key={id}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={6}
+                      xl={6}
+                    >
+                      <Field
+                        id={id}
+                        name={name}
+                        render={({ form: { isSubmitting } }: FieldProps) => (
+                          <TextField
+                            {...renderProps}
+                            disabled={isSubmitting}
+                            onChange={handleChange}
+                            value={values[name]}
+                            onBlur={handleBlur}
+                            error={errors[name] && touched[name]}
+                          />
+                        )}
+                      />
+                      {helperText.map((text, i) => (
+                        <Typography
+                          key={i.toString()}
+                          className={clsx(classes.helperText)}
+                          variant="body1"
+                          color="textSecondary"
+                        >
+                          {text}
+                        </Typography>
+                      ))}
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={6}
+                      xl={6}
+                    >
+                      <InfoBlock>
+                        {
+                          infoText.map((text) => <Typography key={text} variant="body1" color="textSecondary">{text}</Typography>)
+                        }
+                      </InfoBlock>
+                    </Grid>
+                  </Fragment>
+                ),
+              )}
+            </Grid>
+
+            <Grid
+              className={classes.crowdsaleContractFormSection}
+              container
+            >
+              {crowdsaleContractFormConfigSaleDuration.map(
                 ({
                   id, name, renderProps, helperText, isShort,
                 }) => (
@@ -289,17 +343,18 @@ export const CrowdsaleContract: FC = () => {
                     {helperText.map((text, i) => (
                       <Typography
                         key={i.toString()}
-                        className={clsx({ [classes.helperText]: i === 0 }, 's')}
+                        className={clsx(classes.helperText)}
                         variant="body1"
                         color="textSecondary"
                       >
-                        {text} 5
+                        {text}
                       </Typography>
                     ))}
                   </Grid>
                 ),
               )}
             </Grid>
+
             <Box className={classes.crowdsaleContractFormSection}>
               <Button
                 className={classes.submitButton}

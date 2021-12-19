@@ -1,1 +1,2 @@
-export * from './TokenBlockForm/TokenBlockForm';
+export * from './TokenBlockForm';
+export * from './InfoBlock';

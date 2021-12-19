@@ -1,5 +1,7 @@
 /* eslint-disable newline-per-chained-call */
-import { ReactElement } from 'react';
+import { TextFieldProps } from '@material-ui/core';
+import React, { ReactElement } from 'react';
+import { DescendingSortOrderIcon } from 'theme/icons';
 // import { Snowflake } from 'theme/icons';
 import * as Yup from 'yup';
 
@@ -13,9 +15,11 @@ export const validationSchema = Yup.object().shape({
   crowdsaleOwner: Yup.string().length(42).required(),
   // tokenSymbol: Yup.string().matches(latinAndNumbers).min(3).max(4).required(),
   // decimals: Yup.number().max(18).required(),
-  futureMinting: Yup.boolean().required(),
-  burnable: Yup.boolean().required(),
-  freezable: Yup.boolean().required(),
+  softcapTokens: Yup.number().integer().min(0).required(),
+  saleDuration: Yup.number().integer().min(1).required(),
+  // futureMinting: Yup.boolean().required(),
+  // burnable: Yup.boolean().required(),
+  // freezable: Yup.boolean().required(),
   tokens: Yup.array().of(
     Yup.object().shape({
       address: Yup.string().length(42).required(),
@@ -34,8 +38,9 @@ type CrowdsaleContractFieldType = {
   renderProps: {
     label: string;
     name: string;
-  } & Record<string, string>;
+  } & TextFieldProps;
   helperText: string[];
+  infoText?: string[];
   isShort?: boolean;
 };
 
@@ -165,11 +170,28 @@ export const crowdsaleContractFormConfigSoftcap: CrowdsaleContractFieldType[] = 
     renderProps: {
       label: 'Soft cap tokens',
       name: 'softcapTokens',
-      type: 'switch',
+      InputProps: { endAdornment: <DescendingSortOrderIcon /> },
     },
     helperText: [
-      'Yes - you can create more tokens in the future & use token for Crowdsale.',
-      'No - no more tokens will be created in the future. Crowdsale is impossible.',
+      'Defines the minimum number of tokens that needs to be sold for the project continuation. If soft cap is not reached - contributors get their investments back, project gets nothing. You can set it to 0 (no soft cap).',
+    ],
+    infoText: [
+      'If softcap > 0 all investments are stored on the vault contract until the end of crowdsale.',
+      'If you need to get investments on your address right away set softcap = 0.',
+    ],
+  },
+];
+
+export const crowdsaleContractFormConfigSaleDuration: CrowdsaleContractFieldType[] = [
+  {
+    id: 'saleDuration',
+    name: 'saleDuration',
+    renderProps: {
+      label: 'Duration of Sale',
+      name: 'saleDuration',
+    },
+    helperText: [
+      'Define the number of days of how long the crowdsale will last.',
     ],
   },
 ];
