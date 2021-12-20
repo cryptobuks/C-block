@@ -26,6 +26,8 @@ export const useStyles = makeStyles<Theme, { isSidebarOpen: boolean }>(
       },
     },
     content: {
+      flex: 1,
+      minWidth: 0,
       flexBasis: '75%',
       paddingBottom: theme.spacing(10),
       [theme.breakpoints.down(768)]: {

@@ -1,11 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 
 import {
   Box, Button, Container, IconButton, Typography,
 } from '@material-ui/core';
 import clsx from 'clsx';
 
-import { PersonIcon, TrashIcon } from 'theme/icons';
+import { Edit, TrashIcon } from 'theme/icons';
+import { DisclaimerModal } from 'components/DisclaimerModal';
+import { PaymentModal } from 'components/PaymentModal';
 import { useStyles } from './Preview.styles';
 import { iconHelper } from './Preview.helpers';
 
@@ -28,8 +30,27 @@ export const Preview: FC<PreviewProps> = ({
   className,
 }) => {
   const classes = useStyles();
+  const [isDisclaimerOpen, setDisclaimerOpen] = useState(false);
+  const [isPaymentOpen, setPaymentOpen] = useState(false);
+
+  const openDisclaimerModal = useCallback(() => {
+    setDisclaimerOpen(true);
+  }, []);
+
+  const closeDisclaimerModal = useCallback(() => {
+    setDisclaimerOpen(false);
+  }, []);
+
+  const openPaymentModal = useCallback(() => {
+    closeDisclaimerModal();
+    setPaymentOpen(true);
+  }, []);
+
+  const closePaymentModal = useCallback(() => {
+    setPaymentOpen(false);
+  }, []);
   return (
-    <Container>
+    <Container className={classes.root}>
       <Box className={clsx(classes.content, className)}>
         <Box className={classes.title}>
           <IconButton>{iconHelper[type]}</IconButton>
@@ -44,7 +65,7 @@ export const Preview: FC<PreviewProps> = ({
           color="secondary"
           size="large"
           className={classes.button}
-          onClick={launchAction}
+          onClick={openDisclaimerModal}
         >
           Launch
         </Button>
@@ -53,7 +74,7 @@ export const Preview: FC<PreviewProps> = ({
             variant="outlined"
             size="large"
             className={clsx(classes.button, classes.editDelete)}
-            endIcon={<PersonIcon />}
+            endIcon={<Edit />}
             onClick={editAction}
           >
             Edit
@@ -69,6 +90,17 @@ export const Preview: FC<PreviewProps> = ({
           </Button>
         </Box>
       </Box>
+      <DisclaimerModal
+        open={isDisclaimerOpen}
+        onClose={closeDisclaimerModal}
+        onAccept={openPaymentModal}
+      />
+      <PaymentModal
+        open={isPaymentOpen}
+        onClose={closePaymentModal}
+        onAccept={launchAction}
+        paymentAmount="16,499.05"
+      />
     </Container>
   );
 };

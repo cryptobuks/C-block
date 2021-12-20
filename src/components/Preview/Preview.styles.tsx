@@ -12,6 +12,8 @@ export const useStyles = makeStyles((theme: Theme) => {
 
   return createStyles({
     root: {
+      maxWidth: 1120,
+      margin: 0,
       [formatMedia.BREAKPOINT_TABLET]: {
       },
     },
@@ -33,18 +35,35 @@ export const useStyles = makeStyles((theme: Theme) => {
     controls: {
       ...flexHelper('space-between'),
       marginTop: theme.spacing(3),
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+        ...flexHelper(),
+        flexDirection: 'column-reverse',
+      },
     },
     editDeleteBtns: {
       ...flexHelper(),
+      [theme.breakpoints.down('md')]: {
+        marginBottom: theme.spacing(4),
+        width: '100%',
+      },
     },
 
     button: {
-      width: '150px !important',
+      width: '150px',
       marginRight: theme.spacing(2.5),
+      [theme.breakpoints.down('md')]: {
+        marginRight: 0,
+        width: '100%',
+        ...flexHelper(),
+      },
     },
     editDelete: {
       background: COLOR_BLACK_2,
       borderColor: COLOR_BLACK_3,
+      '&:first-of-type': {
+        marginRight: theme.spacing(2),
+      },
     },
   });
 });

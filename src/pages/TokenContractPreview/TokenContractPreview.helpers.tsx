@@ -1,11 +1,15 @@
-export type StaticTokenContractPreviewHelperType = {
+import React, { ReactNode } from 'react';
+import { Snowflake } from 'theme/icons';
+
+export type TokenContractPreviewHelperType = {
   key?: string;
   label: string;
   shouldSkipObjectValue?: boolean;
   value?: string;
+  icon?: ReactNode;
 };
 
-export const staticTokenContractPreviewHelpers: StaticTokenContractPreviewHelperType[][] = [
+export const staticTokenContractPreviewHelpers: TokenContractPreviewHelperType[][] = [
   [
     {
       key: 'tokenName',
@@ -39,4 +43,20 @@ export const staticTokenContractPreviewHelpers: StaticTokenContractPreviewHelper
       label: 'Freezable:',
     },
   ],
+];
+
+export const dynamicTokenContractPreviewHelpers: TokenContractPreviewHelperType[] = [
+  {
+    key: 'name',
+    label: 'Name:',
+  },
+  {
+    key: 'amount',
+    label: 'Amount:',
+  },
+  {
+    key: 'frozenUntilDate',
+    label: 'Frozen till:',
+    icon: <Snowflake />,
+  },
 ];

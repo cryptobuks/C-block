@@ -15,4 +15,30 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
   previewLabel: {
     marginBottom: theme.spacing(2),
   },
+  copyableContainer: {
+    minWidth: 240,
+    maxWidth: '70%',
+  },
+  copyableText: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  dynamicDataHeader: {
+    padding: `${theme.spacing(4)}px 0px ${theme.spacing(3)}px 0px`,
+  },
+  tokenOwnerTitle: {
+    paddingBottom: theme.spacing(2),
+  },
+  nameAmountData: {
+    margin: `${theme.spacing(2)}px 0px`,
+  },
+  frozenUntil: {
+    ...flexHelper(),
+    '& > *': {
+      '&:first-child': {
+        marginRight: theme.spacing(1),
+      },
+    },
+  },
 }));
