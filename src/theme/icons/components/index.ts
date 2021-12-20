@@ -26,3 +26,4 @@ export * from './CloseCircleIcon';
 export * from './Snowflake';
 export * from './Calendar';
 export * from './DescendingSortOrderIcon';
+export * from './Edit';
