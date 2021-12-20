@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     },
   },
   header: {
-    ...flexHelper('space-between', 'center'),
+    ...flexHelper('space-between'),
     marginBottom: theme.spacing(1),
   },
 

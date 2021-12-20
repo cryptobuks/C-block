@@ -2,8 +2,7 @@ import React, { ReactElement } from 'react';
 import { TextFieldProps } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Calendar, DescendingSortOrderIcon } from 'theme/icons';
-
-const latinAndNumbers = /^[A-Za-z][A-Za-z0-9][0-9A-Za-z]*$/;
+import { latinAndNumbers } from 'utils';
 
 export const validationSchema = Yup.object().shape({
   contractName: Yup.string().matches(latinAndNumbers).min(5).required(),
@@ -132,37 +131,6 @@ export const dynamicFormDataConfig: CrowdsaleContractFieldType[] = [
       'Defines the rate of your token. 1-100000 numerals are accepted.',
     ],
   },
-  // {
-  //   id: 'amount',
-  //   name: 'amount',
-  //   renderProps: {
-  //     label: 'Token amount',
-  //     name: 'amount',
-  //     type: 'input',
-  //   },
-  //   helperText: [],
-  // },
-  // {
-  //   id: 'isFrozen',
-  //   name: 'isFrozen',
-  //   icon: <Snowflake />,
-  //   renderProps: {
-  //     label: 'Frozen until date',
-  //     name: 'isFrozen',
-  //     type: 'switch',
-  //   },
-  // },
-  // {
-  //   id: 'frozenUntilDate',
-  //   name: 'frozenUntilDate',
-  //   isShort: true,
-  //   renderProps: {
-  //     label: '',
-  //     name: 'frozenUntilDate',
-  //     type: 'date',
-  //   },
-  //   helperText: [],
-  // },
 ];
 
 export const crowdsaleContractFormConfigSoftcap: CrowdsaleContractFieldType[] = [

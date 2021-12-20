@@ -359,46 +359,48 @@ export const CrowdsaleContract: FC = () => {
                   checked={values[formSection.id]}
                   onChecked={handleChange}
                 >
-                  {formSection.fields.map(
-                    ({
-                      id, name, renderProps, helperText, isShort,
-                    }) => (
-                      <Grid
-                        key={id}
-                        item
-                        xs={12}
-                        sm={isShort ? 6 : 6}
-                        md={isShort ? 3 : 6}
-                        lg={isShort ? 3 : 4}
-                        xl={isShort ? 3 : 4}
-                      >
-                        <Field
-                          id={id}
-                          name={name}
-                          render={({ form: { isSubmitting } }: FieldProps) => (
-                            <TextField
-                              {...renderProps}
-                              disabled={isSubmitting || !values[formSection.id]}
-                              onChange={handleChange}
-                              value={values[name]}
-                              onBlur={handleBlur}
-                              error={errors[name] && touched[name]}
-                            />
-                          )}
-                        />
-                        {helperText.map((text, i) => (
-                          <Typography
-                            key={i.toString()}
-                            className={clsx(classes.helperText)}
-                            variant="body1"
-                            color="textSecondary"
-                          >
-                            {text}
-                          </Typography>
-                        ))}
-                      </Grid>
-                    ),
-                  )}
+                  <Grid container>
+                    {formSection.fields.map(
+                      ({
+                        id, name, renderProps, helperText, isShort,
+                      }) => (
+                        <Grid
+                          key={id}
+                          item
+                          xs={12}
+                          sm={isShort ? 6 : 6}
+                          md={isShort ? 3 : 6}
+                          lg={isShort ? 3 : 4}
+                          xl={isShort ? 3 : 4}
+                        >
+                          <Field
+                            id={id}
+                            name={name}
+                            render={({ form: { isSubmitting } }: FieldProps) => (
+                              <TextField
+                                {...renderProps}
+                                disabled={isSubmitting || !values[formSection.id]}
+                                onChange={handleChange}
+                                value={values[name]}
+                                onBlur={handleBlur}
+                                error={errors[name] && touched[name]}
+                              />
+                            )}
+                          />
+                          {helperText.map((text, i) => (
+                            <Typography
+                              key={i.toString()}
+                              className={clsx(classes.helperText)}
+                              variant="body1"
+                              color="textSecondary"
+                            >
+                              {text}
+                            </Typography>
+                          ))}
+                        </Grid>
+                      ),
+                    )}
+                  </Grid>
                 </SwitchableBlockForm>
               </Grid>
             ))}

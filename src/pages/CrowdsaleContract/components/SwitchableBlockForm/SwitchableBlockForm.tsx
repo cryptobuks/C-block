@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import {
   Typography,
   Box,
-  Grid,
   Switch,
 } from '@material-ui/core';
 import clsx from 'clsx';
@@ -39,7 +38,7 @@ export const SwitchableBlockForm: FC<ISwitchableBlockFormProps> = ({
           )}
         />
       </Box>
-      { description && (
+      { !!description && (
         <Typography
           className={classes.description}
           variant="body1"
@@ -48,9 +47,7 @@ export const SwitchableBlockForm: FC<ISwitchableBlockFormProps> = ({
           {description}
         </Typography>
       )}
-      <Grid container>
-        {children}
-      </Grid>
+      {children}
     </Box>
   );
 };

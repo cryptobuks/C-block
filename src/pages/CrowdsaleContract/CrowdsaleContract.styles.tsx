@@ -17,10 +17,6 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     borderTop: `1px solid ${theme.palette.type === 'dark' ? COLOR_BLACK_3 : COLOR_GREY_5}`,
     padding: `${theme.spacing(5)}px 0px`,
   },
-  shortInput: {
-    minWidth: theme.palette.type === 'dark' ? '190px' : '190px',
-    width: `${theme.palette.type === 'dark' ? '40%' : '40%'} !important`,
-  },
   shortTextField: {
     maxWidth: '50%',
   },
@@ -47,7 +43,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 
   changingDatesHeader: {
-    ...flexHelper('space-between', 'center'),
+    ...flexHelper('space-between'),
     marginBottom: theme.spacing(3),
   },
 
