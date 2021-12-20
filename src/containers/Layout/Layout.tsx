@@ -23,10 +23,10 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     <>
       <Box className={classes.root}>
         <Sidebar className={classes.sidebar} closeSidebar={toggleSidebar} />
-        <Box className={classes.content}>
+        <span className={classes.content}>
           <Header openSidebar={toggleSidebar} />
           {children}
-        </Box>
+        </span>
         <Box className={classes.greenBlob} />
       </Box>
     </>
