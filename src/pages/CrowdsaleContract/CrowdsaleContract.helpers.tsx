@@ -1,34 +1,45 @@
-/* eslint-disable newline-per-chained-call */
-import { TextFieldProps } from '@material-ui/core';
 import React, { ReactElement } from 'react';
-import { Calendar, DescendingSortOrderIcon } from 'theme/icons';
-// import { Snowflake } from 'theme/icons';
+import { TextFieldProps } from '@material-ui/core';
 import * as Yup from 'yup';
+import { Calendar, DescendingSortOrderIcon } from 'theme/icons';
 
 const latinAndNumbers = /^[A-Za-z][A-Za-z0-9][0-9A-Za-z]*$/;
-const numbers = /^[0-9.]*$/;
-// const yesterday = new Date(Date.now() - 86400000);
 
 export const validationSchema = Yup.object().shape({
   contractName: Yup.string().matches(latinAndNumbers).min(5).required(),
   tokenAddress: Yup.string().length(42).required(),
   crowdsaleOwner: Yup.string().length(42).required(),
-  // tokenSymbol: Yup.string().matches(latinAndNumbers).min(3).max(4).required(),
-  // decimals: Yup.number().max(18).required(),
-  softcapTokens: Yup.number().integer().min(0).required(),
-  saleDuration: Yup.number().integer().min(1).required(),
-  // futureMinting: Yup.boolean().required(),
-  // burnable: Yup.boolean().required(),
-  // freezable: Yup.boolean().required(),
+
   tokens: Yup.array().of(
     Yup.object().shape({
       address: Yup.string().length(42).required(),
-      rate: Yup.string().matches(numbers).min(1).max(100000).required(),
-      // amount: Yup.number().required(),
-      // isFrozen: Yup.boolean().required(),
-      // frozenUntilDate: Yup.date().min(yesterday).required(),
+      rate: Yup.number().min(1).max(100000)
+        .required(),
     }),
   ),
+
+  softcapTokens: Yup.number().integer().min(0).required(),
+  saleDuration: Yup.number().integer().min(1).required(),
+
+  minMaxInvestmentsSection: Yup.boolean(),
+  minInvestments: Yup
+    .number()
+    .lessThan(Yup.ref('maxInvestments'))
+    .when('minMaxInvestmentsSection', (value, schema) => (value ? schema.required() : schema)),
+  maxInvestments: Yup
+    .number()
+    .moreThan(Yup.ref('minInvestments'))
+    .when('minMaxInvestmentsSection', (value, schema) => (value ? schema.required() : schema)),
+
+  amountBonusSection: Yup.boolean(),
+  amountBonus: Yup
+    .number()
+    .moreThan(Yup.ref('minimumContribution'))
+    .when('amountBonusSection', (value, schema) => (value ? schema.required() : schema)),
+  minimumContribution: Yup
+    .number()
+    .lessThan(Yup.ref('amountBonus'))
+    .when('amountBonusSection', (value, schema) => (value ? schema.required() : schema)),
 });
 
 type CrowdsaleContractFieldType = {
@@ -38,7 +49,6 @@ type CrowdsaleContractFieldType = {
   renderProps?: {
     label: string;
     name: string;
-    // type?: string;
   } & TextFieldProps;
   helperText: string[];
   infoText?: string[];
@@ -47,14 +57,18 @@ type CrowdsaleContractFieldType = {
 
 type CrowdsaleContractFormConfig = CrowdsaleContractFieldType[][];
 
-// interface ICrowdsaleContractSwitchableSection {
-//   id: string;
-//   title: string;
-//   description: string;
-//   fields: CrowdsaleContractFieldType[];
-// }
+interface ICrowdsaleContractFlagOption extends CrowdsaleContractFieldType {
+  title: string;
+}
 
-export const tokenContractFormConfigStart: CrowdsaleContractFormConfig = [
+interface ICrowdsaleContractSwitchableSection {
+  id: string;
+  title: string;
+  description?: string;
+  fields: CrowdsaleContractFieldType[];
+}
+
+export const crowdsaleContractFormConfigStart: CrowdsaleContractFormConfig = [
   [
     {
       id: 'contractName',
@@ -64,7 +78,6 @@ export const tokenContractFormConfigStart: CrowdsaleContractFormConfig = [
         name: 'contractName',
       },
       helperText: [],
-      // helperText: ['Enter name of the project without spaces, usually 5-25 symbols. Lower and uppercase can be used'],
     },
   ],
   [
@@ -185,12 +198,6 @@ export const crowdsaleContractFormConfigSaleDuration: CrowdsaleContractFieldType
   },
 ];
 
-// export const crowdsaleContractFormConfigEnd:
-
-interface ICrowdsaleContractFlagOption extends CrowdsaleContractFieldType {
-  title: string;
-}
-
 export const crowdsaleContractFormConfigFlagOptions: ICrowdsaleContractFlagOption[] = [
   {
     id: 'changingDates',
@@ -203,43 +210,65 @@ export const crowdsaleContractFormConfigFlagOptions: ICrowdsaleContractFlagOptio
   },
 ];
 
-export const tokenContractFormConfigEnd: CrowdsaleContractFieldType[] = [
+export const crowdsaleContractFormConfigEnd: ICrowdsaleContractSwitchableSection[] = [
   {
-    id: 'futureMinting',
-    name: 'futureMinting',
-    renderProps: {
-      label: 'Future minting',
-      name: 'futureMinting',
-      type: 'switch',
-    },
-    helperText: [
-      'Yes - you can create more tokens in the future & use token for Crowdsale.',
-      'No - no more tokens will be created in the future. Crowdsale is impossible.',
+    id: 'minMaxInvestmentsSection',
+    title: 'Min & Max investments',
+    description: 'You can specify minimum/maximum amount of tokens hat user can buy per one transaction.',
+    fields: [
+      {
+        id: 'minInvestments',
+        name: 'minInvestments',
+        renderProps: {
+          label: 'Minimum',
+          name: 'minInvestments',
+        },
+        helperText: [
+          'Minimum amount accepted. "0" = No minimum limitation.',
+        ],
+      },
+      {
+        id: 'maxInvestments',
+        name: 'maxInvestments',
+        renderProps: {
+          label: 'Maximum',
+          name: 'maxInvestments',
+        },
+        helperText: [
+          'Maximum amount accepted. it can not be higher hard cap.',
+        ],
+      },
     ],
   },
   {
-    id: 'burnable',
-    name: 'burnable',
-    renderProps: {
-      label: 'Burnable',
-      name: 'burnable',
-      type: 'switch',
-    },
-    helperText: [
-      'Yes - you can permanently remove token from circulation and reduce the supply.',
-    ],
-  },
-  {
-    id: 'freezable',
-    name: 'freezable',
-    renderProps: {
-      label: 'Freezable',
-      name: 'freezable',
-      type: 'switch',
-    },
-    helperText: [
-      'Yes - you can freeze transfers of the specified users.',
-      'No - you can`t freeze.',
+    id: 'amountBonusSection',
+    title: 'Amount Bonus',
+    fields: [
+      {
+        id: 'amountBonus',
+        name: 'amountBonus',
+        renderProps: {
+          label: 'Bonus',
+          name: 'amountBonus',
+          InputProps: {
+            endAdornment: '%',
+          },
+        },
+        helperText: [
+          'Usually 0.1-100%. How many extra tokens will be sent to contributor.',
+        ],
+      },
+      {
+        id: 'minimumContribution',
+        name: 'minimumContribution',
+        renderProps: {
+          label: 'Minimum',
+          name: 'minimumContribution',
+        },
+        helperText: [
+          'Minimum contribution for getting specified bonus',
+        ],
+      },
     ],
   },
 ];

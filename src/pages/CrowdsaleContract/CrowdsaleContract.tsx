@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
-/* eslint-disable react/jsx-indent */
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { FC, Fragment } from 'react';
 import {
   Container,
@@ -16,7 +13,6 @@ import {
 } from 'formik';
 import clsx from 'clsx';
 import { CloseCircleIcon, PlusIcon } from 'theme/icons';
-import { CheckBox } from 'components/CheckBox';
 import contractFormsSelector from 'store/contractForms/selectors';
 import {
   ContractFormsState,
@@ -25,21 +21,22 @@ import {
 } from 'types';
 import { useShallowSelector } from 'hooks';
 import {
-  dynamicFormDataTemplate,
+  crowdsaleContractDynamicFormInitialData,
   setCrowdsaleContractForm,
 } from 'store/contractForms/reducer';
 import { useDispatch } from 'react-redux';
 import {
-  tokenContractFormConfigStart,
   validationSchema,
+  crowdsaleContractFormConfigStart,
   dynamicFormDataConfig,
-  tokenContractFormConfigEnd,
   crowdsaleContractFormConfigSoftcap,
   crowdsaleContractFormConfigSaleDuration,
   crowdsaleContractFormConfigFlagOptions,
+  crowdsaleContractFormConfigEnd,
 } from './CrowdsaleContract.helpers';
 import { useStyles } from './CrowdsaleContract.styles';
 import { InfoBlock, TokenBlockForm } from './components';
+import { SwitchableBlockForm } from './components/SwitchableBlockForm';
 
 export const CrowdsaleContract: FC = () => {
   const classes = useStyles();
@@ -66,11 +63,9 @@ export const CrowdsaleContract: FC = () => {
           isValid,
           // setFieldValue,
           // setFieldTouched,
-        }) => {
-          console.log(values);
-          return (
+        }) => (
           <Form className={classes.form} translate={undefined}>
-            {tokenContractFormConfigStart.map((formSection, index) => (
+            {crowdsaleContractFormConfigStart.map((formSection, index) => (
               <Grid
                 key={`start_${index.toString()}`}
                 className={classes.crowdsaleContractFormSection}
@@ -125,11 +120,6 @@ export const CrowdsaleContract: FC = () => {
                       (errors.tokens?.length && errors.tokens[i]) || {};
                   const tokensTouched =
                       (touched.tokens?.length && touched.tokens[i]) || {};
-                    // const totalTokenAmount = values.tokens.reduce((acc, tokenForm) => {
-                    //   // eslint-disable-next-line no-param-reassign
-                    //   acc += +tokenForm.amount;
-                    //   return acc;
-                    // }, 0);
                   return (
                     <Fragment key={`dynamic_${i.toString()}`}>
                       <TokenBlockForm
@@ -194,28 +184,10 @@ export const CrowdsaleContract: FC = () => {
                         <Button
                           variant="outlined"
                           endIcon={<PlusIcon />}
-                          onClick={() => push(dynamicFormDataTemplate)}
+                          onClick={() => push(crowdsaleContractDynamicFormInitialData)}
                         >
                           Add address
                         </Button>
-                        {/* <Typography
-                            className={clsx(classes.helperText, 's')}
-                            variant="body1"
-                            color="textSecondary"
-                          >
-                            You can reserve the tokens for Team, Bonuses, Bounties - these
-                            tokens will be created,but can’t be sold until token sale completion.
-                          </Typography> */}
-                        {/* <Typography
-                            className={clsx(classes.helperText, 'l')}
-                            variant="body1"
-                            color="textSecondary"
-                          >
-                            Total supply:{' '}
-                            <span className={classes.newCount}>
-                              {`${totalTokenAmount} New`}
-                            </span>
-                          </Typography> */}
                       </Grid>
                       )}
                     </Fragment>
@@ -223,76 +195,6 @@ export const CrowdsaleContract: FC = () => {
                 })}
               </FieldArray>
             </Box>
-            <Grid container className={classes.crowdsaleContractFormSection}>
-              {tokenContractFormConfigEnd.map(
-                ({
-                  id, name, renderProps, helperText,
-                }) => (
-                  <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={id}>
-                    <Field
-                      id={id}
-                      name={name}
-                      render={() => (
-                        <CheckBox
-                          {...renderProps}
-                          onClick={handleChange}
-                          value={values[name]}
-                        />
-                      )}
-                    />
-                    {helperText.map((text, i) => (
-                      <Typography
-                        key={i.toString()}
-                        className={clsx({ [classes.helperText]: i === 0 }, 's')}
-                        variant="body1"
-                        color="textSecondary"
-                      >
-                        {text}
-                      </Typography>
-                    ))}
-                  </Grid>
-                ),
-              )}
-            </Grid>
-
-            <Grid container className={classes.crowdsaleContractFormSection}>
-              {crowdsaleContractFormConfigFlagOptions.map(
-                ({
-                  id, name, title, icon, helperText,
-                }) => (
-                  <Grid key={id} item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <Box className={classes.changingDates}>
-                      <Box className={classes.changingDatesHeader}>
-                        <Box className={classes.changingDatesTitle}>
-                          {icon}
-                          <Typography variant="body1" color="inherit">{title}</Typography>
-                        </Box>
-                        <Field
-                          id={id}
-                          name={name}
-                          render={() => <Switch
-                            name={name}
-                            checked={values[name]}
-                            onClick={handleChange}
-                          />}
-                        />
-                      </Box>
-                      <Box>
-                        {helperText.map((text, i) => (
-                          <Typography
-                            key={i.toString()}
-                            variant="body1"
-                            color="textSecondary"
-                          >
-                            {text}
-                          </Typography>
-                        ))}
-                      </Box>
-                    </Box>
-                  </Grid>
-                ),
-              )}
-            </Grid>
 
             <Grid
               className={classes.crowdsaleContractFormSection}
@@ -401,6 +303,106 @@ export const CrowdsaleContract: FC = () => {
               )}
             </Grid>
 
+            <Grid container className={classes.crowdsaleContractFormSection}>
+              {crowdsaleContractFormConfigFlagOptions.map(
+                ({
+                  id, name, title, icon, helperText,
+                }) => (
+                  <Grid key={id} item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <Box className={classes.changingDates}>
+                      <Box className={classes.changingDatesHeader}>
+                        <Box className={classes.changingDatesTitle}>
+                          {icon}
+                          <Typography variant="body1" color="inherit">{title}</Typography>
+                        </Box>
+                        <Field
+                          id={id}
+                          name={name}
+                          render={() => (
+                            <Switch
+                              name={name}
+                              checked={values[name]}
+                              onClick={handleChange}
+                            />
+                          )}
+                        />
+                      </Box>
+                      <Box>
+                        {helperText.map((text, i) => (
+                          <Typography
+                            key={i.toString()}
+                            variant="body1"
+                            color="textSecondary"
+                          >
+                            {text}
+                          </Typography>
+                        ))}
+                      </Box>
+                    </Box>
+                  </Grid>
+                ),
+              )}
+            </Grid>
+
+            {crowdsaleContractFormConfigEnd.map((formSection, index) => (
+              <Grid
+                key={`end_${index.toString()}`}
+                className={classes.crowdsaleContractFormSection}
+                item
+                xs={12}
+              >
+                <SwitchableBlockForm
+                  key={formSection.id}
+                  title={formSection.title}
+                  description={formSection.description}
+                  checkboxName={formSection.id}
+                  checked={values[formSection.id]}
+                  onChecked={handleChange}
+                >
+                  {formSection.fields.map(
+                    ({
+                      id, name, renderProps, helperText, isShort,
+                    }) => (
+                      <Grid
+                        key={id}
+                        item
+                        xs={12}
+                        sm={isShort ? 6 : 6}
+                        md={isShort ? 3 : 6}
+                        lg={isShort ? 3 : 4}
+                        xl={isShort ? 3 : 4}
+                      >
+                        <Field
+                          id={id}
+                          name={name}
+                          render={({ form: { isSubmitting } }: FieldProps) => (
+                            <TextField
+                              {...renderProps}
+                              disabled={isSubmitting || !values[formSection.id]}
+                              onChange={handleChange}
+                              value={values[name]}
+                              onBlur={handleBlur}
+                              error={errors[name] && touched[name]}
+                            />
+                          )}
+                        />
+                        {helperText.map((text, i) => (
+                          <Typography
+                            key={i.toString()}
+                            className={clsx(classes.helperText)}
+                            variant="body1"
+                            color="textSecondary"
+                          >
+                            {text}
+                          </Typography>
+                        ))}
+                      </Grid>
+                    ),
+                  )}
+                </SwitchableBlockForm>
+              </Grid>
+            ))}
+
             <Box className={classes.crowdsaleContractFormSection}>
               <Button
                 className={classes.submitButton}
@@ -424,8 +426,8 @@ export const CrowdsaleContract: FC = () => {
                 Clean
               </Button>
             </Box>
-          </Form>);
-}}
+          </Form>
+        )}
       </Formik>
     </Container>
   );

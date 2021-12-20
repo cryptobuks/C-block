@@ -11,5 +11,13 @@ export interface ICrowdsaleContract {
   saleDuration: string;
   changingDates: boolean;
 
+  minMaxInvestmentsSection: boolean;
+  minInvestments: string;
+  maxInvestments: string;
+
+  amountBonusSection: boolean;
+  amountBonus: string;
+  minimumContribution: string;
+
   tokens: ICrowdsaleContractDynamicForm[];
 }

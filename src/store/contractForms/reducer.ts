@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ContractFormsState } from 'types';
 import { ICrowdsaleContract, TokenContract } from 'types/store/contractForms';
@@ -32,10 +31,18 @@ const initialState: ContractFormsState = {
     contractName: '',
     tokenAddress: '',
     crowdsaleOwner: '',
+    tokens: [crowdsaleContractDynamicFormInitialData],
     softcapTokens: '',
     saleDuration: '',
     changingDates: false,
-    tokens: [crowdsaleContractDynamicFormInitialData],
+
+    minMaxInvestmentsSection: false,
+    minInvestments: '',
+    maxInvestments: '',
+
+    amountBonusSection: false,
+    amountBonus: '',
+    minimumContribution: '',
   },
 };
 
