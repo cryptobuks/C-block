@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import {
   Typography,
   Box,
-  // Grid,
 } from '@material-ui/core';
 import { InfoCircleIcon } from 'theme/icons';
 import clsx from 'clsx';
@@ -20,22 +19,12 @@ export const InfoBlock: FC<IInfoBlockProps> = ({
   return (
     <Box className={clsx(classes.root, className)}>
       <Box className={classes.title}>
-        {/* <Box> */}
         <InfoCircleIcon />
         <Typography className={classes.titleText} variant="body1">{title}</Typography>
-        {/* </Box> */}
-        {/* {!isFirst && (
-          <Box className={classes.deleteIcon} onClick={deleteForm}>
-            <TrashIcon />
-          </Box>
-        )} */}
       </Box>
       <Box>
         {children}
       </Box>
-      {/* <Grid container>
-        {children}
-      </Grid> */}
     </Box>
   );
 };

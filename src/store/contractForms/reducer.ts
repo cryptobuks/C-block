@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ContractFormsState } from 'types';
-import { TokenContract } from 'types/store/contractForms';
+import { ICrowdsaleContract, TokenContract } from 'types/store/contractForms';
 import { formattedDate } from 'utils';
 
 export const dynamicFormDataTemplate = {
@@ -10,6 +10,11 @@ export const dynamicFormDataTemplate = {
   amount: '',
   isFrozen: false,
   frozenUntilDate: formattedDate(),
+};
+
+export const crowdsaleContractDynamicFormInitialData = {
+  address: '',
+  rate: '',
 };
 
 const initialState: ContractFormsState = {
@@ -23,6 +28,15 @@ const initialState: ContractFormsState = {
     freezable: false,
     tokens: [dynamicFormDataTemplate],
   },
+  crowdsaleContract: {
+    contractName: '',
+    tokenAddress: '',
+    crowdsaleOwner: '',
+    softcapTokens: '',
+    saleDuration: '',
+    changingDates: false,
+    tokens: [crowdsaleContractDynamicFormInitialData],
+  },
 };
 
 export const contractFormReducer = createSlice({
@@ -33,11 +47,16 @@ export const contractFormReducer = createSlice({
       ...state,
       tokenContract: action.payload,
     }),
+    setCrowdsaleContractForm: (state, action: PayloadAction<ICrowdsaleContract>) => ({
+      ...state,
+      crowdsaleContract: action.payload,
+    }),
   },
 });
 
 export const {
   setTokenContractForm,
+  setCrowdsaleContractForm,
 } = contractFormReducer.actions;
 
 export default contractFormReducer.reducer;

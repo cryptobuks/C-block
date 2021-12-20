@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { FC, Fragment } from 'react';
 import {
   Container,
@@ -6,6 +9,7 @@ import {
   TextField,
   Button,
   Box,
+  Switch,
 } from '@material-ui/core';
 import {
   Formik, Form, Field, FieldProps, FieldArray,
@@ -17,12 +21,12 @@ import contractFormsSelector from 'store/contractForms/selectors';
 import {
   ContractFormsState,
   State,
-  TokenContract as TokenContractType,
+  ICrowdsaleContract,
 } from 'types';
 import { useShallowSelector } from 'hooks';
 import {
   dynamicFormDataTemplate,
-  setTokenContractForm,
+  setCrowdsaleContractForm,
 } from 'store/contractForms/reducer';
 import { useDispatch } from 'react-redux';
 import {
@@ -32,6 +36,7 @@ import {
   tokenContractFormConfigEnd,
   crowdsaleContractFormConfigSoftcap,
   crowdsaleContractFormConfigSaleDuration,
+  crowdsaleContractFormConfigFlagOptions,
 } from './CrowdsaleContract.helpers';
 import { useStyles } from './CrowdsaleContract.styles';
 import { InfoBlock, TokenBlockForm } from './components';
@@ -39,17 +44,17 @@ import { InfoBlock, TokenBlockForm } from './components';
 export const CrowdsaleContract: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { tokenContract } = useShallowSelector<State, ContractFormsState>(
+  const { crowdsaleContract } = useShallowSelector<State, ContractFormsState>(
     contractFormsSelector.getContractForms,
   );
   return (
     <Container>
       <Formik
         enableReinitialize
-        initialValues={tokenContract}
+        initialValues={crowdsaleContract}
         validationSchema={validationSchema}
-        onSubmit={(values: TokenContractType) => {
-          dispatch(setTokenContractForm(values));
+        onSubmit={(values: ICrowdsaleContract) => {
+          dispatch(setCrowdsaleContractForm(values));
         }}
       >
         {({
@@ -61,7 +66,9 @@ export const CrowdsaleContract: FC = () => {
           isValid,
           // setFieldValue,
           // setFieldTouched,
-        }) => (
+        }) => {
+          console.log(values);
+          return (
           <Form className={classes.form} translate={undefined}>
             {tokenContractFormConfigStart.map((formSection, index) => (
               <Grid
@@ -248,6 +255,45 @@ export const CrowdsaleContract: FC = () => {
               )}
             </Grid>
 
+            <Grid container className={classes.crowdsaleContractFormSection}>
+              {crowdsaleContractFormConfigFlagOptions.map(
+                ({
+                  id, name, title, icon, helperText,
+                }) => (
+                  <Grid key={id} item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <Box className={classes.changingDates}>
+                      <Box className={classes.changingDatesHeader}>
+                        <Box className={classes.changingDatesTitle}>
+                          {icon}
+                          <Typography variant="body1" color="inherit">{title}</Typography>
+                        </Box>
+                        <Field
+                          id={id}
+                          name={name}
+                          render={() => <Switch
+                            name={name}
+                            checked={values[name]}
+                            onClick={handleChange}
+                          />}
+                        />
+                      </Box>
+                      <Box>
+                        {helperText.map((text, i) => (
+                          <Typography
+                            key={i.toString()}
+                            variant="body1"
+                            color="textSecondary"
+                          >
+                            {text}
+                          </Typography>
+                        ))}
+                      </Box>
+                    </Box>
+                  </Grid>
+                ),
+              )}
+            </Grid>
+
             <Grid
               className={classes.crowdsaleContractFormSection}
               container
@@ -378,8 +424,8 @@ export const CrowdsaleContract: FC = () => {
                 Clean
               </Button>
             </Box>
-          </Form>
-        )}
+          </Form>);
+}}
       </Formik>
     </Container>
   );

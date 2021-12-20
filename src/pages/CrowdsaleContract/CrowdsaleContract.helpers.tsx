@@ -1,7 +1,7 @@
 /* eslint-disable newline-per-chained-call */
 import { TextFieldProps } from '@material-ui/core';
 import React, { ReactElement } from 'react';
-import { DescendingSortOrderIcon } from 'theme/icons';
+import { Calendar, DescendingSortOrderIcon } from 'theme/icons';
 // import { Snowflake } from 'theme/icons';
 import * as Yup from 'yup';
 
@@ -35,9 +35,10 @@ type CrowdsaleContractFieldType = {
   id: string;
   name: string;
   icon?: ReactElement;
-  renderProps: {
+  renderProps?: {
     label: string;
     name: string;
+    // type?: string;
   } & TextFieldProps;
   helperText: string[];
   infoText?: string[];
@@ -45,6 +46,13 @@ type CrowdsaleContractFieldType = {
 };
 
 type CrowdsaleContractFormConfig = CrowdsaleContractFieldType[][];
+
+// interface ICrowdsaleContractSwitchableSection {
+//   id: string;
+//   title: string;
+//   description: string;
+//   fields: CrowdsaleContractFieldType[];
+// }
 
 export const tokenContractFormConfigStart: CrowdsaleContractFormConfig = [
   [
@@ -82,25 +90,6 @@ export const tokenContractFormConfigStart: CrowdsaleContractFormConfig = [
         'Celo address (not exchange address). This address will be owner of the crowdsale (after sale end date). Double check the address (and access to it) before submission',
       ],
     },
-    // {
-    //   id: 'tokenSymbol',
-    //   name: 'tokenSymbol',
-    //   renderProps: {
-    //     label: 'Token Symbol',
-    //     name: 'tokenSymbol',
-    //   },
-    //   helperText: ['Usually 3-4 Letters like ETH, BTC, NEO3, WISH etc.. Please check that it’s unique before submission'],
-    // },
-    // {
-    //   id: 'decimals',
-    //   name: 'decimals',
-    //   renderProps: {
-    //     label: 'Decimals',
-    //     name: 'decimals',
-    //   },
-    //   isShort: true,
-    //   helperText: ['Defines the number of decimals for the token. 0-18 numerals are accepted. 18 as common practice'],
-    // },
   ],
 ];
 
@@ -192,6 +181,24 @@ export const crowdsaleContractFormConfigSaleDuration: CrowdsaleContractFieldType
     },
     helperText: [
       'Define the number of days of how long the crowdsale will last.',
+    ],
+  },
+];
+
+// export const crowdsaleContractFormConfigEnd:
+
+interface ICrowdsaleContractFlagOption extends CrowdsaleContractFieldType {
+  title: string;
+}
+
+export const crowdsaleContractFormConfigFlagOptions: ICrowdsaleContractFlagOption[] = [
+  {
+    id: 'changingDates',
+    name: 'changingDates',
+    title: 'Changing dates',
+    icon: <Calendar />,
+    helperText: [
+      'Finish Dates can be changed manually after Contract Deployment. You can prolong sale or finish it early. Otherwise, dates are hardcoded and can`t be changed.',
     ],
   },
 ];
