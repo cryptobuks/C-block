@@ -16,7 +16,7 @@ import { deleteTokenContractForm } from 'store/contractForms/reducer';
 import { useStyles } from './TokenContractPreview.styles';
 import { dynamicTokenContractPreviewHelpers, staticTokenContractPreviewHelpers } from './TokenContractPreview.helpers';
 
-const TokenContractPreview = () => {
+export const TokenContractPreview = () => {
   const {
     tokenContract,
   } = useShallowSelector<State, ContractFormsState>(contractFormsSelector.getContractForms);
@@ -133,5 +133,3 @@ const TokenContractPreview = () => {
     </>
   );
 };
-
-export default TokenContractPreview;
