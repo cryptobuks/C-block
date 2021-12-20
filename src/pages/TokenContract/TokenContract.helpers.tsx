@@ -1,9 +1,9 @@
 /* eslint-disable newline-per-chained-call */
 import React, { ReactElement } from 'react';
 import { Snowflake } from 'theme/icons';
+import { latinAndNumbers } from 'utils';
 import * as Yup from 'yup';
 
-const latinAndNumbers = /^[A-Za-z][A-Za-z0-9][0-9A-Za-z]*$/;
 const yesterday = new Date(Date.now() - 86400000);
 
 export const validationSchema = Yup.object().shape({

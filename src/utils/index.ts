@@ -5,3 +5,4 @@ export * from './flexHelper';
 export * from './formattedDate';
 export * from './formatTokenAmount';
 export * from './numberFormatter';
+export * from './regExps';

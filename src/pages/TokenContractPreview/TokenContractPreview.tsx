@@ -17,7 +17,7 @@ import { getTokenAmount } from 'utils';
 import { useStyles } from './TokenContractPreview.styles';
 import { dynamicTokenContractPreviewHelpers, staticTokenContractPreviewHelpers } from './TokenContractPreview.helpers';
 
-const TokenContractPreview = () => {
+export const TokenContractPreview = () => {
   const {
     tokenContract,
   } = useShallowSelector<State, ContractFormsState>(contractFormsSelector.getContractForms);
@@ -148,5 +148,3 @@ const TokenContractPreview = () => {
     </Preview>
   );
 };
-
-export default TokenContractPreview;
