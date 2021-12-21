@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContractToken, CrowdsaleIcon } from 'theme/icons';
+import { ContractToken, WeddingRingIcon, CrowdsaleIcon } from 'theme/icons';
 
 const CREATE_CONTRACT = '/create-contract';
 
@@ -13,6 +13,15 @@ export const routes = {
     icon: <ContractToken />,
     'preview-contract': {
       root: '/create-contract/token-contract/preview-contract',
+      title: 'Preview contract',
+    },
+  },
+  'wedding-contract': {
+    root: `${CREATE_CONTRACT}/wedding-contract`,
+    title: 'Wedding Contract',
+    icon: <WeddingRingIcon />,
+    'preview-contract': {
+      root: `${CREATE_CONTRACT}/wedding-contract/preview-contract`,
       title: 'Preview contract',
     },
   },
