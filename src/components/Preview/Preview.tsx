@@ -13,16 +13,15 @@ import { routes } from 'appConstants';
 import { useStyles } from './Preview.styles';
 import { iconHelper } from './Preview.helpers';
 
+type IconType = 'token' | 'weddingRing' | 'crowdsale';
 export interface PreviewProps {
+  className?: string;
   launchAction: () => void,
   editAction: () => void,
   deleteAction: () => void,
   type: IconType;
   name: string;
-  className?: string;
 }
-
-type IconType = 'token' | 'weddingRing';
 
 export const Preview: FC<PreviewProps> = ({
   launchAction,

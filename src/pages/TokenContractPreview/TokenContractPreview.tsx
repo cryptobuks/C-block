@@ -1,25 +1,26 @@
-/* eslint-disable max-len */
-/* eslint-disable react/no-array-index-key */
 import React, { useCallback } from 'react';
-import { Preview } from 'components/Preview';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Grid, Typography, Box } from '@material-ui/core';
+
+import { Preview, YesNoBlock, Copyable } from 'components';
 import { useShallowSelector } from 'hooks';
 import contractFormsSelector from 'store/contractForms/selectors';
 import { ContractFormsState, State } from 'types';
-import { Grid, Typography, Box } from '@material-ui/core';
-import { YesNoBlock } from 'components/YesNoBlock';
 import clsx from 'clsx';
-import { Copyable } from 'components/Copyable';
 import { routes } from 'appConstants';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+
 import { deleteTokenContractForm } from 'store/contractForms/reducer';
 import { useStyles } from './TokenContractPreview.styles';
-import { dynamicTokenContractPreviewHelpers, staticTokenContractPreviewHelpers } from './TokenContractPreview.helpers';
+import {
+  dynamicTokenContractPreviewHelpers,
+  staticTokenContractPreviewHelpers,
+} from './TokenContractPreview.helpers';
 
 export const TokenContractPreview = () => {
-  const {
-    tokenContract,
-  } = useShallowSelector<State, ContractFormsState>(contractFormsSelector.getContractForms);
+  const { tokenContract } = useShallowSelector<State, ContractFormsState>(
+    contractFormsSelector.getContractForms,
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -43,7 +44,8 @@ export const TokenContractPreview = () => {
       deleteAction={handleDelete}
     >
       {staticTokenContractPreviewHelpers.map((previewBlock, index) => (
-        <Grid container className={classes.tokenContractInfoBlock} key={index}>
+        // eslint-disable-next-line react/no-array-index-key
+        <Grid key={index} className={classes.tokenContractInfoBlock} container>
           {previewBlock.map(({
             key, label, value, shouldSkipObjectValue,
           }) => (
@@ -55,7 +57,6 @@ export const TokenContractPreview = () => {
               lg={3}
               xl={3}
               key={label}
-              className={classes.previewValueBlock}
             >
               <Typography
                 variant="body1"
@@ -69,7 +70,7 @@ export const TokenContractPreview = () => {
                   {shouldSkipObjectValue ? value : tokenContract[key]}
                 </Typography>
               ) : (
-                <YesNoBlock yes={tokenContract[key]} />
+                <YesNoBlock yes={tokenContract[key]} justify="normal" />
               )}
             </Grid>
           ))}
@@ -78,7 +79,7 @@ export const TokenContractPreview = () => {
 
       <Typography variant="body1" className={clsx(classes.tokenOwnerTitle, 'l')}>Token Owner</Typography>
       <Copyable onlyIconActive withBorder valueToCopy={tokenContract.tokenOwner} className={classes.copyableContainer}>
-        <Typography className={classes.copyableText}>{tokenContract.tokenOwner}</Typography>
+        <Typography noWrap>{tokenContract.tokenOwner}</Typography>
       </Copyable>
       <Typography className={classes.dynamicDataHeader} variant="h3">Token distribution</Typography>
       {tokenContract.tokens.map((tokenContractDynamicData, index) => {
@@ -92,8 +93,15 @@ export const TokenContractPreview = () => {
             >
               Address:
             </Typography>
-            <Copyable onlyIconActive withBorder valueToCopy={tokenContractDynamicData.address} className={classes.copyableContainer}>
-              <Typography className={classes.copyableText}>{tokenContractDynamicData.address}</Typography>
+            <Copyable
+              onlyIconActive
+              withBorder
+              valueToCopy={tokenContractDynamicData.address}
+              className={classes.copyableContainer}
+            >
+              <Typography noWrap>
+                {tokenContractDynamicData.address}
+              </Typography>
             </Copyable>
             <Grid container className={classes.nameAmountData}>
               {dynamicTokenContractPreviewHelpers.map(({ icon, key, label }) => {
@@ -110,9 +118,13 @@ export const TokenContractPreview = () => {
                     lg={3}
                     xl={3}
                     key={key}
-                    className={classes.previewValueBlock}
                   >
-                    <Box className={clsx(classes.previewLabel, classes.frozenUntil)}>
+                    <Box
+                      className={clsx(
+                        classes.previewLabel,
+                        classes.frozenUntil,
+                      )}
+                    >
                       {icon}
                       <Typography
                         variant="body1"
