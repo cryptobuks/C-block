@@ -9,6 +9,7 @@ export * from './Logo/Logo';
 export * from './Loader/Loader';
 export * from './Modal/Modal';
 export * from './PaymentModal/PaymentModal';
+export * from './SetUpModal/SetUpModal';
 export * from './Preview/Preview';
 export * from './Sidebar/Sidebar';
 export * from './Toastify/Toastify';
