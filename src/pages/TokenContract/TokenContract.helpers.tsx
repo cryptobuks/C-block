@@ -5,6 +5,8 @@ import { latinAndNumbers } from 'utils';
 import * as Yup from 'yup';
 
 const yesterday = new Date(Date.now() - 86400000);
+// because of safari
+const maxDate = new Date('9999-12-12'.replace(/-/g, '/'));
 
 export const validationSchema = Yup.object().shape({
   tokenName: Yup.string().matches(latinAndNumbers).min(5).max(25).required(),
@@ -20,7 +22,7 @@ export const validationSchema = Yup.object().shape({
       name: Yup.string().matches(latinAndNumbers).min(5).required(),
       amount: Yup.number().positive().min(0).required(),
       isFrozen: Yup.boolean().required(),
-      frozenUntilDate: Yup.date().min(yesterday).max('12.12.9999').required(),
+      frozenUntilDate: Yup.date().min(yesterday).max(maxDate).required(),
     }),
   ),
 });

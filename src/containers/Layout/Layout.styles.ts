@@ -5,7 +5,6 @@ import { COLOR_ACID_GREEN, COLOR_LAYOUT_BACKGROUND_DARK, COLOR_LAYOUT_BACKGROUND
 export const useStyles = makeStyles<Theme, { isSidebarOpen: boolean }>(
   (theme: Theme) => createStyles({
     root: {
-      overflow: 'hidden',
       position: 'relative',
       zIndex: 2,
       width: '100%',
