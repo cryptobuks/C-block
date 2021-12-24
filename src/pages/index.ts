@@ -6,3 +6,4 @@ export * from './CrowdsaleContract';
 export * from './CrowdsaleContractPreview';
 export * from './WeddingContract';
 export * from './WeddingContractPreview';
+export * from './MyContracts';

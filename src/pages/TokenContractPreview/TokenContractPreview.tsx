@@ -39,13 +39,13 @@ export const TokenContractPreview = () => {
     <Preview
       type="token"
       name={tokenContract.tokenName}
-      launchAction={() => alert('launch')}
+      launchAction={() => console.log('launch')}
       editAction={handleEdit}
       deleteAction={handleDelete}
     >
       {staticTokenContractPreviewHelpers.map((previewBlock, index) => (
         // eslint-disable-next-line react/no-array-index-key
-        <Grid key={index} className={classes.tokenContractInfoBlock} container>
+        <Grid container className={classes.tokenContractInfoBlock} key={index}>
           {previewBlock.map(({
             key, label, value, shouldSkipObjectValue,
           }) => (
