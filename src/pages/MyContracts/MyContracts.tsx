@@ -43,7 +43,7 @@ export const MyContracts = () => {
       } return true;
     });
     setFilteredCards([...newState]);
-  }, [searchValue, debouncedSearchValue]);
+  }, [cards, debouncedSearchValue]);
 
   return (
     <Container>
@@ -71,9 +71,11 @@ export const MyContracts = () => {
             className={classes.contractBlock}
           >
             <Box className={classes.contractHead}>
-              <Typography color="textSecondary">{contractDate}</Typography>
               <Typography color="textSecondary">{contractType}</Typography>
+              <NetTag className={classes.chainTag} isTestnet={!isMainnet} />
             </Box>
+            <Typography className={classes.contractDate} color="textSecondary">{contractDate}</Typography>
+
             <Box className={classes.contractTitle}>
               <IconButton>{contractLogo}</IconButton>
               <Typography variant="h3">{contractName}</Typography>
@@ -102,7 +104,6 @@ export const MyContracts = () => {
                   </Button>
                 ))}
               </Box>
-              <NetTag className={classes.chainTag} isTestnet={!isMainnet} />
             </Box>
           </Box>
         ))}
