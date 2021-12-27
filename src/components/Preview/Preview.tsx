@@ -35,10 +35,10 @@ export const Preview: FC<PreviewProps> = ({
 }) => {
   const classes = useStyles();
   const [isDisclaimerOpen, setDisclaimerOpen] = useState(false);
-  const [isPaymentOpen, setPaymentOpen] = useState(true);
+  const [isPaymentOpen, setPaymentOpen] = useState(false);
   const [isCompleteOpen, setCompleteOpen] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
