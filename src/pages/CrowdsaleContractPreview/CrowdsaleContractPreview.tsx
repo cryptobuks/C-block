@@ -3,7 +3,7 @@ import React, { Fragment, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
-  Grid, Typography, Box, TextField, Link,
+  Grid, Typography, Box, Link, TextField,
 } from '@material-ui/core';
 
 import { Preview, YesNoBlock, Copyable } from 'components';
@@ -52,7 +52,11 @@ export const CrowdsaleContractPreview = () => {
         >
           Token address
         </Typography>
-        <TextField className={classes.disabledInput} disabled value={crowdsaleContract.tokenAddress} />
+        <TextField
+          className={classes.disabledInput}
+          disabled
+          value={crowdsaleContract.tokenAddress}
+        />
       </Box>
 
       <Box

@@ -3,8 +3,7 @@ import React, { useMemo, VFC } from 'react';
 import clsx from 'clsx';
 import { Modal } from 'components/Modal';
 import { Box, Typography } from '@material-ui/core';
-import { SuccessBigIcon } from 'theme/icons/components/SuccessBigIcon';
-import { ErrorBigIcon } from 'theme/icons/components/ErrorBigIcon';
+import { SuccessBigIcon, ErrorBigIcon } from 'theme/icons';
 import { useStyles } from './CompleteModal.styles';
 
 export interface CompleteModalProps {
