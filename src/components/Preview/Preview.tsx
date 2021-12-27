@@ -75,7 +75,10 @@ export const Preview: FC<PreviewProps> = ({
       setIsLoading(false);
       openCompleteModal();
     }, 1000);
-    setTimeout(() => navigate(routes.root), 6000);
+    setTimeout(() => {
+      navigate(routes.root);
+      deleteAction();
+    }, 6000);
   }, []);
   return (
     <Container className={classes.root}>
