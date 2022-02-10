@@ -1,4 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Grid, Typography, Box } from '@material-ui/core';
@@ -8,6 +13,7 @@ import {
   YesNoBlock,
   Copyable,
   Loader,
+  CompleteModal,
 } from 'components';
 import { useShallowSelector } from 'hooks';
 import contractFormsSelector from 'store/contractForms/selectors';
@@ -40,6 +46,18 @@ export const TokenContractPreview = () => {
 
   const createTokenRequestStatus = useShallowSelector(uiSelector.getProp(actionTypes.CREATE_TOKEN_CONTRACT));
 
+  const [resultModalState, setResultModalState] = useState({
+    open: false,
+    result: false,
+  });
+
+  const handleCloseResultModal = useCallback(() => {
+    setResultModalState({
+      ...resultModalState,
+      open: false,
+    });
+  }, [resultModalState]);
+
   const isLoader = useMemo(() => createTokenRequestStatus === RequestStatus.REQUEST, [createTokenRequestStatus]);
 
   const { wallet } = useShallowSelector<State, UserState>(
@@ -67,6 +85,21 @@ export const TokenContractPreview = () => {
       provider: wallet === 'celo' ? web3 : walletService.Web3(),
     }));
   }, [dispatch, wallet, walletService]);
+
+  useEffect(() => {
+    if (createTokenRequestStatus === RequestStatus.SUCCESS) {
+      setResultModalState({
+        open: true,
+        result: true,
+      });
+    }
+    if (createTokenRequestStatus === RequestStatus.ERROR) {
+      setResultModalState({
+        open: true,
+        result: false,
+      });
+    }
+  }, [createTokenRequestStatus]);
 
   const classes = useStyles();
   let totalTokenAmount = 0;
@@ -194,6 +227,11 @@ export const TokenContractPreview = () => {
       {isLoader && (
         <Loader />
       )}
+      <CompleteModal
+        open={resultModalState.open}
+        result={resultModalState.result}
+        onClose={handleCloseResultModal}
+      />
     </Preview>
   );
 };

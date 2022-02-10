@@ -28,8 +28,6 @@ function* createTokenContractSaga({
 
     const celoAddress = contracts.params.celo[isMainnet ? 'mainnet' : 'testnet'].address;
 
-    console.log(provider, 'provider');
-
     const {
       tokenName,
       tokenOwner,
@@ -52,6 +50,7 @@ function* createTokenContractSaga({
     const celoTokenContract = new provider.eth.Contract(celoAbi, celoAddress);
 
     const price = yield call(tokenFactoryContract.methods.price(celoAddress, burnable ? 1 : 0).call);
+
     const allowance = yield call(celoTokenContract.methods.allowance(myAddress, tokenFactoryContractAddress).call);
 
     if (+allowance < price * 2) {
