@@ -6,11 +6,20 @@ import { Grid, Typography, Box } from '@material-ui/core';
 import { Preview, YesNoBlock, Copyable } from 'components';
 import { useShallowSelector } from 'hooks';
 import contractFormsSelector from 'store/contractForms/selectors';
-import { ContractFormsState, State } from 'types';
+import user from 'store/user/selectors';
+import {
+  ContractFormsState,
+  State,
+  UserState,
+} from 'types';
 import clsx from 'clsx';
 import { routes } from 'appConstants';
 
 import { deleteTokenContractForm } from 'store/contractForms/reducer';
+import { useWalletConnectorContext } from 'services';
+import { createTokenContract } from 'store/contractForms/actions';
+// import { initializeKit } from 'utils/celoExtensionConnector';
+import Web3 from 'web3';
 import { useStyles } from './TokenContractPreview.styles';
 import {
   dynamicTokenContractPreviewHelpers,
@@ -21,17 +30,32 @@ export const TokenContractPreview = () => {
   const { tokenContract } = useShallowSelector<State, ContractFormsState>(
     contractFormsSelector.getContractForms,
   );
+
+  const { wallet } = useShallowSelector<State, UserState>(
+    user.getUser,
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { walletService } = useWalletConnectorContext();
+
   const handleEdit = useCallback(() => {
     navigate(routes['token-contract'].root);
-  }, []);
+  }, [navigate]);
 
   const handleDelete = useCallback(() => {
     dispatch(deleteTokenContractForm());
     navigate(routes.root);
-  }, []);
+  }, [dispatch, navigate]);
+
+  const handleCreateToken = useCallback(async () => {
+    const { celo } = window;
+    const web3 = new Web3(celo);
+    dispatch(createTokenContract({
+      // @ts-ignore
+      provider: wallet === 'celo' ? web3 : walletService.Web3(),
+    }));
+  }, [dispatch, wallet, walletService]);
 
   const classes = useStyles();
   let totalTokenAmount = 0;
@@ -39,7 +63,7 @@ export const TokenContractPreview = () => {
     <Preview
       type="token"
       name={tokenContract.tokenName}
-      launchAction={() => console.log('launch')}
+      launchAction={handleCreateToken}
       editAction={handleEdit}
       deleteAction={handleDelete}
     >

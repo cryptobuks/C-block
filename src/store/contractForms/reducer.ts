@@ -70,6 +70,7 @@ const initialState: ContractFormsState = {
     pingIntervalAsValue: '6',
     pingIntervalAsDateUnits: 'Month',
   },
+  isContractCreating: false,
 };
 
 export const contractFormReducer = createSlice({
@@ -111,6 +112,10 @@ export const contractFormReducer = createSlice({
       ...state,
       lostKeyContract: initialState.lostKeyContract,
     }),
+    setContractCreating: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      isContractCreating: action.payload,
+    }),
   },
 });
 
@@ -126,6 +131,8 @@ export const {
 
   setLostKeyContractForm,
   deleteLostKeyContractForm,
+
+  setContractCreating,
 } = contractFormReducer.actions;
 
 export default contractFormReducer.reducer;

@@ -13,4 +13,5 @@ export type ContractFormsState = {
   crowdsaleContract: ICrowdsaleContract;
   weddingContract: IWeddingContract;
   lostKeyContract: ILostKeyContract;
+  isContractCreating: boolean;
 };

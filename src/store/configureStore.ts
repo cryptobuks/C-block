@@ -12,6 +12,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 import reducer from './rootReducer';
+import rootSaga from './rootSaga';
+import actionTypes from './contractForms/actionTypes';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -38,12 +40,22 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(
     {
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+          actionTypes.CREATE_TOKEN_CONTRACT,
+          actionTypes.APPROVE,
+        ],
       },
     },
   ).concat(sagaMiddleware),
 });
 
+sagaMiddleware.run(rootSaga);
 const persistor = persistStore(store);
 
 export default { store, persistor };
