@@ -5,6 +5,7 @@ import { getUIReducer } from '.';
 
 const initialState: UIState = {
   [contractFormsActionTypes.CREATE_TOKEN_CONTRACT]: RequestStatus.INIT,
+  [contractFormsActionTypes.APPROVE]: RequestStatus.INIT,
 };
 
 const uiReducer = getUIReducer(initialState);

@@ -1,7 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ContractFormsState, IWeddingContract } from 'types';
 import {
-  ICrowdsaleContract, ICrowdsaleContractDynamicForm, ILostKeyContract, ILostKeyContractDynamicForm, TokenContract, TokenContractDynamicForm,
+  TokenContract,
+  TokenContractDynamicForm,
+  ICrowdsaleContract,
+  ICrowdsaleContractDynamicForm,
+  ILostKeyContract,
+  ILostKeyContractDynamicForm,
+  IWillContract,
+  IWillContractDynamicForm,
 } from 'types/store/contractForms';
 import { formattedDate } from 'utils';
 
@@ -19,6 +26,12 @@ export const crowdsaleContractDynamicFormInitialData: ICrowdsaleContractDynamicF
 };
 
 export const lostKeyContractDynamicFormInitialData: ILostKeyContractDynamicForm = {
+  reserveAddress: '',
+  email: '',
+  percents: '0',
+};
+
+export const willContractDynamicFormInitialData: IWillContractDynamicForm = {
   reserveAddress: '',
   email: '',
   percents: '0',
@@ -70,7 +83,13 @@ const initialState: ContractFormsState = {
     pingIntervalAsValue: '6',
     pingIntervalAsDateUnits: 'Month',
   },
-  isContractCreating: false,
+  willContract: {
+    contractName: '',
+    managementAddress: '',
+    reservesConfigs: [willContractDynamicFormInitialData],
+    pingIntervalAsValue: '6',
+    pingIntervalAsDateUnits: 'Month',
+  },
 };
 
 export const contractFormReducer = createSlice({
@@ -112,9 +131,13 @@ export const contractFormReducer = createSlice({
       ...state,
       lostKeyContract: initialState.lostKeyContract,
     }),
-    setContractCreating: (state, action: PayloadAction<boolean>) => ({
+    setWillContractForm: (state, action: PayloadAction<IWillContract>) => ({
       ...state,
-      isContractCreating: action.payload,
+      willContract: action.payload,
+    }),
+    deleteWillContractForm: (state) => ({
+      ...state,
+      willContract: initialState.willContract,
     }),
   },
 });
@@ -132,7 +155,8 @@ export const {
   setLostKeyContractForm,
   deleteLostKeyContractForm,
 
-  setContractCreating,
+  setWillContractForm,
+  deleteWillContractForm,
 } = contractFormReducer.actions;
 
 export default contractFormReducer.reducer;

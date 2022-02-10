@@ -1,14 +1,21 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Grid, Typography, Box } from '@material-ui/core';
 
-import { Preview, YesNoBlock, Copyable } from 'components';
+import {
+  Preview,
+  YesNoBlock,
+  Copyable,
+  Loader,
+} from 'components';
 import { useShallowSelector } from 'hooks';
 import contractFormsSelector from 'store/contractForms/selectors';
+import uiSelector from 'store/ui/selectors';
 import user from 'store/user/selectors';
 import {
   ContractFormsState,
+  RequestStatus,
   State,
   UserState,
 } from 'types';
@@ -18,8 +25,8 @@ import { routes } from 'appConstants';
 import { deleteTokenContractForm } from 'store/contractForms/reducer';
 import { useWalletConnectorContext } from 'services';
 import { createTokenContract } from 'store/contractForms/actions';
-// import { initializeKit } from 'utils/celoExtensionConnector';
 import Web3 from 'web3';
+import actionTypes from 'store/contractForms/actionTypes';
 import { useStyles } from './TokenContractPreview.styles';
 import {
   dynamicTokenContractPreviewHelpers,
@@ -30,6 +37,10 @@ export const TokenContractPreview = () => {
   const { tokenContract } = useShallowSelector<State, ContractFormsState>(
     contractFormsSelector.getContractForms,
   );
+
+  const createTokenRequestStatus = useShallowSelector(uiSelector.getProp(actionTypes.CREATE_TOKEN_CONTRACT));
+
+  const isLoader = useMemo(() => createTokenRequestStatus === RequestStatus.REQUEST, [createTokenRequestStatus]);
 
   const { wallet } = useShallowSelector<State, UserState>(
     user.getUser,
@@ -180,6 +191,9 @@ export const TokenContractPreview = () => {
           </>
         );
       })}
+      {isLoader && (
+        <Loader />
+      )}
     </Preview>
   );
 };
