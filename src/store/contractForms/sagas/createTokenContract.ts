@@ -28,8 +28,6 @@ function* createTokenContractSaga({
 
     const celoAddress = contracts.params.celo[isMainnet ? 'mainnet' : 'testnet'].address;
 
-    console.log(provider, 'provider');
-
     const {
       tokenName,
       tokenOwner,
