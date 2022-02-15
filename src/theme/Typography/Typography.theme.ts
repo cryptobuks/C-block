@@ -1,10 +1,9 @@
-import { TypographyOptions } from '@material-ui/core/styles/createTypography';
+import { TypographyOptions, TypographyStyleOptions } from '@material-ui/core/styles/createTypography';
 
 import {
   COLOR_ACID_GREEN, COLOR_AKZ, COLOR_BLACK, COLOR_BLACK_4,
 } from 'theme/colors';
 
-// eslint-disable-next-line no-shadow
 export enum FontWeights {
   fontWeightRegular = 400,
   fontWeightMedium = 500,
@@ -18,20 +17,21 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
     },
   };
 
+  const allVariants = {
+    color,
+    fontWeight: FontWeights.fontWeightRegular,
+    textAlign: 'left',
+    fontStyle: 'normal',
+  } as TypographyStyleOptions;
+
   return {
     fontFamily: 'Arial',
     // fontWeightRegular: FontWeights.fontWeightRegular,
     // fontWeightMedium: FontWeights.fontWeightMedium,
     // fontWeightBold: FontWeights.fontWeightBold,
 
-    allVariants: {
-      color,
-      fontWeight: FontWeights.fontWeightRegular,
-      textAlign: 'left',
-      fontStyle: 'normal',
-    },
-
     h1: {
+      ...allVariants,
       fontSize: '80px',
       fontWeight: FontWeights.fontWeightMedium,
       lineHeight: '80px',
@@ -39,6 +39,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       textTransform: 'capitalize',
     },
     h2: {
+      ...allVariants,
       fontSize: '32px',
       fontWeight: FontWeights.fontWeightBold,
       lineHeight: '40px',
@@ -57,6 +58,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       },
     },
     h3: {
+      ...allVariants,
       fontSize: '20px',
       fontWeight: FontWeights.fontWeightBold,
       lineHeight: '30px',
@@ -64,6 +66,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       textTransform: 'capitalize',
     },
     h4: {
+      ...allVariants,
       fontSize: '26px',
       fontWeight: FontWeights.fontWeightMedium,
       lineHeight: '32px',
@@ -71,6 +74,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       textTransform: 'capitalize',
     },
     h5: {
+      ...allVariants,
       fontSize: '20px',
       fontWeight: FontWeights.fontWeightMedium,
       lineHeight: '28px',
@@ -78,11 +82,13 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       textTransform: 'capitalize',
     },
     h6: {
+      ...allVariants,
       fontSize: '20px',
       lineHeight: '28px',
       letterSpacing: '0.01em',
     },
     button: {
+      ...allVariants,
       fontFamily: 'Arial Black',
       fontSize: '18px',
       fontWeight: FontWeights.fontWeightMedium,
@@ -91,6 +97,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       textTransform: 'unset',
     },
     body1: {
+      ...allVariants,
       fontSize: '16px',
       lineHeight: '24px',
       letterSpacing: '0.02em',
@@ -152,11 +159,13 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
       },
     },
     body2: {
+      ...allVariants,
       fontSize: '14px',
       lineHeight: '20px',
       letterSpacing: '-0.5px',
     },
     caption: {
+      ...allVariants,
       '&.category': {
         fontFamily: 'Arial Black',
         fontSize: '12px',
