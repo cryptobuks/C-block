@@ -15,6 +15,7 @@ import {
   LostKeyContractPreview,
   WillContract,
   WillContractPreview,
+  Earn,
 } from 'pages';
 
 const RoutesContainer = () => (
@@ -33,6 +34,7 @@ const RoutesContainer = () => (
       path={routes['crowdsale-contract']['preview-contract'].root}
       element={<CrowdsaleContractPreview />}
     />
+
     <Route
       path={routes['wedding-contract'].root}
       element={<WeddingContract />}
@@ -41,6 +43,7 @@ const RoutesContainer = () => (
       path={routes['wedding-contract']['preview-contract'].root}
       element={<WeddingContractPreview />}
     />
+
     <Route
       path={routes['lostkey-contract'].root}
       element={<LostKeyContract />}
@@ -49,6 +52,16 @@ const RoutesContainer = () => (
       path={routes['lostkey-contract']['preview-contract'].root}
       element={<LostKeyContractPreview />}
     />
+
+    <Route
+      path={routes['will-contract'].root}
+      element={<WillContract />}
+    />
+    <Route
+      path={routes['will-contract']['preview-contract'].root}
+      element={<WillContractPreview />}
+    />
+
     <Route
       path={routes['will-contract'].root}
       element={<WillContract />}
@@ -64,6 +77,10 @@ const RoutesContainer = () => (
     <Route
       path={routes['custom-development'].root}
       element={<CustomDevelopment />}
+    />
+    <Route
+      path={routes['earn'].root}
+      element={<Earn />}
     />
     <Route path="/" element={<Navigate replace to={routes.root} />} />
   </Routes>

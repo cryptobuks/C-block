@@ -7,7 +7,8 @@ import {
 export enum FontWeights {
   fontWeightRegular = 400,
   fontWeightMedium = 500,
-  fontWeightBold = 600,
+  fontWeightSemiBold = 600,
+  fontWeightBold = 700,
 }
 
 export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions => {
@@ -28,7 +29,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
     fontFamily: 'Arial',
     // fontWeightRegular: FontWeights.fontWeightRegular,
     // fontWeightMedium: FontWeights.fontWeightMedium,
-    // fontWeightBold: FontWeights.fontWeightBold,
+    // fontWeightSemiBold: FontWeights.fontWeightSemiBold,
 
     h1: {
       ...allVariants,
@@ -41,7 +42,7 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
     h2: {
       ...allVariants,
       fontSize: '32px',
-      fontWeight: FontWeights.fontWeightBold,
+      fontWeight: FontWeights.fontWeightSemiBold,
       lineHeight: '40px',
       letterSpacing: '0px',
       textTransform: 'capitalize',
@@ -60,10 +61,16 @@ export const getTypographyOptions = ({ color = COLOR_BLACK }): TypographyOptions
     h3: {
       ...allVariants,
       fontSize: '20px',
-      fontWeight: FontWeights.fontWeightBold,
+      fontWeight: FontWeights.fontWeightSemiBold,
       lineHeight: '30px',
       letterSpacing: '0px',
       textTransform: 'capitalize',
+
+      '&.acidGreen': {
+        background: COLOR_AKZ,
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      },
     },
     h4: {
       ...allVariants,

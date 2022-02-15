@@ -17,6 +17,7 @@ export * from './Toastify';
 export * from './YesNoBlock';
 export * from './SliderWithMaxSectionValue';
 export * from './RemovableContractsFormBlock';
+export * from './EmptyTableBlock';
 export * from './ConfirmStatusModal';
 export * from './SendTransactionModal';
 export * from './RequestWithdrawalModal';

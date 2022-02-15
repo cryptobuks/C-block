@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider, StylesProvider } from '@material-ui/styles';
 import { BreakpointsProvider } from 'hooks/useBreakpoints';
-import { theme, lightTheme } from 'theme';
+import { darkTheme, lightTheme } from 'theme';
 import { Layout, Routes } from 'containers';
 import { useShallowSelector } from 'hooks';
 import userSelector from 'store/user/selectors';
@@ -17,7 +17,7 @@ function App() {
   } = useShallowSelector<State, UserState>(userSelector.getUser);
   const { connect } = useWalletConnectorContext();
 
-  const selectedTheme = isLight ? lightTheme : theme;
+  const selectedTheme = isLight ? lightTheme : darkTheme;
 
   useEffect(() => {
     if (address.length) {

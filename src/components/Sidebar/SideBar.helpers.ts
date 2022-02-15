@@ -1,6 +1,6 @@
 import { routes } from 'appConstants';
 import {
-  FileTextIcon, PlusCircleIcon, SettingGearIcon, AtIcon,
+  FileTextIcon, PlusCircleIcon, SettingGearIcon, UsdIcon, AtIcon,
 } from 'theme/icons';
 
 export const navigationTabs = [
@@ -13,6 +13,11 @@ export const navigationTabs = [
     Icon: FileTextIcon,
     label: 'My contracts',
     link: routes['my-contracts'].root,
+  },
+  {
+    Icon: UsdIcon,
+    label: routes['earn'].title,
+    link: routes['earn'].root,
   },
   {
     Icon: SettingGearIcon,
