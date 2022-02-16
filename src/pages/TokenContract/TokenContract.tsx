@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { Fragment, useCallback } from 'react';
+import React, { Fragment, memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -41,7 +41,7 @@ import {
 } from './TokenContract.helpers';
 import { useStyles } from './TokenContract.styles';
 
-export const TokenContract = React.memo(() => {
+export const TokenContract = memo(() => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,6 +57,7 @@ export const TokenContract = React.memo(() => {
     <Container>
       <Formik
         enableReinitialize
+        validateOnMount
         initialValues={tokenContract}
         validationSchema={validationSchema}
         onSubmit={(
@@ -224,7 +225,7 @@ export const TokenContract = React.memo(() => {
                           >
                             Total supply:{' '}
                             <span className={classes.newCount}>
-                              {`${totalTokenAmount} New`}
+                              {`${totalTokenAmount} ${values.tokenSymbol}`}
                             </span>
                           </Typography>
                         </Grid>

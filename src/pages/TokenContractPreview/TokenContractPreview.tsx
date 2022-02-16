@@ -15,7 +15,7 @@ import {
   Preview,
   YesNoBlock,
   Copyable,
-  Loader,
+  FullscreenLoader,
   CompleteModal,
 } from 'components';
 import { useShallowSelector } from 'hooks';
@@ -141,20 +141,23 @@ export const TokenContractPreview = () => {
         </Grid>
       ))}
 
-      <Typography
-        variant="body1"
-        className={clsx(classes.tokenOwnerTitle, 'l')}
-      >
-        Token Owner
-      </Typography>
-      <Copyable
-        onlyIconActive
-        withBorder
-        valueToCopy={tokenContract.tokenOwner}
-        className={classes.copyableContainer}
-      >
-        <Typography noWrap>{tokenContract.tokenOwner}</Typography>
-      </Copyable>
+      <Box className={classes.tokenContractInfoBlock}>
+        <Typography
+          variant="body1"
+          className={clsx(classes.tokenOwnerTitle, 'l')}
+        >
+          Token Owner
+        </Typography>
+        <Copyable
+          className={classes.copyableContainer}
+          onlyIconActive
+          withBorder
+          valueToCopy={tokenContract.tokenOwner}
+        >
+          <Typography noWrap>{tokenContract.tokenOwner}</Typography>
+        </Copyable>
+      </Box>
+
       <Typography className={classes.dynamicDataHeader} variant="h3">
         Token distribution
       </Typography>
@@ -192,8 +195,9 @@ export const TokenContractPreview = () => {
                     <Grid key={key} item xs={6} sm={6} md={3} lg={3} xl={3}>
                       <Box
                         className={clsx(
-                          classes.previewLabel,
-                          classes.frozenUntil,
+                          classes.previewLabel, {
+                            [classes.previewLabelWithIcon]: !!icon,
+                          },
                         )}
                       >
                         {icon}
@@ -205,7 +209,7 @@ export const TokenContractPreview = () => {
                           {label}
                         </Typography>
                       </Box>
-                      <Typography variant="body1">
+                      <Typography variant="body1" noWrap>
                         {tokenContractDynamicData[key]}
                       </Typography>
                     </Grid>
@@ -221,14 +225,14 @@ export const TokenContractPreview = () => {
               >
                 Total supply:{' '}
                 <span className={classes.newCount}>
-                  {`${totalTokenAmount} New`}
+                  {`${totalTokenAmount} ${tokenContract.tokenSymbol}`}
                 </span>
               </Typography>
             )}
           </Fragment>
         );
       })}
-      {isLoader && <Loader />}
+      {isLoader && <FullscreenLoader />}
       <CompleteModal
         open={resultModalState.open}
         result={resultModalState.result}

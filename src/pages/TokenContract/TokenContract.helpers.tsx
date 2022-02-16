@@ -20,7 +20,7 @@ export const validationSchema = Yup.object().shape({
     Yup.object().shape({
       address: Yup.string().length(42).required(),
       name: Yup.string().matches(latinAndNumbers).min(5).required(),
-      amount: Yup.number().positive().min(0).required(),
+      amount: Yup.number().positive().required(),
       isFrozen: Yup.boolean().when('freezable', {
         is: true,
         then: Yup.boolean().required(),
@@ -105,7 +105,7 @@ export const dynamicFormDataConfig: TokenContractFieldType[] = [
     id: 'name',
     name: 'name',
     renderProps: {
-      label: 'Name',
+      label: 'Wallet name',
       name: 'name',
       type: 'input',
     },
