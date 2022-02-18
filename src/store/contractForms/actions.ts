@@ -7,11 +7,13 @@ import {
   TCreateTokenContractAction,
   TCreateLostKeyContractAction,
   TCreateWillContractAction,
+  TCreateCrowdsaleContractAction,
+  TGetErc20SymbolAction,
+  TGetCrowdsaleContractAdditionalDataAction,
 } from 'types';
 
 import actionTypes from './actionTypes';
 
-// TODO: move to types
 export const approve = createAction<TApproveAction>(actionTypes.APPROVE);
 export const getContractCreationPrice = createAction<TGetContractCreationPrice>(
   actionTypes.GET_CONTRACT_CREATION_PRICE,
@@ -24,4 +26,14 @@ export const createLostKeyContract = createAction<TCreateLostKeyContractAction>(
 );
 export const createWillContract = createAction<TCreateWillContractAction>(
   actionTypes.CREATE_WILL_CONTRACT,
+);
+export const createCrowdsaleContract = createAction<TCreateCrowdsaleContractAction>(
+  actionTypes.CREATE_CROWDSALE_CONTRACT,
+);
+export const getCrowdsaleContractAdditionalData = createAction<TGetCrowdsaleContractAdditionalDataAction>(
+  actionTypes.GET_CROWDSALE_CONTRACT_ADDITIONAL_DATA,
+);
+
+export const getErc20Symbol = createAction<TGetErc20SymbolAction>(
+  actionTypes.GET_ERC20_SYMBOL,
 );

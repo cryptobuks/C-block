@@ -14,3 +14,10 @@ export type TGetContractCreationPrice = TProvider & {
 export type TCreateTokenContractAction = TProvider;
 export type TCreateLostKeyContractAction = TProvider;
 export type TCreateWillContractAction = TProvider;
+export type TCreateCrowdsaleContractAction = TProvider;
+
+export type TGetCrowdsaleContractAdditionalDataAction = TProvider;
+
+export type TGetErc20SymbolAction = TProvider & {
+  tokenAddress: string;
+};

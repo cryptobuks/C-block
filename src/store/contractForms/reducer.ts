@@ -61,8 +61,8 @@ const crowdsaleContractInitialState: ICrowdsaleContract = {
   tokenAddress: '',
   crowdsaleOwner: '',
   tokens: [crowdsaleContractDynamicFormInitialData],
-  softcapTokens: '',
-  saleDuration: '',
+  softcapTokens: '', // if > 0 then isSoftcappable = true, otherwise `false`
+  saleDuration: '', // amount of days to be passed as seconds
   changingDates: false,
 
   minMaxInvestmentsSection: false,
@@ -70,9 +70,14 @@ const crowdsaleContractInitialState: ICrowdsaleContract = {
   maxInvestments: '0',
 
   amountBonusSection: false,
-  amountBonus: '',
-  minimumContribution: '',
-  ...contractAdditionalFieldsInitialData,
+  amountBonus: '', // percents (to be sent on the blockain 100% = 1000)
+  minimumContribution: '', // tokenAddress's amount (5.34343 NEW)
+
+  additional: {
+    contractCreationPrice: '',
+    paymentTokensSymbols: [], // to be fetched after user successfully fills contract fields
+    tokenToSaleSymbol: '', // to be fetched after user successfully fills contract fields
+  },
 };
 
 const weddingContractInitialState: IWeddingContract = {
