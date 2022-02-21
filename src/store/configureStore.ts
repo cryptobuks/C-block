@@ -16,6 +16,7 @@ import { ContractFormsState, UserState } from 'types';
 import reducer from './rootReducer';
 import rootSaga from './rootSaga';
 import actionTypes from './contractForms/actionTypes';
+import { initWalletConnectStore } from './configureWalletConnectStore';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -73,5 +74,11 @@ const store = configureStore({
 
 sagaMiddleware.run(rootSaga);
 const persistor = persistStore(store);
+
+initWalletConnectStore(store);
+
+export function getProduction() {
+  return store.getState().user.isMainnet;
+}
 
 export default { store, persistor };
