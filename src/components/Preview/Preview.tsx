@@ -18,7 +18,7 @@ import contractFormsSelector from 'store/contractForms/selectors';
 import userSelector from 'store/user/selectors';
 import uiSelector from 'store/ui/selectors';
 import apiActions from 'store/ui/actions';
-import { RequestStatus, State, UserState } from 'types';
+import { RequestStatus } from 'types';
 import { getContractCreationPrice } from 'store/contractForms/actions';
 import { getTokenAmountDisplay } from 'utils';
 import { getCeloConfigMetamask } from 'config';
@@ -50,9 +50,7 @@ export const Preview: FC<PreviewProps> = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const { getDefaultProvider } = useProvider();
-  const { isMainnet } = useShallowSelector<State, UserState>(
-    userSelector.getUser,
-  );
+  const { isMainnet } = useShallowSelector(userSelector.getUser);
   const [isDisclaimerOpen, setDisclaimerOpen] = useState(false);
   const [isPaymentOpen, setPaymentOpen] = useState(false);
   const [resultModalState, setResultModalState] = useState({
@@ -106,6 +104,8 @@ export const Preview: FC<PreviewProps> = ({
         return actionTypes.CREATE_WILL_CONTRACT;
       case 'crowdsale':
         return actionTypes.CREATE_CROWDSALE_CONTRACT;
+      case 'weddingRing':
+        return actionTypes.CREATE_WEDDING_CONTRACT;
       default:
         return null;
     }
@@ -156,6 +156,10 @@ export const Preview: FC<PreviewProps> = ({
         ret = contractForms.crowdsaleContract.additional.contractCreationPrice;
         break;
       }
+      case 'weddingRing': {
+        ret = contractForms.weddingContract.additional.contractCreationPrice;
+        break;
+      }
       default:
         break;
     }
@@ -166,6 +170,7 @@ export const Preview: FC<PreviewProps> = ({
     contractForms.tokenContract.additional.contractCreationPrice,
     contractForms.willContract.additional.contractCreationPrice,
     contractForms.crowdsaleContract.additional.contractCreationPrice,
+    contractForms.weddingContract.additional.contractCreationPrice,
     type,
   ]);
 
