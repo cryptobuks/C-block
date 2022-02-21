@@ -84,6 +84,8 @@ any,
             wallet: provider,
           });
         }
+
+        return;
       } catch (err) {
         console.log(err);
         this.disconnect();
@@ -92,19 +94,19 @@ any,
           message: `${provider} is not installed or unlocked`,
         });
       }
-    } else if (window.celo) {
-      await window.celo.enable;
-      if (!window.celo.selectedAddress) {
-        setNotification({
-          type: 'error',
-          message: 'Celo extension wallet is not installed or unlocked',
-        });
+    }
 
-        return;
-      }
+    if (window.celo) {
+      await window.celo.enable();
+
       this.props.connectWallet({
         address: window.celo.selectedAddress,
         wallet: 'celo',
+      });
+    } else {
+      setNotification({
+        type: 'error',
+        message: 'Celo extension wallet is not installed or unlocked',
       });
     }
   };
