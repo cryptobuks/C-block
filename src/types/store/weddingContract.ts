@@ -11,3 +11,19 @@ export type IWeddingContract = {
   partnerTwoSliderValue: number;
   daysForWithdrawalApproval: string;
 } & ContractAdditionalField;
+
+export interface IWeddingContractActiveWithdrawalProposal {
+  amount: string;
+  proposedBy: string;
+  receiver: string;
+  timestamp: string;
+  token: string;
+}
+
+export interface ISpecificWeddingContractData {
+  activeWithdrawalProposal: IWeddingContractActiveWithdrawalProposal;
+  // divorceDisputed: string;
+  divorceProposedBy: string;
+  divorceTimestamp: string;
+  withdrawalProposalPending: boolean;
+}

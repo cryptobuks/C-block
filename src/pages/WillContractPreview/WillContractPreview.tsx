@@ -1,7 +1,7 @@
 import React, {
-  Fragment, useCallback,
+  Fragment, useCallback, useMemo,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Box, Grid, Typography } from '@material-ui/core';
 import clsx from 'clsx';
@@ -9,8 +9,8 @@ import clsx from 'clsx';
 import {
   Preview, Copyable,
 } from 'components';
-import { useProvider, useShallowSelector } from 'hooks';
-import { IWillContractDynamicForm } from 'types';
+import { useWeb3Provider, useShallowSelector } from 'hooks';
+import { IWillContractDynamicForm, TPreviewContractNavigationState, IWillContract } from 'types';
 import { routes } from 'appConstants';
 import contractFormsSelector from 'store/contractForms/selectors';
 import { deleteWillContractForm } from 'store/contractForms/reducer';
@@ -25,7 +25,7 @@ import { useStyles } from './WillContractPreview.styles';
 export const WillContractPreview = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { getDefaultProvider } = useProvider();
+  const { getDefaultProvider } = useWeb3Provider();
   const handleDelete = useCallback(() => {
     dispatch(deleteWillContractForm());
     navigate(routes.root);
@@ -42,7 +42,12 @@ export const WillContractPreview = () => {
     );
   }, [dispatch, getDefaultProvider]);
 
-  const willContract = useShallowSelector(contractFormsSelector.getWillContract);
+  const { state }: { state: TPreviewContractNavigationState } = useLocation();
+  const willContractFromStore = useShallowSelector(contractFormsSelector.getWillContract);
+  const willContract = useMemo(
+    () => state?.contractPreview?.data as IWillContract || willContractFromStore,
+    [state?.contractPreview?.data, willContractFromStore],
+  );
 
   const classes = useStyles();
 
@@ -53,6 +58,7 @@ export const WillContractPreview = () => {
       launchAction={handleCreateContract}
       editAction={handleEdit}
       deleteAction={handleDelete}
+      isReadonly={state?.contractPreview?.isReadonly}
     >
       {staticWillContractPreviewHelpers.map((sections) => (
         <Box key={JSON.stringify(sections)} className={classes.section}>

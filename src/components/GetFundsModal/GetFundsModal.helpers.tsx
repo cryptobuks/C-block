@@ -1,11 +1,11 @@
-export interface ITokenAddressField {
+export interface IGetFundsModalTokenAddressField {
   id: number;
   address: string;
 }
 
-export const fieldsHelper: ITokenAddressField[] = [
+export const initialFieldsState: IGetFundsModalTokenAddressField[] = [
   {
-    address: '0x324345',
     id: 0,
+    address: '',
   },
 ];

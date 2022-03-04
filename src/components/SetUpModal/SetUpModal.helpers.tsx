@@ -1,13 +1,23 @@
-interface AddressesI {
+export interface ISetUpModalTokenAddress {
   address: string;
+  allowance: string;
+}
+
+export interface ISetUpModalTokenAddressField extends ISetUpModalTokenAddress {
   id: number,
 }
 
-export type AddressesT = AddressesI[];
-
-export const addressesArr: AddressesT = [
+export const initTokensAddressesArr: ISetUpModalTokenAddressField[] = [
   {
-    address: '',
     id: 0,
+    address: '',
+    allowance: '0',
   },
 ];
+
+export const createAddressesArr = (
+  tokensAddresses: ISetUpModalTokenAddress[],
+) => tokensAddresses.map((item, id) => ({
+  ...item,
+  id,
+})) as ISetUpModalTokenAddressField[];

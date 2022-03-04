@@ -12,7 +12,7 @@ import {
 import clsx from 'clsx';
 
 import { Edit, TrashIcon } from 'theme/icons';
-import { useProvider, useShallowSelector } from 'hooks';
+import { useWeb3Provider, useShallowSelector } from 'hooks';
 import actionTypes from 'store/contractForms/actionTypes';
 import contractFormsSelector from 'store/contractForms/selectors';
 import userSelector from 'store/user/selectors';
@@ -37,9 +37,11 @@ export interface PreviewProps {
   launchAction: () => void;
   editAction: () => void;
   deleteAction: () => void;
+  isReadonly?: boolean;
 }
 
 export const Preview: FC<PreviewProps> = ({
+  isReadonly = false,
   launchAction,
   editAction,
   deleteAction,
@@ -50,7 +52,7 @@ export const Preview: FC<PreviewProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { getDefaultProvider } = useProvider();
+  const { getDefaultProvider } = useWeb3Provider();
   const { isMainnet } = useShallowSelector(userSelector.getUser);
   const [isDisclaimerOpen, setDisclaimerOpen] = useState(false);
   const [isPaymentOpen, setPaymentOpen] = useState(false);
@@ -209,37 +211,41 @@ export const Preview: FC<PreviewProps> = ({
         {children}
         <Box className={classes.stamp} />
       </Box>
-      <Box className={classes.controls}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          size="large"
-          className={classes.button}
-          onClick={openDisclaimerModal}
-        >
-          Launch
-        </Button>
-        <Box className={classes.editDeleteBtns}>
-          <Button
-            variant="outlined"
-            size="large"
-            className={clsx(classes.button, classes.editDelete)}
-            endIcon={<Edit />}
-            onClick={editAction}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="outlined"
-            size="large"
-            className={clsx(classes.button, classes.editDelete)}
-            endIcon={<TrashIcon />}
-            onClick={deleteAction}
-          >
-            Delete
-          </Button>
-        </Box>
-      </Box>
+      {
+        !isReadonly && (
+          <Box className={classes.controls}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="large"
+              className={classes.button}
+              onClick={openDisclaimerModal}
+            >
+              Launch
+            </Button>
+            <Box className={classes.editDeleteBtns}>
+              <Button
+                variant="outlined"
+                size="large"
+                className={clsx(classes.button, classes.editDelete)}
+                endIcon={<Edit />}
+                onClick={editAction}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                className={clsx(classes.button, classes.editDelete)}
+                endIcon={<TrashIcon />}
+                onClick={deleteAction}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Box>
+        )
+      }
       <DisclaimerModal
         open={isDisclaimerOpen}
         onClose={closeDisclaimerModal}

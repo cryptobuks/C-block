@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { Fragment, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { Fragment, useCallback, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
   Grid, Typography, Box, Link, TextField,
@@ -8,12 +8,13 @@ import {
 import clsx from 'clsx';
 
 import { Preview, YesNoBlock, Copyable } from 'components';
-import { useProvider, useShallowSelector } from 'hooks';
+import { useWeb3Provider, useShallowSelector } from 'hooks';
 import contractFormsSelector from 'store/contractForms/selectors';
 import { routes } from 'appConstants';
 import { deleteCrowdsaleContractForm } from 'store/contractForms/reducer';
 import { constructExplorerUrl } from 'utils';
 import { createCrowdsaleContract } from 'store/contractForms/actions';
+import { ICrowdsaleContract, TPreviewContractNavigationState } from 'types';
 import { useStyles } from './CrowdsaleContractPreview.styles';
 import {
   dynamicCrowdsaleContractPreviewHelpers,
@@ -23,7 +24,7 @@ import {
 export const CrowdsaleContractPreview = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { getDefaultProvider } = useProvider();
+  const { getDefaultProvider } = useWeb3Provider();
 
   const handleDelete = useCallback(() => {
     dispatch(deleteCrowdsaleContractForm());
@@ -41,7 +42,12 @@ export const CrowdsaleContractPreview = () => {
     );
   }, [dispatch, getDefaultProvider]);
 
-  const crowdsaleContract = useShallowSelector(contractFormsSelector.getCrowdsaleContract);
+  const { state }: { state: TPreviewContractNavigationState } = useLocation();
+  const crowdsaleContractFromStore = useShallowSelector(contractFormsSelector.getCrowdsaleContract);
+  const crowdsaleContract = useMemo(
+    () => state?.contractPreview?.data as ICrowdsaleContract || crowdsaleContractFromStore,
+    [crowdsaleContractFromStore, state?.contractPreview?.data],
+  );
 
   const classes = useStyles();
 
@@ -52,6 +58,7 @@ export const CrowdsaleContractPreview = () => {
       launchAction={handleCreateContract}
       editAction={handleEdit}
       deleteAction={handleDelete}
+      isReadonly={state?.contractPreview?.isReadonly}
     >
       <Box paddingTop={2} paddingBottom={2}>
         <Typography

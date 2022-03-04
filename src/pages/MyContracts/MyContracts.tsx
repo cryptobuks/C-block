@@ -1,32 +1,51 @@
 import React, {
   FC, useCallback, useEffect, useState, ComponentProps,
 } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Box, Button,
   Container, Grid, IconButton, TextField, Typography,
 } from '@material-ui/core';
 import clsx from 'clsx';
-import { useDebounce } from 'use-debounce';
-import { noop } from 'lodash';
 
 import { NetTag } from 'containers/Header/components/NetTag';
-import { useShallowSelector } from 'hooks';
-import userSelector from 'store/user/selectors';
+import { FullscreenLoader } from 'components/FullscreenLoader';
 import {
-  SetUpModal, ConfirmStatusModal, SendTransactionModal, RequestWithdrawalModal, GetFundsModal,
+  SetUpModal,
+  ConfirmStatusModal,
+  SendTransactionModal,
+  RequestWithdrawalModal,
+  GetFundsModal,
+  CompleteModal,
 } from 'components';
 import { CheckmarkCircleIcon, SearchIcon } from 'theme/icons';
+import { useShallowSelector, useWeb3Provider } from 'hooks';
+import myContractsActions from 'store/myContracts/actions';
+import myContractsWeddingsActions, { getFundsAfterDivorce } from 'store/myContracts/weddingContracts/actions';
+import myContractsSelector from 'store/myContracts/selectors';
+import userSelector from 'store/user/selectors';
+
+import { ISpecificWeddingContractData } from 'types';
 import {
   AdditionalContent, AdditionalContentRequestDivorce, AdditionalContentRequestWithdrawal,
 } from './components';
 import {
-  contractButtons as contractButtonsHelper, contractsCards, IContractsCard, TContractButtonsTypes,
+  isFoundContractKey,
+  IContractsCard,
+  TContractButtonsTypes,
+  getContractLogo,
 } from './MyContracts.helpers';
+import {
+  useSearch, useMyContracts, useMyWeddingContract, useMyLostKeyContract,
+} from './hooks';
 import { useStyles } from './MyContracts.styles';
 
 export const MyContracts: FC = () => {
-  const [cards, setCards] = useState(contractsCards);
-  const [filteredCards, setFilteredCards] = useState(contractsCards);
+  const cards = useShallowSelector(myContractsSelector.getMyContracts);
+
+  const { filteredList: filteredCards, searchHandler } = useSearch(cards);
+
+  const { address: userWalletAddress } = useShallowSelector(userSelector.getUser);
 
   const [isSetUpModalOpen, setIsSetUpModalOpen] = useState(false);
   const [isConfirmLiveStatusModalOpen, setIsConfirmLiveStatusModalOpen] = useState(false);
@@ -34,11 +53,9 @@ export const MyContracts: FC = () => {
   const [isSendTransactionModalOpen, setIsSendTransactionModalOpen] = useState(false);
   const [isRequestWithdrawalModalOpen, setIsRequestWithdrawalModalOpen] = useState(false);
   const [isGetFundsModalOpen, setIsGetFundsModalOpen] = useState(false);
+  const [isLoaderOpen, setIsLoaderOpen] = useState(false);
 
-  const [searchValue, setSearchValue] = useState('');
   const classes = useStyles();
-  const { isMainnet } = useShallowSelector(userSelector.getUser);
-  const [debouncedSearchValue] = useDebounce(searchValue, 500);
 
   const openSetUpModal = useCallback(() => setIsSetUpModalOpen(true), []);
   const openConfirmLiveStatusModal = useCallback(() => setIsConfirmLiveStatusModalOpen(true), []);
@@ -46,97 +63,255 @@ export const MyContracts: FC = () => {
   const openSendTransactionModal = useCallback(() => setIsSendTransactionModalOpen(true), []);
   const openRequestWithdrawalModal = useCallback(() => setIsRequestWithdrawalModalOpen(true), []);
   const openGetFundsModal = useCallback(() => setIsGetFundsModalOpen(true), []);
+  const openLoader = useCallback(() => setIsLoaderOpen(true), []);
 
   const [withdrawalActions, setWithdrawalActions] = useState<ComponentProps<typeof RequestWithdrawalModal> | {}>({});
   const [getFundsActions, setGetFundsActions] = useState<ComponentProps<typeof GetFundsModal> | {}>({});
+  const [
+    resultModalState, setResultModalState,
+  ] = useState<ComponentProps<typeof CompleteModal>>({ open: false, result: false });
 
-  const buttonClickHandler = useCallback((contractKey: string, type: TContractButtonsTypes) => {
+  const closeSendTransactionModal = useCallback(() => setIsSendTransactionModalOpen(false), []);
+  const closeResultModal = useCallback(() => {
+    setResultModalState({
+      ...resultModalState,
+      open: false,
+    });
+  }, [resultModalState]);
+  const closeLoader = useCallback(() => setIsLoaderOpen(false), []);
+
+  const onRequestTx = useCallback(() => {
+    openSendTransactionModal();
+  }, [openSendTransactionModal]);
+  const onSuccessTx = useCallback(() => {
+    setResultModalState({ open: true, result: true });
+  }, []);
+  const onErrorTx = useCallback(() => {
+    setResultModalState({ open: true, result: false });
+  }, []);
+  const onFinishTx = useCallback(() => {
+    closeSendTransactionModal();
+  }, [closeSendTransactionModal]);
+
+  const dispatch = useDispatch();
+  const { getDefaultProvider } = useWeb3Provider();
+
+  const {
+    handleViewContract,
+
+    getMyContractsRequestUi,
+
+  } = useMyContracts();
+
+  useEffect(() => {
+    getMyContractsRequestUi({
+      onRequestTx: openLoader,
+      onFinishTx: closeLoader,
+    });
+  }, [closeLoader, getMyContractsRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx, openLoader]);
+
+  const {
+    getFundsAfterDivorceRequestUi,
+
+    initWithdrawalRequestUi,
+    approveWithdrawalRequestUi,
+    rejectWithdrawalRequestUi,
+
+    initDivorceRequestUi,
+    approveDivorceRequestUi,
+    rejectDivorceRequestUi,
+  } = useMyWeddingContract();
+
+  useEffect(() => {
+    getFundsAfterDivorceRequestUi({
+      onRequestTx,
+      onSuccessTx,
+      onErrorTx,
+      onFinishTx,
+    });
+  }, [getFundsAfterDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
+
+  useEffect(() => {
+    initDivorceRequestUi({
+      onRequestTx,
+      onSuccessTx,
+      onErrorTx,
+      onFinishTx,
+    });
+  }, [initDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
+
+  useEffect(() => {
+    approveDivorceRequestUi({
+      onRequestTx,
+      onSuccessTx,
+      onErrorTx,
+      onFinishTx,
+    });
+  }, [approveDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
+
+  useEffect(() => {
+    rejectDivorceRequestUi({
+      onRequestTx,
+      onSuccessTx,
+      onErrorTx,
+      onFinishTx,
+    });
+  }, [rejectDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
+
+  useEffect(() => {
+    initWithdrawalRequestUi({
+      onRequestTx,
+      onSuccessTx,
+      onErrorTx,
+      onFinishTx,
+    });
+  }, [initWithdrawalRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
+
+  useEffect(() => {
+    approveWithdrawalRequestUi({
+      onRequestTx,
+      onSuccessTx,
+      onErrorTx,
+      onFinishTx,
+    });
+  }, [approveWithdrawalRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
+
+  useEffect(() => {
+    rejectWithdrawalRequestUi({
+      onRequestTx,
+      onSuccessTx,
+      onErrorTx,
+      onFinishTx,
+    });
+  }, [rejectWithdrawalRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
+
+  const {
+    handleConfirmActiveStatus,
+    fetchActiveStatusConfirmData,
+    handleAddTokens,
+    fetchSetUpModalTokenAddresses,
+  } = useMyLostKeyContract(onSuccessTx, onErrorTx, onFinishTx);
+
+  const [
+    activeStatusModalProps, setActiveStatusModalProps,
+  ] = useState<ComponentProps<typeof ConfirmStatusModal> | {}>({});
+  const [
+    liveStatusModalProps, setLiveStatusModalProps,
+  ] = useState<ComponentProps<typeof ConfirmStatusModal> | {}>({});
+  const [
+    setUpModalProps, setSetUpModalProps,
+  ] = useState<ComponentProps<typeof SetUpModal> | {}>({});
+
+  const buttonClickHandler = useCallback(async (contractKey: string, type: TContractButtonsTypes) => {
+    const card = cards.find((item) => isFoundContractKey(item, contractKey));
+    const { address: contractAddress } = card;
+
     switch (type) {
+      case 'viewContract': {
+        handleViewContract(card);
+        break;
+      }
       case 'requestWithdrawal': {
         openRequestWithdrawalModal();
         setWithdrawalActions({
           ...withdrawalActions,
-          onAccept: () => {
-            const newState = cards.map((card, index) => {
-              if (+contractKey === index) {
-                return {
-                  ...card,
-                  additionalContentRenderType: 'weddingRequestWithdrawal',
-                  contractButtons: [
-                    contractButtonsHelper.viewContract,
-                    contractButtonsHelper.requestDivorce,
-                  ],
-                } as typeof card;
-              }
-              return card;
-            });
-            setCards(newState);
+          onAccept: async ({ tokenAddress, amount, addressToSend }) => {
+            dispatch(myContractsWeddingsActions.initWithdrawal({
+              provider: getDefaultProvider(),
+              contractAddress,
+              tokenAddress,
+              addressToSend,
+              amount,
+            }));
           },
         });
         break;
       }
+      case 'withdrawalApprove': {
+        dispatch(myContractsWeddingsActions.approveWithdrawal({
+          provider: getDefaultProvider(),
+          contractAddress,
+        }));
+        break;
+      }
+      case 'withdrawalReject': {
+        dispatch(myContractsWeddingsActions.rejectWithdrawal({
+          provider: getDefaultProvider(),
+          contractAddress,
+        }));
+        break;
+      }
       case 'requestDivorce': {
-        // TODO: remove this due to only for development purpose
-        setTimeout(() => {
-          const newState = cards.map((card, index) => {
-            if (+contractKey === index) {
-              return {
-                ...card,
-                additionalContentRenderType: 'weddingRequestDivorce',
-                contractButtons: [
-                  contractButtonsHelper.viewContract,
-                ],
-              } as typeof card;
-            }
-            return card;
-          });
-          setCards(newState);
-        }, 5000);
-        openSendTransactionModal();
+        dispatch(
+          myContractsWeddingsActions.initDivorce({
+            provider: getDefaultProvider(),
+            contractAddress,
+          }),
+        );
         break;
       }
       case 'divorceApprove': {
-        const newState = cards.map((card, index) => {
-          if (+contractKey === index) {
-            return {
-              ...card,
-              additionalContentRenderType: 'weddingSuccessfulDivorce',
-              contractButtons: [
-                contractButtonsHelper.viewContract,
-                contractButtonsHelper.getFunds,
-              ],
-            } as typeof card;
-          }
-          return card;
-        });
-        setCards(newState);
+        dispatch(
+          myContractsWeddingsActions.approveDivorce({
+            provider: getDefaultProvider(),
+            contractAddress,
+          }),
+        );
         break;
       }
-      case 'withdrawalApprove': {
-        const newState = cards.map((card, index) => {
-          if (+contractKey === index) {
-            return {
-              ...card,
-              additionalContentRenderType: 'weddingSuccessfulWithdrawal',
-              contractButtons: [
-                contractButtonsHelper.viewContract,
-              ],
-            } as typeof card;
-          }
-          return card;
-        });
-        setCards(newState);
+      case 'divorceReject': {
+        dispatch(
+          myContractsWeddingsActions.rejectDivorce({
+            provider: getDefaultProvider(),
+            contractAddress,
+          }),
+        );
         break;
       }
       case 'setUp': {
+        const addresses = await fetchSetUpModalTokenAddresses(contractAddress);
+        setSetUpModalProps({
+          ...setUpModalProps,
+          contractAddress,
+          addresses,
+          onAccept: (tokensAddresses) => {
+            if (!tokensAddresses.length) return;
+            handleAddTokens(contractAddress, tokensAddresses.map(({ address }) => address));
+            openSendTransactionModal();
+          },
+        });
         openSetUpModal();
         break;
       }
       case 'confirmLiveStatus': {
+        const response = await fetchActiveStatusConfirmData(contractAddress);
+        if (!response) return;
+        const [confirmationPeriod, lastRecordedTime] = response;
+        const date = Number(confirmationPeriod) + Number(lastRecordedTime);
+        setLiveStatusModalProps({
+          ...liveStatusModalProps,
+          date,
+          onAccept: () => {
+            handleConfirmActiveStatus(contractAddress);
+            openSendTransactionModal();
+          },
+        });
         openConfirmLiveStatusModal();
         break;
       }
       case 'confirmActiveStatus': {
+        const response = await fetchActiveStatusConfirmData(contractAddress);
+        if (!response) return;
+        const [confirmationPeriod, lastRecordedTime] = response;
+        const date = Number(confirmationPeriod) + Number(lastRecordedTime);
+        setActiveStatusModalProps({
+          ...activeStatusModalProps,
+          date,
+          onAccept: () => {
+            handleConfirmActiveStatus(contractAddress);
+            openSendTransactionModal();
+          },
+        });
         openConfirmActiveStatusModal();
         break;
       }
@@ -144,8 +319,12 @@ export const MyContracts: FC = () => {
         openGetFundsModal();
         setGetFundsActions({
           ...getFundsActions,
-          onAccept: () => {
-            openSendTransactionModal();
+          onAccept: (tokensAddresses) => {
+            dispatch(getFundsAfterDivorce({
+              provider: getDefaultProvider(),
+              contractAddress,
+              tokensAddresses,
+            }));
           },
         });
         break;
@@ -154,50 +333,95 @@ export const MyContracts: FC = () => {
         break;
       }
     }
-  }, [cards, getFundsActions, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openRequestWithdrawalModal, openSendTransactionModal, openSetUpModal, withdrawalActions]);
+  }, [activeStatusModalProps, cards, dispatch, fetchActiveStatusConfirmData, fetchSetUpModalTokenAddresses, getDefaultProvider, getFundsActions, handleAddTokens, handleConfirmActiveStatus, handleViewContract, liveStatusModalProps, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openRequestWithdrawalModal, openSendTransactionModal, openSetUpModal, setUpModalProps, withdrawalActions]);
 
-  const renderAdditionalContent = useCallback(({ additionalContentRenderType, contractKey }: IContractsCard) => {
-    switch (additionalContentRenderType) {
-      case 'weddingRequestDivorce': return <AdditionalContentRequestDivorce onApprove={() => buttonClickHandler(contractKey, 'divorceApprove')} onReject={noop} />;
-      case 'weddingRequestWithdrawal': return <AdditionalContentRequestWithdrawal onApprove={() => buttonClickHandler(contractKey, 'withdrawalApprove')} onReject={noop} />;
-      case 'weddingSuccessfulDivorce': return (
-        <AdditionalContent>
-          <Box className={classes.successfulAdditionalContent}>
-            <CheckmarkCircleIcon />
-            <Typography className={clsx(classes.successfulAdditionalContentText, 'l')} variant="body1">There was a successful divorce</Typography>
-          </Box>
-        </AdditionalContent>
-      );
-      case 'weddingSuccessfulWithdrawal': return (
-        <AdditionalContent>
-          <Box className={classes.successfulAdditionalContent}>
-            <CheckmarkCircleIcon />
-            <Typography className={clsx(classes.successfulAdditionalContentText, 'l')} variant="body1">There was a successful withdrawal</Typography>
-          </Box>
-        </AdditionalContent>
-      );
-      default: return null;
-    }
-  }, [buttonClickHandler, classes.successfulAdditionalContent, classes.successfulAdditionalContentText]);
+  const isSameDivorceAddress = useCallback((divorceProposedBy: string) => userWalletAddress.toLowerCase() === divorceProposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject divorce with the same address
+  const isSameWithdrawalAddress = useCallback((proposedBy: string) => userWalletAddress.toLowerCase() === proposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject withdrawal with the same address
 
-  const searchHandler = useCallback((value: string) => {
-    setSearchValue(value);
-  }, []);
+  const renderAdditionalContent = useCallback(
+    ({ additionalContentRenderType, contractKey, specificContractData }: IContractsCard) => {
+      switch (additionalContentRenderType) {
+        case 'weddingRequestDivorce': {
+          const {
+            divorceTimestamp,
+            divorceProposedBy,
+          } = specificContractData as ISpecificWeddingContractData;
+          // const divorceStatus = getDivorceStatus(+divorceTimestamp);
+          // console.log('getDirvoce', divorceStatus);
+          return (
+            <AdditionalContentRequestDivorce
+              countdownUntilTimestamp={+divorceTimestamp}
+              onApprove={isSameDivorceAddress(divorceProposedBy) ? undefined : () => buttonClickHandler(contractKey, 'divorceApprove')}
+              onReject={isSameDivorceAddress(divorceProposedBy) ? undefined : () => buttonClickHandler(contractKey, 'divorceReject')}
+            />
+          );
+        }
+        case 'weddingRequestWithdrawal': {
+          const {
+            activeWithdrawalProposal,
+            // withdrawalProposalPending,
+          } = specificContractData as ISpecificWeddingContractData;
+          const { timestamp, proposedBy } = activeWithdrawalProposal;
+          // const withdrawalStatus = getWithdrawalStatus(
+          //   withdrawalProposalPending, activeWithdrawalProposal,
+          // );
+          // console.log('withdrawalStatus', withdrawalStatus);
+          return (
+            <AdditionalContentRequestWithdrawal
+              countdownUntilTimestamp={+timestamp}
+              onApprove={isSameWithdrawalAddress(proposedBy) ? undefined : () => buttonClickHandler(contractKey, 'withdrawalApprove')}
+              onReject={isSameWithdrawalAddress(proposedBy) ? undefined : () => buttonClickHandler(contractKey, 'withdrawalReject')}
+            />
+          );
+        }
+        case 'weddingSuccessfulDivorce':
+          return (
+            <AdditionalContent>
+              <Box className={classes.successfulAdditionalContent}>
+                <CheckmarkCircleIcon />
+                <Typography
+                  className={clsx(classes.successfulAdditionalContentText, 'l')}
+                  variant="body1"
+                >
+                  There was a successful divorce
+                </Typography>
+              </Box>
+            </AdditionalContent>
+          );
+        case 'weddingSuccessfulWithdrawal':
+          return (
+            <AdditionalContent>
+              <Box className={classes.successfulAdditionalContent}>
+                <CheckmarkCircleIcon />
+                <Typography
+                  className={clsx(classes.successfulAdditionalContentText, 'l')}
+                  variant="body1"
+                >
+                  There was a successful withdrawal
+                </Typography>
+              </Box>
+            </AdditionalContent>
+          );
+        default:
+          return null;
+      }
+    }, [buttonClickHandler, classes.successfulAdditionalContent, classes.successfulAdditionalContentText, isSameDivorceAddress, isSameWithdrawalAddress],
+  );
 
   useEffect(() => {
-    if (!debouncedSearchValue) {
-      setFilteredCards(cards);
-    } else {
-      const newFilteredCards = cards.filter(({ contractName }) => {
-        const isContractNameInSearch = contractName.toLowerCase().includes(debouncedSearchValue.toLowerCase());
-        return isContractNameInSearch;
-      });
-      setFilteredCards(newFilteredCards);
-    }
-  }, [cards, debouncedSearchValue]);
+    dispatch(myContractsActions.getMyContracts({
+      provider: getDefaultProvider(),
+    }));
+  }, [dispatch, getDefaultProvider]);
 
   return (
     <Container>
+      {isLoaderOpen && <FullscreenLoader />}
+      <CompleteModal
+        open={resultModalState.open}
+        result={resultModalState.result}
+        onClose={closeResultModal}
+      />
       <SendTransactionModal
         open={isSendTransactionModalOpen}
         setIsModalOpen={setIsSendTransactionModalOpen}
@@ -212,18 +436,25 @@ export const MyContracts: FC = () => {
         setIsModalOpen={setIsRequestWithdrawalModalOpen}
         {...withdrawalActions}
       />
-      <SetUpModal open={isSetUpModalOpen} setIsModalOpen={setIsSetUpModalOpen} />
+      <SetUpModal
+        open={isSetUpModalOpen}
+        setIsModalOpen={setIsSetUpModalOpen}
+        addresses={[]}
+        {...setUpModalProps}
+      />
       <ConfirmStatusModal
         open={isConfirmLiveStatusModalOpen}
         setIsModalOpen={setIsConfirmLiveStatusModalOpen}
-        date={new Date()}
         statusType="live"
+        date={0}
+        {...liveStatusModalProps}
       />
       <ConfirmStatusModal
         open={isConfirmActiveStatusModalOpen}
         setIsModalOpen={setIsConfirmActiveStatusModalOpen}
-        date={new Date()}
         statusType="active"
+        date={0}
+        {...activeStatusModalProps}
       />
       <Grid container className={classes.root}>
         <TextField
@@ -236,12 +467,13 @@ export const MyContracts: FC = () => {
           className={classes.search}
         />
         {filteredCards.map(({
+          contractKey,
           contractName,
           contractDate,
           contractType,
-          contractLogo,
+          // contractLogo,
           contractButtons,
-          contractKey,
+          isTestnet,
         }, cardIndex) => (
           <Box
             key={contractKey}
@@ -249,12 +481,17 @@ export const MyContracts: FC = () => {
           >
             <Box className={classes.contractHead}>
               <Typography color="textSecondary">{contractType}</Typography>
-              <NetTag className={classes.chainTag} isTestnet={!isMainnet} />
+              <NetTag className={classes.chainTag} isTestnet={isTestnet} />
             </Box>
-            <Typography className={classes.contractDate} color="textSecondary">{contractDate}</Typography>
+            <Typography
+              className={classes.contractDate}
+              color="textSecondary"
+            >
+              {contractDate}
+            </Typography>
 
             <Box className={classes.contractTitle}>
-              <IconButton>{contractLogo}</IconButton>
+              <IconButton>{getContractLogo(contractType)}</IconButton>
               <Typography variant="h3">{contractName}</Typography>
             </Box>
             {
@@ -272,7 +509,8 @@ export const MyContracts: FC = () => {
                     value={type}
                     variant="outlined"
                     onClick={() => buttonClickHandler(contractKey, type)}
-                  >{title}
+                  >
+                    {title}
                   </Button>
                 ))}
               </Box>

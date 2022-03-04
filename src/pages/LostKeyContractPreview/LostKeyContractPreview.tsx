@@ -1,7 +1,7 @@
 import React, {
-  Fragment, useCallback,
+  Fragment, useCallback, useMemo,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Box, Grid, Typography } from '@material-ui/core';
 import clsx from 'clsx';
@@ -9,9 +9,9 @@ import clsx from 'clsx';
 import {
   Preview, Copyable,
 } from 'components';
-import { useProvider, useShallowSelector } from 'hooks';
+import { useWeb3Provider, useShallowSelector } from 'hooks';
 import {
-  ILostKeyContractDynamicForm,
+  ILostKeyContractDynamicForm, TPreviewContractNavigationState, ILostKeyContract,
 } from 'types';
 import { routes } from 'appConstants';
 import contractFormsSelector from 'store/contractForms/selectors';
@@ -26,7 +26,7 @@ import { useStyles } from './LostKeyContractPreview.styles';
 export const LostKeyContractPreview = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { getDefaultProvider } = useProvider();
+  const { getDefaultProvider } = useWeb3Provider();
 
   const handleDelete = useCallback(() => {
     dispatch(deleteLostKeyContractForm());
@@ -44,7 +44,12 @@ export const LostKeyContractPreview = () => {
     );
   }, [dispatch, getDefaultProvider]);
 
-  const lostKeyContract = useShallowSelector(contractFormsSelector.getLostKeyContract);
+  const { state }: { state: TPreviewContractNavigationState } = useLocation();
+  const lostKeyContractFromStore = useShallowSelector(contractFormsSelector.getLostKeyContract);
+  const lostKeyContract = useMemo(
+    () => state?.contractPreview?.data as ILostKeyContract || lostKeyContractFromStore,
+    [lostKeyContractFromStore, state?.contractPreview?.data],
+  );
 
   const classes = useStyles();
 
@@ -55,6 +60,7 @@ export const LostKeyContractPreview = () => {
       launchAction={handleCreateContract}
       editAction={handleEdit}
       deleteAction={handleDelete}
+      isReadonly={state?.contractPreview?.isReadonly}
     >
       {staticLostKeyContractPreviewHelpers.map((sections) => (
         <Box key={JSON.stringify(sections)} className={classes.section}>
