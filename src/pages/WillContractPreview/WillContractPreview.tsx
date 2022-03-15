@@ -14,9 +14,8 @@ import { IWillContractDynamicForm, TPreviewContractNavigationState, IWillContrac
 import { routes } from 'appConstants';
 import contractFormsSelector from 'store/contractForms/selectors';
 import { deleteWillContractForm } from 'store/contractForms/reducer';
-import { getDeepValueByPath } from 'utils';
-
 import { createWillContract } from 'store/contractForms/actions';
+import { getDeepValueByPath } from 'utils';
 import {
   staticWillContractPreviewHelpers,
 } from './WillContractPreview.helpers';
