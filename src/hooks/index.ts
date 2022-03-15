@@ -4,4 +4,5 @@ export * from './useWindowState';
 export * from './modals';
 export * from './walletService';
 export * from './useCountdownTimer';
+export * from './useCheckIfTokenAddress';
 export * from './useScrollTop';
