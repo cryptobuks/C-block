@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, {
-  FC, useCallback, useMemo,
+  FC,
 } from 'react';
 import {
   Container,
@@ -10,18 +10,25 @@ import {
 } from '@material-ui/core';
 
 import { EmptyTableBlock } from 'components';
+import { useDelayedTask } from 'hooks';
 import { EarnListRow, EarnTable } from './components';
 import {
-  IRowData, mockPageData, pageMainConfig,
+  pageMainConfig,
 } from './Earn.helpers';
+import { useEarnData } from './Earn.hooks';
 import { useStyles } from './Earn.styles';
 
 export const Earn: FC = () => {
   const classes = useStyles();
-  const hasTableData = useMemo(() => !!mockPageData.length, []);
-  const handleTransfer = useCallback((item: IRowData) => {
-    console.log(item);
-  }, []);
+  const {
+    finishedContracts,
+    hasTableData,
+    getRowItemData,
+    handleTransfer,
+    getFinishedContracts,
+  } = useEarnData();
+
+  useDelayedTask(getFinishedContracts);
 
   return (
     <Container className={classes.root}>
@@ -35,22 +42,19 @@ export const Earn: FC = () => {
         <Grid item xs={12}>
           <EarnTable
             className={classes.tableContainer}
-            hasData={hasTableData}
-            onTransfer={handleTransfer}
           />
 
           <Box className={classes.mobileTableData}>
             {
               hasTableData ? (
-                mockPageData.map((item, rowIndex) => {
+                finishedContracts.map((item, rowIndex) => {
                   const rowKey = JSON.stringify(item) + rowIndex;
-                  const { userAddress, reward } = item;
-
+                  const { deserializedRewardAmount } = getRowItemData(item);
                   return (
                     <EarnListRow
                       key={rowKey}
-                      userAddress={userAddress}
-                      reward={reward.toString()}
+                      userAddress={item.address}
+                      reward={deserializedRewardAmount}
                       onTransfer={() => handleTransfer(item)}
                     />
                   );

@@ -18,6 +18,7 @@ import rootSaga from './rootSaga';
 import contractFormsActionTypes from './contractForms/actionTypes';
 import myContractsActionTypes from './myContracts/actionTypes';
 import myContractsWeddingActionTypes from './myContracts/weddingContracts/actionTypes';
+import earnActionTypes from './earn/actionTypes';
 import { initWalletConnectStore } from './configureWalletConnectStore';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -69,17 +70,18 @@ const store = configureStore({
           contractFormsActionTypes.CREATE_WEDDING_CONTRACT,
           contractFormsActionTypes.GET_CROWDSALE_CONTRACT_ADDITIONAL_DATA,
           contractFormsActionTypes.GET_ERC20_SYMBOL,
-          // mycontracts & mycontracts/wedding
+
           myContractsActionTypes.GET_MY_CONTRACTS,
           myContractsWeddingActionTypes.INIT_DIVORCE,
           myContractsWeddingActionTypes.APPROVE_DIVORCE,
           myContractsWeddingActionTypes.REJECT_DIVORCE,
-
           myContractsWeddingActionTypes.INIT_WITHDRAWAL,
           myContractsWeddingActionTypes.APPROVE_WITHDRAWAL,
           myContractsWeddingActionTypes.REJECT_WITHDRAWAL,
-
           myContractsWeddingActionTypes.GET_FUNDS_AFTER_DIVORCE,
+
+          earnActionTypes.GET_FINISHED_CONTRACTS,
+          earnActionTypes.TRANSFER_REWARD,
         ],
       },
     },

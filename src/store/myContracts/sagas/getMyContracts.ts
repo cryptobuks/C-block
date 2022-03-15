@@ -4,6 +4,7 @@ import {
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionString } from 'web3-eth';
+import { AxiosResponse } from 'axios';
 
 import apiActions from 'store/ui/actions';
 import userSelector from 'store/user/selectors';
@@ -200,7 +201,7 @@ function* fetchAndTransformContractsSaga(provider: Web3) {
     userSelector.getUser,
   );
   if (!userWalletAddress) return undefined;
-  const { data } = yield call(baseApi.getContracts, {
+  const { data }: AxiosResponse<IGetContractsReturnType> = yield call(baseApi.getContracts, {
     walletAddress: userWalletAddress,
   });
   const transformedData = yield call(
