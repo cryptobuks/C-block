@@ -13,11 +13,9 @@
     "lint": "eslint \"{src,types}/**/*.ts{,x}\" --cache",
     "lint-fix": "npm run format && npm run lint-fix:ts",
     "lint-fix:ts": "eslint \"{src,types}/**/*.ts{,x}\" --fix",
-
     "test:update": "jest --updateSnapshot ./src",
     "test:watch": "jest ./src",
     "test:coverage": "jest --coverage --watchAll=false ./src",
-
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },
@@ -64,7 +62,7 @@
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
-    "react-router-dom": "6",
+    "react-router-dom": "^6.2.2",
     "react-scripts": "^4.0.3",
     "react-toastify": "^8.1.0",
     "redux-persist": "^6.0.0",
