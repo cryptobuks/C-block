@@ -6,3 +6,4 @@ export * from './walletService';
 export * from './useCountdownTimer';
 export * from './useDelayedTask';
 export * from './useScrollTop';
+export * from './useParticleNetwork';
