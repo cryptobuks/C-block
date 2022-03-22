@@ -26,34 +26,6 @@ import userSelector from 'store/user/selectors';
 
 const RedirectToHomePage = <Navigate replace to={routes.root} />;
 
-const PreviewMyContractsRoutes: FC = () => {
-  const location = useLocation();
-  return (
-    <Routes location={location}>
-      <Route
-        path={routes['my-contracts']['preview-token-contract'].root}
-        element={<TokenContractPreview />}
-      />
-      <Route
-        path={routes['my-contracts']['preview-crowdsale-contract'].root}
-        element={<CrowdsaleContractPreview />}
-      />
-      <Route
-        path={routes['my-contracts']['preview-wedding-contract'].root}
-        element={<WeddingContractPreview />}
-      />
-      <Route
-        path={routes['my-contracts']['preview-lostkey-contract'].root}
-        element={<LostKeyContractPreview />}
-      />
-      <Route
-        path={routes['my-contracts']['preview-will-contract'].root}
-        element={<WillContractPreview />}
-      />
-    </Routes>
-  );
-};
-
 const RoutesContainer: FC = () => {
   const location = useLocation();
 
@@ -114,6 +86,27 @@ const RoutesContainer: FC = () => {
               element={isWalletConnected ? <MyContracts /> : RedirectToHomePage}
             />
 
+            <Route
+              path={routes['my-contracts']['preview-token-contract'].root}
+              element={<TokenContractPreview />}
+            />
+            <Route
+              path={routes['my-contracts']['preview-crowdsale-contract'].root}
+              element={<CrowdsaleContractPreview />}
+            />
+            <Route
+              path={routes['my-contracts']['preview-wedding-contract'].root}
+              element={<WeddingContractPreview />}
+            />
+            <Route
+              path={routes['my-contracts']['preview-lostkey-contract'].root}
+              element={<LostKeyContractPreview />}
+            />
+            <Route
+              path={routes['my-contracts']['preview-will-contract'].root}
+              element={<WillContractPreview />}
+            />
+
             <Route path={routes['earn'].root} element={<Earn />} />
 
             <Route
@@ -123,7 +116,6 @@ const RoutesContainer: FC = () => {
 
             <Route path="*" element={RedirectToHomePage} />
           </Routes>
-          <PreviewMyContractsRoutes />
         </>
       </CSSTransition>
     </TransitionGroup>
