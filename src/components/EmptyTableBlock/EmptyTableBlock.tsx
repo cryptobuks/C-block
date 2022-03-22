@@ -12,7 +12,7 @@ export const EmptyTableBlock: FC = () => {
       <Box className={classes.container}>
         <InfoIcon width="50" height="50" />
         <Typography className={clsx(classes.title, 'acidGreen')} variant="h3" align="center">
-          There is no data in the table yet
+          There is nothing here yet
         </Typography>
         <Typography className="l" variant="body1" align="center">
           Come back later
