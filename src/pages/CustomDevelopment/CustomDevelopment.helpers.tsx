@@ -1,16 +1,30 @@
 import React from 'react';
+import * as Yup from 'yup';
+
+import { CUSTOM_DEVELOPMENT_EMAIL } from 'appConstants';
 import {
   EmailIcon,
   FileTextIcon,
   PersonIcon,
 } from 'theme/icons';
-import * as Yup from 'yup';
 
-export const initFormValues = {
+export type CustomDevelopmentFormValues = {
+  userName: string;
+  email: string;
+  contractName: string;
+  request: string;
+};
+
+export const initFormValues: CustomDevelopmentFormValues = {
   userName: '',
   email: '',
   contractName: '',
   request: '',
+};
+
+// eslint-disable-next-line arrow-body-style
+export const isAtLeastOneFormFieldFilled = (form: CustomDevelopmentFormValues) => {
+  return Object.keys(form).some((key: keyof CustomDevelopmentFormValues) => Boolean(form[key].length));
 };
 
 export const validationSchema = Yup.object().shape({
@@ -22,11 +36,11 @@ export const validationSchema = Yup.object().shape({
     .required('Required'),
   contractName: Yup.string()
     .min(6)
-    .required(),
+    .required('Required'),
   request: Yup.string()
     .min(6)
     .max(350)
-    .required(),
+    .required('Required'),
 });
 
 export const customDevelopmentFormConfig = [
@@ -69,3 +83,34 @@ export const customDevelopmentFormConfig = [
     },
   },
 ];
+
+export const constructEmailSheet = (values: CustomDevelopmentFormValues) => {
+  const {
+    contractName, userName, email, request,
+  } = values;
+  const subject = encodeURIComponent(
+    `C-Block Platform. Custom Development: ${contractName} for ${userName}`,
+  );
+  const body = encodeURIComponent(
+    `User name: ${userName}
+
+Original email: ${email}
+
+Contract name: ${contractName}
+
+Request: ${request}
+`,
+  );
+
+  return `mailto:${CUSTOM_DEVELOPMENT_EMAIL}?subject=${subject}&body=${body}`;
+};
+
+export const sendEmail = (values: CustomDevelopmentFormValues) => {
+  const link = document.createElement('a');
+  link.style.display = 'none';
+  link.href = constructEmailSheet(values);
+  link.rel = 'noopener noreferrer';
+  link.target = '_blank';
+
+  link.click();
+};
