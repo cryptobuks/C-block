@@ -9,7 +9,6 @@ import {
 import clsx from 'clsx';
 
 import { NetTag } from 'containers/Header/components/NetTag';
-import { FullscreenLoader } from 'components/FullscreenLoader';
 import {
   SetUpModal,
   ConfirmStatusModal,
@@ -25,9 +24,11 @@ import myContractsWeddingsActions, { getFundsAfterDivorce } from 'store/myContra
 import myContractsSelector from 'store/myContracts/selectors';
 import userSelector from 'store/user/selectors';
 import setUpModalActions from 'store/myContracts/setUpModal/actions';
+import confirmActiveStatusModalActions from 'store/myContracts/confirmActiveStatusModal/actions';
 
 import { convertIntervalAsSeconds } from 'utils';
 import { ISpecificWeddingContractData, IWeddingContract } from 'types';
+
 import {
   AdditionalContent, AdditionalContentRequestDivorce, AdditionalContentRequestWithdrawal,
 } from './components';
@@ -38,7 +39,7 @@ import {
   getContractLogo,
 } from './MyContracts.helpers';
 import {
-  useSearch, useMyContracts, useMyWeddingContract, useMyLostKeyContract,
+  useSearch, useMyContracts, useMyLostKeyContract,
 } from './hooks';
 import { useStyles } from './MyContracts.styles';
 
@@ -55,17 +56,14 @@ export const MyContracts: FC = () => {
   const [isSendTransactionModalOpen, setIsSendTransactionModalOpen] = useState(false);
   const [isRequestWithdrawalModalOpen, setIsRequestWithdrawalModalOpen] = useState(false);
   const [isGetFundsModalOpen, setIsGetFundsModalOpen] = useState(false);
-  const [isLoaderOpen, setIsLoaderOpen] = useState(false);
 
   const classes = useStyles();
 
   const openSetUpModal = useCallback(() => setIsSetUpModalOpen(true), []);
   const openConfirmLiveStatusModal = useCallback(() => setIsConfirmLiveStatusModalOpen(true), []);
   const openConfirmActiveStatusModal = useCallback(() => setIsConfirmActiveStatusModalOpen(true), []);
-  const openSendTransactionModal = useCallback(() => setIsSendTransactionModalOpen(true), []);
   const openRequestWithdrawalModal = useCallback(() => setIsRequestWithdrawalModalOpen(true), []);
   const openGetFundsModal = useCallback(() => setIsGetFundsModalOpen(true), []);
-  const openLoader = useCallback(() => setIsLoaderOpen(true), []);
 
   const [withdrawalActions, setWithdrawalActions] = useState<ComponentProps<typeof RequestWithdrawalModal> | {}>({});
   const [getFundsActions, setGetFundsActions] = useState<ComponentProps<typeof GetFundsModal> | {}>({});
@@ -73,124 +71,23 @@ export const MyContracts: FC = () => {
     resultModalState, setResultModalState,
   ] = useState<ComponentProps<typeof CompleteModal>>({ open: false, result: false });
 
-  const closeSendTransactionModal = useCallback(() => setIsSendTransactionModalOpen(false), []);
   const closeResultModal = useCallback(() => {
     setResultModalState({
       ...resultModalState,
       open: false,
     });
   }, [resultModalState]);
-  const closeLoader = useCallback(() => setIsLoaderOpen(false), []);
-
-  const onRequestTx = useCallback(() => {
-    openSendTransactionModal();
-  }, [openSendTransactionModal]);
-  const onSuccessTx = useCallback(() => {
-    setResultModalState({ open: true, result: true });
-  }, []);
-  const onErrorTx = useCallback(() => {
-    setResultModalState({ open: true, result: false });
-  }, []);
-  const onFinishTx = useCallback(() => {
-    closeSendTransactionModal();
-  }, [closeSendTransactionModal]);
 
   const dispatch = useDispatch();
   const { getDefaultProvider } = useWeb3Provider();
 
   const {
     handleViewContract,
-
-    getMyContractsRequestUi,
-
   } = useMyContracts();
 
-  useEffect(() => {
-    getMyContractsRequestUi({
-      onRequestTx: openLoader,
-      onFinishTx: closeLoader,
-    });
-  }, [closeLoader, getMyContractsRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx, openLoader]);
-
   const {
-    getFundsAfterDivorceRequestUi,
-
-    initWithdrawalRequestUi,
-    approveWithdrawalRequestUi,
-    rejectWithdrawalRequestUi,
-
-    initDivorceRequestUi,
-    approveDivorceRequestUi,
-    rejectDivorceRequestUi,
-  } = useMyWeddingContract();
-
-  useEffect(() => {
-    getFundsAfterDivorceRequestUi({
-      onRequestTx,
-      onSuccessTx,
-      onErrorTx,
-      onFinishTx,
-    });
-  }, [getFundsAfterDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
-
-  useEffect(() => {
-    initDivorceRequestUi({
-      onRequestTx,
-      onSuccessTx,
-      onErrorTx,
-      onFinishTx,
-    });
-  }, [initDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
-
-  useEffect(() => {
-    approveDivorceRequestUi({
-      onRequestTx,
-      onSuccessTx,
-      onErrorTx,
-      onFinishTx,
-    });
-  }, [approveDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
-
-  useEffect(() => {
-    rejectDivorceRequestUi({
-      onRequestTx,
-      onSuccessTx,
-      onErrorTx,
-      onFinishTx,
-    });
-  }, [rejectDivorceRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
-
-  useEffect(() => {
-    initWithdrawalRequestUi({
-      onRequestTx,
-      onSuccessTx,
-      onErrorTx,
-      onFinishTx,
-    });
-  }, [initWithdrawalRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
-
-  useEffect(() => {
-    approveWithdrawalRequestUi({
-      onRequestTx,
-      onSuccessTx,
-      onErrorTx,
-      onFinishTx,
-    });
-  }, [approveWithdrawalRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
-
-  useEffect(() => {
-    rejectWithdrawalRequestUi({
-      onRequestTx,
-      onSuccessTx,
-      onErrorTx,
-      onFinishTx,
-    });
-  }, [rejectWithdrawalRequestUi, onErrorTx, onFinishTx, onRequestTx, onSuccessTx]);
-
-  const {
-    handleConfirmActiveStatus,
     fetchActiveStatusConfirmData,
-  } = useMyLostKeyContract(onSuccessTx, onErrorTx, onFinishTx);
+  } = useMyLostKeyContract();
 
   const [
     activeStatusModalProps, setActiveStatusModalProps,
@@ -301,8 +198,12 @@ export const MyContracts: FC = () => {
           ...liveStatusModalProps,
           date,
           onAccept: () => {
-            handleConfirmActiveStatus(contractAddress);
-            openSendTransactionModal();
+            dispatch(
+              confirmActiveStatusModalActions.confirmActiveStatusModalConfirm({
+                provider: getDefaultProvider(),
+                contractAddress,
+              }),
+            );
           },
         });
         openConfirmLiveStatusModal();
@@ -317,8 +218,12 @@ export const MyContracts: FC = () => {
           ...activeStatusModalProps,
           date,
           onAccept: () => {
-            handleConfirmActiveStatus(contractAddress);
-            openSendTransactionModal();
+            dispatch(
+              confirmActiveStatusModalActions.confirmActiveStatusModalConfirm({
+                provider: getDefaultProvider(),
+                contractAddress,
+              }),
+            );
           },
         });
         openConfirmActiveStatusModal();
@@ -342,7 +247,7 @@ export const MyContracts: FC = () => {
         break;
       }
     }
-  }, [activeStatusModalProps, cards, dispatch, fetchActiveStatusConfirmData, getDefaultProvider, getFundsActions, handleConfirmActiveStatus, handleViewContract, liveStatusModalProps, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openRequestWithdrawalModal, openSendTransactionModal, openSetUpModal, setUpModalProps, withdrawalActions]);
+  }, [activeStatusModalProps, cards, dispatch, fetchActiveStatusConfirmData, getDefaultProvider, getFundsActions, handleViewContract, liveStatusModalProps, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openRequestWithdrawalModal, openSetUpModal, setUpModalProps, withdrawalActions]);
 
   const isSameDivorceAddress = useCallback((divorceProposedBy: string) => userWalletAddress.toLowerCase() === divorceProposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject divorce with the same address
   const isSameWithdrawalAddress = useCallback((proposedBy: string) => userWalletAddress.toLowerCase() === proposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject withdrawal with the same address
@@ -426,7 +331,6 @@ export const MyContracts: FC = () => {
 
   return (
     <Container>
-      {isLoaderOpen && <FullscreenLoader />}
       <CompleteModal
         open={resultModalState.open}
         result={resultModalState.result}
