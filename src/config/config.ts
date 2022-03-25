@@ -134,7 +134,7 @@ export const contracts: IContracts = {
         abi: lostKeyFactoryAbi,
       },
       testnet: {
-        address: '0xd0fF8b5a7723752309ab2222A40b0485aA53C558',
+        address: '0x62f89dE5B145f2A8f0b08Ecea7ae8A41C52efBe3',
         abi: lostKeyFactoryAbi,
       },
     },
@@ -144,7 +144,7 @@ export const contracts: IContracts = {
         abi: lostKeyFactoryAbi,
       },
       testnet: {
-        address: '0x2b1cd0ADFec6Ed778238Cc31315a7b96E877f48a',
+        address: '0x13C99A0F97935Fb6eb24bF846E03074aB7cee702',
         abi: lostKeyFactoryAbi,
       },
     },
@@ -195,7 +195,7 @@ export const contracts: IContracts = {
         abi: weddingFactoryAbi,
       },
       testnet: {
-        address: '0x1122F13B0666Ec7146Bd77f47040c94450ccbACf',
+        address: '0x6584C8feB93c8d7B79C0403E042822f81538557b',
         abi: weddingFactoryAbi,
       },
     },
