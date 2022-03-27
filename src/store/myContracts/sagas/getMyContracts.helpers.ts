@@ -179,10 +179,14 @@ export const getContractCreationData = (
         _shares: percents,
       } = params;
       const backendLostKeyData = backendData as IGetContractsLostKeyContractWithCreatedAtField;
+      const addressEmailMap = Object.entries(backendData.mails).reduce((accum, [key, value]) => ({
+        ...accum,
+        [value]: key,
+      }), {} as Record<string, string>); // invert Map<email, address> to Map<address, email>
       const reservesConfigs = new Array(reserveAddresses.length)
         .fill('')
         .map((_, index) => ({
-          email: backendLostKeyData.mails ? backendLostKeyData.mails[index] : '',
+          email: backendLostKeyData.mails ? addressEmailMap[reserveAddresses[index]] : '',
           percents: percents[index],
           reserveAddress: reserveAddresses[index],
         })) as ILostKeyContract['reservesConfigs'] | IWillContract['reservesConfigs'];

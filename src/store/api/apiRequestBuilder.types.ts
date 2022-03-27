@@ -8,13 +8,13 @@ interface IAddresses {
 }
 
 export interface ICreateTokenContractData extends IContractData, IAddresses {}
-interface IMails {
-  mails: string[];
-}
+// interface IMails {
+//   mails: string[];
+// }
 export interface IMailsMap {
   mails: Record<string, string>; // Map<email, ethAddress>
 }
-interface IMailsWithOwnerMail extends IMails {
+interface IMailsWithOwnerMail extends IMailsMap {
   owner_mail: string;
 }
 export interface ICreateLostKeyContractData extends IContractData, IMailsWithOwnerMail {}

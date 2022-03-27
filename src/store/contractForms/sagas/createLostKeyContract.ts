@@ -14,6 +14,7 @@ import {
 import { baseApi } from 'store/api/apiRequestBuilder';
 import { approveSaga } from 'store/erc20/sagas/approveSaga';
 import erc20ActionTypes from 'store/erc20/actionTypes';
+import { IMailsMap } from 'store/api/apiRequestBuilder.types';
 import actionTypes from '../actionTypes';
 import { createLostKeyContract } from '../actions';
 
@@ -104,7 +105,10 @@ function* createLostKeyContractSaga({
       },
     );
 
-    const emailsList = reservesConfigs.map(({ email }) => email);
+    const emailsList = reservesConfigs.reduce((accum, { email, reserveAddress }) => ({
+      ...accum,
+      [email]: reserveAddress,
+    }), {} as IMailsMap['mails']);
 
     const { ownerEmail } = lostKeyContract;
     yield call(baseApi.createLostKeyContract, {
