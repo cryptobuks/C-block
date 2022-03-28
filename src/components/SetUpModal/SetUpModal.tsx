@@ -20,6 +20,7 @@ import uiSelector from 'store/ui/selectors';
 import { myContractsReducer } from 'store/myContracts/reducer';
 import { updateAllowance, setUpModalApprove } from 'store/myContracts/setUpModal/actions';
 import actionTypes from 'store/myContracts/setUpModal/actionTypes';
+import { TrashIcon } from 'theme/icons';
 import { incrementLastId } from 'utils/identifactors';
 import {
   ISetUpModalTokenAddressField,
@@ -75,6 +76,15 @@ export const SetUpModal: VFC<Props> = ({
             id: incrementLastId(addresses), address: '', allowance: '', isAdded: false,
           },
         ],
+      }),
+    );
+  }, [addresses, contractAddress, dispatch]);
+
+  const handleRemove = useCallback((id: number) => {
+    dispatch(
+      myContractsReducer.actions.setUpModalSetAddresses({
+        contractAddress,
+        addresses: addresses.filter((item) => item.id !== id),
       }),
     );
   }, [addresses, contractAddress, dispatch]);
@@ -167,7 +177,7 @@ export const SetUpModal: VFC<Props> = ({
       <Box>
         {addresses.map(({
           id, address, allowance, isAdded,
-        }) => (
+        }, index) => (
           <Box key={id} className={classes.inputContainer}>
             <TextField
               value={address}
@@ -179,6 +189,9 @@ export const SetUpModal: VFC<Props> = ({
                 allowance,
                 isAdded: false,
               })}
+              InputProps={{
+                endAdornment: index !== 0 && !isAdded ? <TrashIcon className={classes.removeIcon} onClick={() => handleRemove(id)} /> : null,
+              }}
             />
             {
               allowance === '0' && (

@@ -40,6 +40,12 @@ export const useStyles = makeStyles((theme: Theme) => {
         fontSize: 14,
       },
     },
+    removeIcon: {
+      cursor: 'pointer',
+      '&:hover': {
+        filter: 'brightness(50%)',
+      },
+    },
     button: {
       minWidth: 100,
       maxWidth: 174,
