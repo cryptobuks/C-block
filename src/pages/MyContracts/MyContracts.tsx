@@ -23,11 +23,14 @@ import myContractsActions from 'store/myContracts/actions';
 import myContractsWeddingsActions, { getFundsAfterDivorce } from 'store/myContracts/weddingContracts/actions';
 import myContractsSelector from 'store/myContracts/selectors';
 import userSelector from 'store/user/selectors';
+import uiSelector from 'store/ui/selectors';
+import apiActions from 'store/ui/actions';
 import setUpModalActions from 'store/myContracts/setUpModal/actions';
+import setUpActionTypes from 'store/myContracts/setUpModal/actionTypes';
 import confirmActiveStatusModalActions from 'store/myContracts/confirmActiveStatusModal/actions';
 
 import { convertIntervalAsSeconds } from 'utils';
-import { ISpecificWeddingContractData, IWeddingContract } from 'types';
+import { ISpecificWeddingContractData, IWeddingContract, RequestStatus } from 'types';
 
 import {
   AdditionalContent, AdditionalContentRequestDivorce, AdditionalContentRequestWithdrawal,
@@ -328,6 +331,17 @@ export const MyContracts: FC = () => {
       provider: getDefaultProvider(),
     }));
   }, [dispatch, getDefaultProvider, userWalletAddress]);
+
+  const setUpModalRequestStatus = useShallowSelector(
+    uiSelector.getProp(setUpActionTypes.SETUP_MODAL_ADD_TOKENS),
+  );
+
+  useEffect(() => {
+    if (setUpModalRequestStatus === RequestStatus.SUCCESS) {
+      dispatch(apiActions.reset(setUpActionTypes.SETUP_MODAL_ADD_TOKENS));
+      setIsSetUpModalOpen(false);
+    }
+  }, [dispatch, setUpModalRequestStatus]);
 
   return (
     <Container>
