@@ -21,7 +21,8 @@ export const useMyContracts = () => {
       },
     } as TPreviewContractNavigationState;
     let routeParam = '';
-    const { contractType, contractCreationData } = card;
+    const { contractType, contractCreationData, address } = card;
+    routeState.contractPreview.address = address;
     switch (contractType) {
       case 'Token contract': {
         routeParam = TOKEN_CONTRACT;

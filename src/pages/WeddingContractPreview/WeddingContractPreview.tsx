@@ -49,6 +49,7 @@ export const WeddingContractPreview = () => {
   return (
     <Preview
       type="weddingRing"
+      address={state?.contractPreview?.address}
       name={weddingContract.contractName}
       launchAction={handleCreateContract}
       editAction={handleEdit}

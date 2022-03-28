@@ -12,6 +12,9 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 
+import {
+  Copyable,
+} from 'components';
 import { Edit, TrashIcon } from 'theme/icons';
 import { useWeb3Provider, useShallowSelector } from 'hooks';
 import actionTypes from 'store/contractForms/actionTypes';
@@ -33,6 +36,7 @@ import { useStyles } from './Preview.styles';
 export interface PreviewProps {
   className?: string;
   type: IconType;
+  address: string;
   name: string;
   launchAction: () => void;
   editAction: () => void;
@@ -46,6 +50,7 @@ export const Preview: FC<PreviewProps> = ({
   editAction,
   deleteAction,
   name,
+  address,
   type,
   children,
   className,
@@ -204,6 +209,8 @@ export const Preview: FC<PreviewProps> = ({
     }
   }, [closeResultModal, deleteAction, resultModalState.open, resultModalState.result]);
 
+  // console.log()
+
   return (
     <Container className={classes.root}>
       <Box className={clsx(classes.content, className)}>
@@ -213,6 +220,26 @@ export const Preview: FC<PreviewProps> = ({
             {name}
           </Typography>
         </Box>
+        {
+          address && (
+            <Box className={classes.contractAddressBox}>
+              <Typography
+                className={clsx(classes.sectionTitle, 'l')}
+                variant="body1"
+              >
+                Contract address
+              </Typography>
+              <Copyable
+                className={classes.copyableContainer}
+                onlyIconActive
+                withBorder
+                valueToCopy={address}
+              >
+                <Typography noWrap>{address}</Typography>
+              </Copyable>
+            </Box>
+          )
+        }
         {children}
         <Box className={classes.stamp} />
       </Box>

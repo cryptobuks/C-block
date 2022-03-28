@@ -57,6 +57,7 @@ export const LostKeyContractPreview = () => {
   return (
     <Preview
       type="lostkey"
+      address={state?.contractPreview?.address}
       name={lostKeyContract.contractName}
       launchAction={handleCreateContract}
       editAction={handleEdit}

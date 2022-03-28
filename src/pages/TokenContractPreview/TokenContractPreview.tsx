@@ -59,6 +59,7 @@ export const TokenContractPreview = () => {
   return (
     <Preview
       type="token"
+      address={state?.contractPreview?.address}
       name={tokenContract.tokenName}
       launchAction={handleCreateContract}
       editAction={handleEdit}

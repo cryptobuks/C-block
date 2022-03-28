@@ -56,6 +56,7 @@ export const CrowdsaleContractPreview = () => {
   return (
     <Preview
       type="crowdsale"
+      address={state?.contractPreview?.address}
       name={crowdsaleContract.contractName}
       launchAction={handleCreateContract}
       editAction={handleEdit}

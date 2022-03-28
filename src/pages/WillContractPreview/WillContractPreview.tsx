@@ -54,6 +54,7 @@ export const WillContractPreview = () => {
   return (
     <Preview
       type="will"
+      address={state?.contractPreview?.address}
       name={willContract.contractName}
       launchAction={handleCreateContract}
       editAction={handleEdit}

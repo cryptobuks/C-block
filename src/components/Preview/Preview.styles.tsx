@@ -5,7 +5,7 @@ import {
 } from 'theme/colors';
 
 import { getFormatMedia } from 'theme/utils';
-import { flexHelper } from 'utils';
+import { flexHelper, baseFieldWidthRestriction, separator } from 'utils';
 
 export const useStyles = makeStyles((theme: Theme) => {
   const formatMedia = getFormatMedia(theme);
@@ -59,11 +59,21 @@ export const useStyles = makeStyles((theme: Theme) => {
       },
     },
     editDelete: {
-      // background: COLOR_BLACK_2,
       borderColor: COLOR_BLACK_3,
       '&:first-of-type': {
         marginRight: theme.spacing(2),
       },
+    },
+    contractAddressBox: {
+      ...separator(theme),
+      paddingBottom: theme.spacing(3),
+    },
+    copyableContainer: {
+      ...baseFieldWidthRestriction(theme),
+    },
+    sectionTitle: {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
     },
   });
 });
