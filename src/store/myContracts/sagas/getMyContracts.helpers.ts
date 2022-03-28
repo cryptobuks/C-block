@@ -181,12 +181,12 @@ export const getContractCreationData = (
       const backendLastWillData = backendData as IGetContractsWillContractWithCreatedAtField;
       const addressEmailMap = Object.entries(backendData.mails).reduce((accum, [key, value]) => ({
         ...accum,
-        [value]: key,
+        [value.toLowerCase()]: key,
       }), {} as Record<string, string>); // invert Map<email, address> to Map<address, email>
       const reservesConfigs = new Array(reserveAddresses.length)
         .fill('')
         .map((_, index) => ({
-          email: backendLastWillData.mails ? addressEmailMap[reserveAddresses[index]] : '',
+          email: backendLastWillData.mails ? addressEmailMap[reserveAddresses[index].toLowerCase()] : '',
           percents: percents[index],
           reserveAddress: reserveAddresses[index],
         })) as ILostKeyContract['reservesConfigs'] | IWillContract['reservesConfigs'];
@@ -217,12 +217,12 @@ export const getContractCreationData = (
       const backendLostKeyData = backendData as IGetContractsLostKeyContractWithCreatedAtField;
       const addressEmailMap = Object.entries(backendData.mails).reduce((accum, [key, value]) => ({
         ...accum,
-        [value]: key,
+        [value.toLowerCase()]: key,
       }), {} as Record<string, string>); // invert Map<email, address> to Map<address, email>
       const reservesConfigs = new Array(reserveAddresses.length)
         .fill('')
         .map((_, index) => ({
-          email: backendLostKeyData.mails ? addressEmailMap[reserveAddresses[index]] : '',
+          email: backendLostKeyData.mails ? addressEmailMap[reserveAddresses[index].toLowerCase()] : '',
           percents: percents[index],
           reserveAddress: reserveAddresses[index],
         })) as ILostKeyContract['reservesConfigs'] | IWillContract['reservesConfigs'];
