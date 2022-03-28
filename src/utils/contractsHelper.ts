@@ -8,6 +8,7 @@ import {
   crowdsaleNonSoftCappableNonBonusableAbi,
   crowdsaleSoftCappableBonusableAbi,
   crowdsaleSoftCappableNonBonusableAbi,
+  lastWillFactoryAbi,
   lostKeyAbi,
   lostKeyFactoryAbi,
   tokenMintableFreezableAbi,
@@ -41,6 +42,7 @@ import { LostKeyFactory } from 'types/abi/lostKeyFactory';
 
 import { Wedding } from 'types/abi/wedding';
 import { WeddingFactory } from 'types/abi/weddingFactory';
+import { LastWillFactory } from 'types/abi/lastWillFactory';
 
 enum ContractFactorySettings {
   Non = 'Non',
@@ -87,9 +89,9 @@ const contractsGetter = {
   },
   getWillFactoryContract(provider: Web3, contractAddress: string) {
     return new provider.eth.Contract(
-      lostKeyFactoryAbi,
+      lastWillFactoryAbi,
       contractAddress,
-    ) as unknown as LostKeyFactory;
+    ) as unknown as LastWillFactory;
   },
   getLostKeyContract(provider: Web3, contractAddress: string) {
     return new provider.eth.Contract(
@@ -259,6 +261,7 @@ export const contractsHelper = {
       crowdsaleSoftCappableBonusableAbi,
       crowdsaleSoftCappableNonBonusableAbi,
       lostKeyFactoryAbi,
+      lastWillFactoryAbi,
       tokenMintableFreezableAbi,
       tokenMintableNonFreezableAbi,
       tokenNonMintableFreezableAbi,

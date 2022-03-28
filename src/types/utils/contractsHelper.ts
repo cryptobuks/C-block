@@ -17,7 +17,7 @@ export type TDeployCrowdsaleContractCreationMethodNames =
   | 'deploySoftCappableCrowdsale'
   | 'deploySoftCappableDatesChangeableCrowdsale';
 export type TDeployLostKeyContractCreationMethodNames = 'deployLostKey';
-export type TDeployWillContractCreationMethodNames = 'deployLostKey';
+export type TDeployWillContractCreationMethodNames = 'deployLastWill';
 export type TDeployWeddingContractCreationMethodNames = 'deployWedding';
 export type TDeployContractCreationMethodNames =
   | TDeployTokenContractCreationMethodNames

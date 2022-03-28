@@ -18,6 +18,8 @@ import wedding from './wedding.json'; // Instance of WeddingFactory
 import lostKeyFactory from './lostKeyFactory.json';
 import lostKey from './lostKey.json'; // Instance of LostKeyFactory
 
+import lastWillFactory from './lastWillFactory.json';
+
 export const bep20Abi = bep20 as AbiItem[];
 export const saleAbi = sale as AbiItem[];
 
@@ -36,3 +38,5 @@ export const weddingAbi = wedding as AbiItem[];
 
 export const lostKeyFactoryAbi = lostKeyFactory as AbiItem[];
 export const lostKeyAbi = lostKey as AbiItem[];
+
+export const lastWillFactoryAbi = lastWillFactory as AbiItem[];

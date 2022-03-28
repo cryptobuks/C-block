@@ -13,6 +13,7 @@ import {
   crowdsaleNonSoftCappableBonusableAbi,
   crowdsaleNonSoftCappableNonBonusableAbi,
   weddingFactoryAbi,
+  lastWillFactoryAbi,
 } from './abi';
 
 export const chains: {
@@ -141,11 +142,11 @@ export const contracts: IContracts = {
     lastWillFactory: {
       mainnet: {
         address: '',
-        abi: lostKeyFactoryAbi,
+        abi: lastWillFactoryAbi,
       },
       testnet: {
-        address: '0x13C99A0F97935Fb6eb24bF846E03074aB7cee702',
-        abi: lostKeyFactoryAbi,
+        address: '0x7727c1D5Ad9794bB923d399862DA3fCf47270aCE',
+        abi: lastWillFactoryAbi,
       },
     },
 

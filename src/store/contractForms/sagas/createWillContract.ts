@@ -93,7 +93,7 @@ function* createWillContractSaga({
     );
 
     const { transactionHash }: TransactionReceipt = yield call(
-      lastWillFactoryContract.methods.deployLostKey(
+      lastWillFactoryContract.methods.deployLastWill(
         celoAddress,
         reserveAddresses,
         sharesPercents,

@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { Transaction } from 'web3-core';
 
 import {
-  IContractsCard, IGetContractsCrowdsaleContractWithCreatedAtField, IGetContractsLostKeyContractWithCreatedAtField, IGetContractsTokenContractWithCreatedAtField, IGetContractsWeddingContractWithContractCreationField, TGetContractsWithCreatedAtField,
+  IContractsCard, IGetContractsCrowdsaleContractWithCreatedAtField, IGetContractsLostKeyContractWithCreatedAtField, IGetContractsTokenContractWithCreatedAtField, IGetContractsWeddingContractWithContractCreationField, IGetContractsWillContractWithCreatedAtField, TGetContractsWithCreatedAtField,
 } from 'pages/MyContracts/MyContracts.helpers';
 import { TDeployContractCreationMethodNames, TDeployCrowdsaleContractCreationMethodNames, TDeployTokenContractCreationMethodNames } from 'types/utils/contractsHelper';
 import {
@@ -171,6 +171,42 @@ export const getContractCreationData = (
   )[0].nativeCurrency.decimals;
 
   switch (methodName) {
+    case 'deployLastWill': {
+      const {
+        _confirmationPeriod: pingIntervalAsSeconds,
+        distributionReward: rewardAmount,
+        _backupAddresses: reserveAddresses,
+        _shares: percents,
+      } = params;
+      const backendLastWillData = backendData as IGetContractsWillContractWithCreatedAtField;
+      const addressEmailMap = Object.entries(backendData.mails).reduce((accum, [key, value]) => ({
+        ...accum,
+        [value]: key,
+      }), {} as Record<string, string>); // invert Map<email, address> to Map<address, email>
+      const reservesConfigs = new Array(reserveAddresses.length)
+        .fill('')
+        .map((_, index) => ({
+          email: backendLastWillData.mails ? addressEmailMap[reserveAddresses[index]] : '',
+          percents: percents[index],
+          reserveAddress: reserveAddresses[index],
+        })) as ILostKeyContract['reservesConfigs'] | IWillContract['reservesConfigs'];
+      const ret: ILostKeyContract | IWillContract = {
+        contractName: backendLastWillData.name,
+        managementAddress: tx.from,
+        ownerEmail: backendLastWillData.owner_mail,
+        pingIntervalAsDateUnits: 'Day',
+        pingIntervalAsValue: convertIntervalFromSeconds(
+          pingIntervalAsSeconds,
+          'Day',
+        ).toString(),
+        reservesConfigs,
+        rewardAmount: getTokenAmountDisplay(rewardAmount, +celoDecimals),
+        additional: {
+          contractCreationPrice: '',
+        },
+      };
+      return ret;
+    }
     case 'deployLostKey': {
       const {
         _confirmationPeriod: pingIntervalAsSeconds,
