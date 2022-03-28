@@ -9,6 +9,6 @@
 
 export interface LastWillList {
     address?: string;
-    mails?: string[];
+    mails?: number[];
     ownerMail?: string;
 }

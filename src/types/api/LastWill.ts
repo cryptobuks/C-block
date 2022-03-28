@@ -9,7 +9,6 @@
 
 export interface LastWill {
     address?: string;
-    mails?: string[];
     name?: string;
     ownerMail?: string;
     testNode?: boolean;

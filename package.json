@@ -19,7 +19,7 @@
     "pre-commit": "lint-staged",
     "generate-swagger-types": "node ./scripts/generate-swagger-types/download-schema.js && node ./scripts/generate-swagger-types/generate-types.js",
     "generate-chain-types": "typechain --target=web3-v1 '**/abi/*.json' --out-dir='./src/types/abi'",
-    "postinstall": "yarn run generate-swagger-types && yarn run generate-chain-types",
+    "//": "postinstall yarn run generate-swagger-types && yarn run generate-chain-types",
     "prepare": "husky install"
   },
   "eslintConfig": {
