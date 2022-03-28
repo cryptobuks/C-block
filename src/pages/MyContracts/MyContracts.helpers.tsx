@@ -282,7 +282,7 @@ const createWillCard = ({
   const contractButtons = [contractButtonsHelper.viewContract];
   if (!isLostKey && !terminated) {
     contractButtons.push(contractButtonsHelper.setUp);
-    contractButtons.push(contractButtonsHelper.confirmActiveStatus);
+    contractButtons.push(contractButtonsHelper.confirmLiveStatus);
   }
   return {
     ...createContractCard(
