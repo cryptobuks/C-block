@@ -2,6 +2,7 @@ import { IFinishedLostKeyContract, IFinishedWillContract } from 'store/api/apiRe
 
 export type TFinishedContract = (IFinishedWillContract | IFinishedLostKeyContract) & {
   rewardAmount?: string;
+  ownerAddress?: string;
 };
 
 export type EarnState = {

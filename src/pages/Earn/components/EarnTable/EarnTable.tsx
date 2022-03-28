@@ -71,7 +71,7 @@ export const EarnTable: FC<IEarnTableProps> = ({
                     return (
                       <EarnTableRow
                         key={rowKey}
-                        userAddress={item.address}
+                        userAddress={item.ownerAddress}
                         reward={deserializedRewardAmount}
                         onTransfer={() => handleTransfer(item)}
                       />

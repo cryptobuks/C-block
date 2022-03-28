@@ -47,7 +47,7 @@ export const Earn: FC = () => {
               return (
                 <EarnListRow
                   key={rowKey}
-                  userAddress={item.address}
+                  userAddress={item.ownerAddress}
                   reward={deserializedRewardAmount}
                   onTransfer={() => handleTransfer(item)}
                 />

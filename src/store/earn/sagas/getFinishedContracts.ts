@@ -22,6 +22,44 @@ import actionTypes from '../actionTypes';
 import { getFinishedContracts } from '../actions';
 import { setFinishedContracts } from '../reducer';
 
+function* fetchFinishedContractsOwner(provider: Web3, addresses: string[]) {
+  try {
+    const owners: string[] = yield all(
+      addresses.map((address) => {
+        const anyContract = contractsHelper.getBep20Contract(provider, address);
+        return call(anyContract.methods.owner().call);
+      }),
+    );
+    return owners;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
+function* extendFinishedContractsWithOwner(
+  provider: Web3,
+  finishedContracts: TFinishedContract[],
+) {
+  try {
+    const fetchedOwners: string[] = yield call(
+      fetchFinishedContractsOwner,
+      provider,
+      finishedContracts.map(({ address }) => address),
+    );
+    return finishedContracts.map((item, index) => {
+      const ownerAddress = fetchedOwners[index];
+      return {
+        ...item,
+        ownerAddress,
+      };
+    });
+  } catch (err) {
+    console.log(err);
+    return finishedContracts;
+  }
+}
+
 function* fetchFinishedContractsRewardAmount(provider: Web3, addresses: string[]) {
   try {
     const { isMainnet }: UserState = yield select(userSelector.getUser);
@@ -104,7 +142,12 @@ function* fetchAndTransformFinishedContracts(provider: Web3) {
       provider,
       finishedContracts,
     );
-    return finishedContractsWithRewardAmount;
+    const finishedContractsWithOwner: TFinishedContract[] = yield call(
+      extendFinishedContractsWithOwner,
+      provider,
+      finishedContractsWithRewardAmount,
+    );
+    return finishedContractsWithOwner;
   } catch (err) {
     console.log('fetchAndTransformFinishedContracts', err);
     return [];
