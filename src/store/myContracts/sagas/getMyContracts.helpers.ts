@@ -46,7 +46,7 @@ const transformCreationDataToTokenContract = (
     .entries(backendData.addresses)
     .reduce((acc, [key, value]) => ({
       ...acc,
-      [value.toString()]: key,
+      [value.toString().toLowerCase()]: key,
     }), {});
   const tokens = new Array(owners.length)
     .fill('')
@@ -60,7 +60,7 @@ const transformCreationDataToTokenContract = (
       const address = owners[index];
       return {
         address,
-        name: tokensOwnersAsArray[address],
+        name: tokensOwnersAsArray[address.toLowerCase()],
         amount: getTokenAmountDisplay(initSupply[index], +decimals),
         frozenUntilDate: formattedDate('-', new Date(+frozenUntilDate * 1000)),
         isFrozen,
