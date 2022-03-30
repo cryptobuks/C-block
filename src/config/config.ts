@@ -81,7 +81,7 @@ export const contracts: IContracts = {
   params: {
     celo: {
       mainnet: {
-        address: '',
+        address: '0x471EcE3750Da237f93B8E339c536989b8978a438',
         abi: bep20Abi,
       },
       testnet: {

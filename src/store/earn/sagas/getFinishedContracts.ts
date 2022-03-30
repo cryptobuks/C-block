@@ -165,6 +165,11 @@ function* getFinishedContractsSaga({
       open: true,
     }));
 
+    const { isMainnet }: UserState = yield select(userSelector.getUser);
+    if (isMainnet) {
+      throw new Error('TODO: remove this when contracts are deployed to mainnet');
+    }
+
     const finishedContracts: TFinishedContract[] = yield call(
       fetchAndTransformFinishedContracts,
       provider,
