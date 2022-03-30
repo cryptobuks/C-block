@@ -2,13 +2,14 @@ import React, { FC } from 'react'; import { Box, Typography } from '@material-ui
 import clsx from 'clsx';
 
 import { InfoIcon } from 'theme/icons';
+import { OptionalClassNameProp } from 'types';
 
 import { useStyles } from './EmptyTableBlock.styles';
 
-export const EmptyTableBlock: FC = () => {
+export const EmptyTableBlock: FC<OptionalClassNameProp> = ({ className }) => {
   const classes = useStyles();
   return (
-    <Box className={classes.root}>
+    <Box className={clsx(className, classes.root)}>
       <Box className={classes.container}>
         <InfoIcon width="50" height="50" />
         <Typography className={clsx(classes.title, 'acidGreen')} variant="h3" align="center">

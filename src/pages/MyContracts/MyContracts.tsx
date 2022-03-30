@@ -16,6 +16,7 @@ import {
   RequestWithdrawalModal,
   GetFundsModal,
   CompleteModal,
+  EmptyTableBlock,
 } from 'components';
 import { CheckmarkCircleIcon, SearchIcon } from 'theme/icons';
 import { useShallowSelector, useWeb3Provider } from 'hooks';
@@ -393,57 +394,61 @@ export const MyContracts: FC = () => {
           }}
           className={classes.search}
         />
-        {filteredCards.map(({
-          contractKey,
-          contractName,
-          contractDate,
-          contractType,
-          // contractLogo,
-          contractButtons,
-          isTestnet,
-        }, cardIndex) => (
-          <Box
-            key={contractKey}
-            className={classes.contractBlock}
-          >
-            <Box className={classes.contractHead}>
-              <Typography color="textSecondary">{contractType}</Typography>
-              <NetTag className={classes.chainTag} isTestnet={isTestnet} />
-            </Box>
-            <Typography
-              className={classes.contractDate}
-              color="textSecondary"
+        {
+          cards.length ? filteredCards.map(({
+            contractKey,
+            contractName,
+            contractDate,
+            contractType,
+            // contractLogo,
+            contractButtons,
+            isTestnet,
+          }, cardIndex) => (
+            <Box
+              key={contractKey}
+              className={classes.contractBlock}
             >
-              {contractDate}
-            </Typography>
+              <Box className={classes.contractHead}>
+                <Typography color="textSecondary">{contractType}</Typography>
+                <NetTag className={classes.chainTag} isTestnet={isTestnet} />
+              </Box>
+              <Typography
+                className={classes.contractDate}
+                color="textSecondary"
+              >
+                {contractDate}
+              </Typography>
 
-            <Box className={classes.contractTitle}>
-              <IconButton>{getContractLogo(contractType)}</IconButton>
-              <Typography variant="h3">{contractName}</Typography>
-            </Box>
-            {
-              renderAdditionalContent(filteredCards[cardIndex])
-            }
-            <Box className={classes.contractBottom}>
-              <Box className={classes.contractButtons}>
-                {contractButtons.map(({
-                  type, title,
-                }, index) => (
-                  <Button
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${type}_${index}`}
-                    className={classes.button}
-                    value={type}
-                    variant="outlined"
-                    onClick={() => buttonClickHandler(contractKey, type)}
-                  >
-                    {title}
-                  </Button>
-                ))}
+              <Box className={classes.contractTitle}>
+                <IconButton>{getContractLogo(contractType)}</IconButton>
+                <Typography variant="h3">{contractName}</Typography>
+              </Box>
+              {
+                  renderAdditionalContent(filteredCards[cardIndex])
+                }
+              <Box className={classes.contractBottom}>
+                <Box className={classes.contractButtons}>
+                  {contractButtons.map(({
+                    type, title,
+                  }, index) => (
+                    <Button
+                        // eslint-disable-next-line react/no-array-index-key
+                      key={`${type}_${index}`}
+                      className={classes.button}
+                      value={type}
+                      variant="outlined"
+                      onClick={() => buttonClickHandler(contractKey, type)}
+                    >
+                      {title}
+                    </Button>
+                  ))}
+                </Box>
               </Box>
             </Box>
-          </Box>
-        ))}
+          )) : (
+            <EmptyTableBlock className={classes.emptyContractBlock} />
+          )
+        }
       </Grid>
     </Container>
   );

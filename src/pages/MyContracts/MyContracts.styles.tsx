@@ -19,6 +19,9 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     width: '100%',
     padding: theme.spacing(1.25),
   },
+  emptyContractBlock: {
+    width: '100%',
+  },
   contractBlock: {
     ...flexHelper(),
     width: '100%',

@@ -4,7 +4,7 @@ import {
 import Web3 from 'web3';
 import { TransactionReceipt } from 'web3-core';
 import { BlockTransactionString } from 'web3-eth';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosError } from 'axios';
 
 import apiActions from 'store/ui/actions';
 import userSelector from 'store/user/selectors';
@@ -214,8 +214,14 @@ function* fetchAndTransformContractsSaga(provider: Web3) {
     const newContracts = createContractCards(transformedData);
     return newContracts;
   } catch (err) {
+    if (err.isAxiosError) {
+      const error = err as AxiosError;
+      console.log('Axios error: ', JSON.stringify(error), error.response.status);
+      if (error.response.status === 404) return [];
+      return undefined;
+    }
     console.log(err);
-    return [];
+    return undefined;
   }
 }
 
