@@ -52,7 +52,8 @@ export const EarnTableRow: FC<TEarnTableRowProps> = memo(({
                     className={clsx(classes.button)}
                     variant="outlined"
                     size="medium"
-                    onClick={onTransfer}
+                    disabled={!userAddress}
+                    onClick={userAddress ? onTransfer : null}
                   >
                     <Typography className="l" variant="body1" color="inherit">
                       Transfer
