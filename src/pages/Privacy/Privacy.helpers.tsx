@@ -1,8 +1,8 @@
 import { PRIVACY_SUPPORT_EMAIL } from 'appConstants';
 
 export const htmlContent = `
-    <h1>C-Block Privacy Policy</h1>
-    <div style="text-align: left">02.19.2021</div>
+    <h1>Privacy Policy</h1>
+    <div style="text-align: left">01.15.2022</div>
     <div>
         <p style="text-align: justify;"><span style="font-weight: 400;">This Privacy Policy explains how C-Block collects, uses, shares, and protects user information obtained through the ${process.env.REACT_APP_PUBLIC_DOMAIN} website. The terms “we,” “us,” and “our” refer to C-Block and its affiliates. When we ask for certain personal information from users it is because we are required by law to collect this information or it is relevant for specified purposes. Any non-required information you provide to us is done so voluntarily. You decided whether to provide us with these non-required information; you may not be able to access or utilize all of our Services if you choose not to.</span></p>
         <p style="text-align: justify;"><span style="font-weight: 400;">By using the Site, you consent to the data practices described in this Privacy Policy. On occasion, C-Block may revise this Privacy Policy to reflect changes in law or our personal data collection and use practices. If material changes are made to this Privacy Policy, the changes will be announced by posting on the site. We will ask for your consent before using your information for any purpose that is not covered in this Privacy Policy.</span></p>

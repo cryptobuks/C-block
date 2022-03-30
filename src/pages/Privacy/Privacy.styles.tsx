@@ -13,6 +13,9 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
 
     textAlign: 'center',
 
+    '& h1, & h2, & h3, & h4': {
+      lineHeight: 1,
+    },
     '& p, & h1, & h2, & h3, & h4, & ul': {
       margin: 'revert',
       padding: 'revert',
