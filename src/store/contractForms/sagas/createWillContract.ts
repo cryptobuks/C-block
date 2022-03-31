@@ -113,6 +113,7 @@ function* createWillContractSaga({
     yield call(baseApi.createWillContract, {
       tx_hash: transactionHash,
       name: willContract.contractName,
+      is_testnet: !isMainnet,
       mails: emailsList,
       owner_mail: ownerEmail,
     });

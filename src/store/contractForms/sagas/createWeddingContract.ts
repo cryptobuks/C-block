@@ -119,6 +119,7 @@ function* createWeddingContractSaga({
     yield call(baseApi.createWeddingContract, {
       tx_hash: transactionHash,
       name: contractName,
+      is_testnet: !isMainnet,
       mails,
     });
 

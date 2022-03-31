@@ -1,7 +1,9 @@
 import { all, call } from '@redux-saga/core/effects';
 import Web3 from 'web3';
 
-import { IGetContractsWeddingContractWithContractCreationField } from 'pages/MyContracts/MyContracts.helpers';
+import {
+  IGetContractsWeddingContractWithContractCreationField,
+} from 'pages/MyContracts/MyContracts.types';
 import { contractsHelper, getRidOfIndexesInResultObject } from 'utils';
 import {
   transformMergeWeddingContractsAndSpecificData, IFetchWeddingContractReturnType,

@@ -12,15 +12,18 @@ import { Modals, UserState } from 'types';
 import { setMyContracts } from 'store/myContracts/reducer';
 import {
   IContractData,
-  IGetContractsReturnType,
+  TGetContractsReturnType,
   TGetContracts,
+  IGetContractsReturnType,
 } from 'store/api/apiRequestBuilder.types';
 import {
-  createContractCards,
   IGetContractsWithContractCreationField,
-  IGetContractsWithCreatedAtField,
   IGetContractsWithSpecificField,
-  TGetContractsWithCreatedAtField,
+  TAllGetContractsWithCreatedAtField,
+  IGetContractsWithCreatedAtField,
+} from 'pages/MyContracts/MyContracts.types';
+import {
+  createContractCards,
 } from 'pages/MyContracts/MyContracts.helpers';
 import { contractsHelper } from 'utils';
 import { baseApi } from 'store/api/apiRequestBuilder';
@@ -40,10 +43,10 @@ function* transformCreatedAtField(
   provider: Web3,
   data: IGetContractsReturnType,
 ) {
-  const ret = { ...data };
+  const ret: IGetContractsReturnType = { ...data };
 
   yield all(
-    Object.keys(ret).map(function* objectKeysMapIterator(key) {
+    Object.keys(ret).map(function* objectKeysMapIterator(key: keyof IGetContractsReturnType) {
       const contractsArr = ret[key] as IContractData[];
       const txReceipts: TransactionReceipt[] = yield all(
         contractsArr.map(({ tx_hash }) => call(provider.eth.getTransactionReceipt, tx_hash)),
@@ -115,7 +118,7 @@ function* transformContractCreationField(
       const paramsArr = paramsObj[key];
       ret[key] = yield all(
         ret[key].map(function* generatorFunc(
-          contractData: TGetContractsWithCreatedAtField,
+          contractData: TAllGetContractsWithCreatedAtField,
           index: number,
         ) {
           const { methodName, params, tx } = paramsArr[
@@ -177,12 +180,12 @@ function* transformMyContractsDataSaga(
   provider: Web3,
   data: IGetContractsReturnType,
 ) {
-  const dataWithCreatedAtField = yield call(
+  const dataWithCreatedAtField: IGetContractsWithCreatedAtField = yield call(
     transformCreatedAtField,
     provider,
     data,
   );
-  const dataWithCreationParams = yield call(
+  const dataWithCreationParams: IGetContractsWithContractCreationField = yield call(
     transformContractCreationField,
     provider,
     dataWithCreatedAtField,
@@ -203,13 +206,26 @@ function* fetchAndTransformContractsSaga(provider: Web3) {
   );
   if (!userWalletAddress) return [];
   try {
-    const { data }: AxiosResponse<IGetContractsReturnType> = yield call(baseApi.getContracts, {
+    const { data }: AxiosResponse<TGetContractsReturnType> = yield call(baseApi.getContracts, {
       walletAddress: userWalletAddress,
     });
+    const mergedData = Object.keys(data).reduce(
+      (accumulator, network: keyof TGetContractsReturnType) => {
+        const contracts = data[network];
+        return {
+          crowdsales: [...(accumulator.crowdsales ?? []), ...contracts.crowdsales],
+          lastwills: [...(accumulator.lastwills ?? []), ...contracts.lastwills],
+          lostkeys: [...(accumulator.lostkeys ?? []), ...contracts.lostkeys],
+          tokens: [...(accumulator.tokens ?? []), ...contracts.tokens],
+          weddings: [...(accumulator.weddings ?? []), ...contracts.weddings],
+        } as IGetContractsReturnType;
+      }, {} as IGetContractsReturnType,
+    );
+
     const transformedData = yield call(
       transformMyContractsDataSaga,
       provider,
-      data,
+      mergedData,
     );
     const newContracts = createContractCards(transformedData);
     return newContracts;

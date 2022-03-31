@@ -7,7 +7,7 @@ import {
   ICreateTokenContractData,
   ICreateWeddingContractData,
   IGetContractsData,
-  IGetContractsReturnType,
+  TGetContractsReturnType,
   IGetFinishedWillContractsReturnType,
   IGetFinishedLostKeyContractsReturnType,
 } from './apiRequestBuilder.types';
@@ -62,7 +62,7 @@ export const baseApi = {
 
   getContracts(data: IGetContractsData) {
     const { walletAddress } = data;
-    return ajax<IGetContractsReturnType>({
+    return ajax<TGetContractsReturnType>({
       method: 'get',
       url: `${URL.getContracts}${walletAddress}`,
     });

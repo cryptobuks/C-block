@@ -10,7 +10,7 @@ import {
 } from 'types';
 import {
   IContractsCard,
-} from '../MyContracts.helpers';
+} from '../MyContracts.types';
 
 export const useMyContracts = () => {
   const navigate = useNavigate();

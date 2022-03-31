@@ -1,7 +1,9 @@
 import { all, call } from '@redux-saga/core/effects';
 import Web3 from 'web3';
 
-import { IGetContractsWillContractWithContractCreationField } from 'pages/MyContracts/MyContracts.helpers';
+import {
+  IGetContractsWillContractWithContractCreationField,
+} from 'pages/MyContracts/MyContracts.types';
 import { ISpecificWillContractData } from 'types';
 import { contractsHelper } from 'utils';
 import {

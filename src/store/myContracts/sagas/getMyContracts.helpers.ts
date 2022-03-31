@@ -2,8 +2,8 @@ import Web3 from 'web3';
 import { Transaction } from 'web3-core';
 
 import {
-  IContractsCard, IGetContractsCrowdsaleContractWithCreatedAtField, IGetContractsLostKeyContractWithCreatedAtField, IGetContractsTokenContractWithCreatedAtField, IGetContractsWeddingContractWithContractCreationField, IGetContractsWillContractWithCreatedAtField, TGetContractsWithCreatedAtField,
-} from 'pages/MyContracts/MyContracts.helpers';
+  IContractsCard, IGetContractsCrowdsaleContractWithCreatedAtField, IGetContractsLostKeyContractWithCreatedAtField, IGetContractsTokenContractWithCreatedAtField, IGetContractsWeddingContractWithContractCreationField, IGetContractsWillContractWithCreatedAtField, TAllGetContractsWithCreatedAtField,
+} from 'pages/MyContracts/MyContracts.types';
 import { TDeployContractCreationMethodNames, TDeployCrowdsaleContractCreationMethodNames, TDeployTokenContractCreationMethodNames } from 'types/utils/contractsHelper';
 import {
   ICrowdsaleContract, ILostKeyContract, IWeddingContract, IWillContract, TokenContract,
@@ -163,7 +163,7 @@ export const getContractCreationData = (
   methodName: TDeployContractCreationMethodNames,
   params: TFunctionParams['params'],
   tx: Transaction,
-  backendData: TGetContractsWithCreatedAtField,
+  backendData: TAllGetContractsWithCreatedAtField,
   web3: Web3,
 ) => {
   const celoDecimals = getCeloConfigMetamask(

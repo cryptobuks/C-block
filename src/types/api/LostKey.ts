@@ -9,8 +9,8 @@
 
 export interface LostKey {
     address?: string;
+    isTestnet?: boolean;
     name?: string;
     ownerMail?: string;
-    testNode?: boolean;
     txHash?: string;
 }

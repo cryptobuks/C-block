@@ -1,7 +1,9 @@
 import { all, call } from '@redux-saga/core/effects';
 import Web3 from 'web3';
 
-import { IGetContractsLostKeyContractWithContractCreationField } from 'pages/MyContracts/MyContracts.helpers';
+import {
+  IGetContractsLostKeyContractWithContractCreationField,
+} from 'pages/MyContracts/MyContracts.types';
 import { ISpecificLostKeyContractData } from 'types';
 import { contractsHelper } from 'utils';
 import {

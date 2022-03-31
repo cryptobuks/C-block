@@ -133,6 +133,7 @@ function* createTokenContractSaga({
     yield call(baseApi.createTokenContract, {
       tx_hash: transactionHash,
       name: tokenName,
+      is_testnet: !isMainnet,
       addresses: ownerAddressesForBackend,
     });
 

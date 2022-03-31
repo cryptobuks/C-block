@@ -9,6 +9,6 @@
 
 export interface LostKeyList {
     address?: string;
-    mails?: number[];
+    isTestnet?: boolean;
     ownerMail?: string;
 }

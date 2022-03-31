@@ -201,6 +201,7 @@ function* createCrowdsaleContractSaga({
     yield call(baseApi.createCrowdsaleContract, {
       tx_hash: transactionHash,
       name: contractName,
+      is_testnet: !isMainnet,
     });
 
     yield put(apiActions.success(type));

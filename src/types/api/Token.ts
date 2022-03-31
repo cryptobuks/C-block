@@ -10,7 +10,7 @@
 export interface Token {
     address?: string;
     contractType?: string;
+    isTestnet?: boolean;
     name: string;
-    testNode?: boolean;
     txHash?: string;
 }

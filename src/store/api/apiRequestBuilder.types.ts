@@ -1,6 +1,9 @@
+import { TChainType } from 'types';
+
 export interface IContractData {
   tx_hash: string;
   name: string;
+  is_testnet: boolean;
 }
 
 interface IAddresses {
@@ -8,9 +11,6 @@ interface IAddresses {
 }
 
 export interface ICreateTokenContractData extends IContractData, IAddresses {}
-// interface IMails {
-//   mails: string[];
-// }
 export interface IMailsMap {
   mails: Record<string, string>; // Map<email, ethAddress>
 }
@@ -21,12 +21,6 @@ export interface ICreateLostKeyContractData extends IContractData, IMailsWithOwn
 export interface ICreateWillContractData extends ICreateLostKeyContractData {}
 export interface ICreateCrowdsaleContractData extends IContractData {}
 export interface ICreateWeddingContractData extends IContractData, IMailsMap {}
-// export type TCreateContractsData =
-//   | ICreateTokenContractData
-//   | ICreateLostKeyContractData
-//   | ICreateWillContractData
-//   | ICreateCrowdsaleContractData
-//   | ICreateWeddingContractData;
 
 export interface IGetContractsData {
   walletAddress: string;
@@ -34,7 +28,6 @@ export interface IGetContractsData {
 
 interface IGetContractsBaseContractData {
   address?: string;
-  test_node?: boolean;
 }
 export interface IGetContractsTokenContract
   extends ICreateTokenContractData,
@@ -67,6 +60,9 @@ export interface IGetContractsReturnType {
   crowdsales: IGetContractsCrowdsaleContract[];
   weddings: IGetContractsWeddingContract[];
 }
+export type TGetContractsReturnType = {
+  [chainType in TChainType]: IGetContractsReturnType;
+};
 
 // lastwill_finished/ & lostkey_finished/ endpoints' types
 interface IAddress {
@@ -74,10 +70,14 @@ interface IAddress {
 }
 export interface IFinishedWillContract extends IAddress, IMailsWithOwnerMail {}
 export interface IGetFinishedWillContractsReturnType {
-  lastwills: IFinishedWillContract[];
+  lastwills: {
+    [chainType in TChainType]: IFinishedWillContract[];
+  }
 }
 
 export interface IFinishedLostKeyContract extends IFinishedWillContract {}
 export interface IGetFinishedLostKeyContractsReturnType {
-  lostkeys: IFinishedLostKeyContract[];
+  lostkeys: {
+    [chainType in TChainType]: IFinishedLostKeyContract[];
+  }
 }

@@ -9,7 +9,7 @@
 
 export interface Crowdsale {
     address?: string;
+    isTestnet?: boolean;
     name: string;
-    testNode?: boolean;
     txHash?: string;
 }

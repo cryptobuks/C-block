@@ -1,13 +1,6 @@
 import React from 'react';
 
 import {
-  IGetContractsCrowdsaleContract,
-  IGetContractsLostKeyContract,
-  IGetContractsTokenContract,
-  IGetContractsWeddingContract,
-  IGetContractsWillContract,
-} from 'store/api/apiRequestBuilder.types';
-import {
   ContractToken as ContractTokenIcon,
   CrowdsaleIcon,
   KeyIcon,
@@ -21,137 +14,9 @@ import { formattedDate } from 'utils';
 import {
   DivorceStatusesEnum, getDivorceStatus, getWithdrawalStatus, WithdrawalStatusesEnum,
 } from './hooks/useMyWeddingContract.helpers';
-
-export type TContractButtonsTypes =
-  | 'viewContract'
-  | 'setUp'
-  | 'requestDivorce'
-  | 'divorceApprove'
-  | 'divorceReject'
-  | 'requestWithdrawal'
-  | 'withdrawalApprove'
-  | 'withdrawalReject'
-  | 'getFunds'
-  | 'confirmLiveStatus'
-  | 'confirmActiveStatus';
-
-export type TAdditionalContentRenderType =
-  | 'weddingRequestDivorce'
-  | 'weddingRequestWithdrawal'
-  | 'weddingSuccessfulDivorce'
-  | 'weddingSuccessfulWithdrawal';
-
-interface IContractButton {
-  type: TContractButtonsTypes;
-  title: string;
-}
-
-type TContractButtons = IContractButton[];
-type TContractType =
-  | 'Crowdsale contract'
-  | 'Token contract'
-  | 'Lostkey contract'
-  | 'Will contract'
-  | 'Wedding contract';
-
-export interface IContractCreationField {
-  contractCreationData?: TMyContracts;
-}
-
-export interface ISpecificContractData {
-  specificContractData: TSpecificContractData;
-}
-export interface IContractsCard extends IContractCreationField, ISpecificContractData {
-  contractKey?: string;
-  address: string;
-  contractDate: string;
-  isTestnet: boolean;
-  contractType: TContractType;
-  contractName: string;
-  contractButtons: TContractButtons;
-  additionalContentRenderType?: TAdditionalContentRenderType;
-}
-
-export interface ICreatedAtField {
-  createdAt: string | number;
-}
-
-export interface IGetContractsTokenContractWithCreatedAtField
-  extends IGetContractsTokenContract,
-  ICreatedAtField {}
-export interface IGetContractsLostKeyContractWithCreatedAtField
-  extends IGetContractsLostKeyContract,
-  ICreatedAtField {}
-export interface IGetContractsWillContractWithCreatedAtField
-  extends IGetContractsWillContract,
-  ICreatedAtField {}
-export interface IGetContractsCrowdsaleContractWithCreatedAtField
-  extends IGetContractsCrowdsaleContract,
-  ICreatedAtField {}
-export interface IGetContractsWeddingContractWithCreatedAtField
-  extends IGetContractsWeddingContract,
-  ICreatedAtField {}
-export interface IGetContractsWithCreatedAtField {
-  tokens: IGetContractsTokenContractWithCreatedAtField[];
-  lostkeys: IGetContractsLostKeyContractWithCreatedAtField[];
-  lastwills: IGetContractsWillContractWithCreatedAtField[];
-  crowdsales: IGetContractsCrowdsaleContractWithCreatedAtField[];
-  weddings: IGetContractsWeddingContractWithCreatedAtField[];
-}
-export type TGetContractsWithCreatedAtField =
-  & IGetContractsTokenContractWithCreatedAtField
-  & IGetContractsLostKeyContractWithCreatedAtField
-  & IGetContractsWillContractWithCreatedAtField
-  & IGetContractsCrowdsaleContractWithCreatedAtField
-  & IGetContractsWeddingContractWithCreatedAtField;
-
-export interface IGetContractsTokenContractWithContractCreationField
-  extends IGetContractsTokenContractWithCreatedAtField,
-  IContractCreationField {}
-export interface IGetContractsLostKeyContractWithContractCreationField
-  extends IGetContractsLostKeyContractWithCreatedAtField,
-  IContractCreationField {}
-export interface IGetContractsWillContractWithContractCreationField
-  extends IGetContractsWillContractWithCreatedAtField,
-  IContractCreationField {}
-export interface IGetContractsCrowdsaleContractWithContractCreationField
-  extends IGetContractsCrowdsaleContractWithCreatedAtField,
-  IContractCreationField {}
-export interface IGetContractsWeddingContractWithContractCreationField
-  extends IGetContractsWeddingContractWithCreatedAtField,
-  IContractCreationField {}
-
-export interface IGetContractsWithContractCreationField {
-  tokens: IGetContractsTokenContractWithContractCreationField[];
-  lostkeys: IGetContractsLostKeyContractWithContractCreationField[];
-  lastwills: IGetContractsWillContractWithContractCreationField[];
-  crowdsales: IGetContractsCrowdsaleContractWithContractCreationField[];
-  weddings: IGetContractsWeddingContractWithContractCreationField[];
-}
-// With Specific ISpecificContractData
-export interface IGetContractsTokenContractWithSpecificField
-  extends IGetContractsTokenContractWithContractCreationField,
-  ISpecificContractData {}
-export interface IGetContractsLostKeyContractWithSpecificField
-  extends IGetContractsLostKeyContractWithContractCreationField,
-  ISpecificContractData {}
-export interface IGetContractsWillContractWithSpecificField
-  extends IGetContractsWillContractWithContractCreationField,
-  ISpecificContractData {}
-export interface IGetContractsCrowdsaleContractWithSpecificField
-  extends IGetContractsCrowdsaleContractWithContractCreationField,
-  ISpecificContractData {}
-export interface IGetContractsWeddingContractWithSpecificField
-  extends IGetContractsWeddingContractWithContractCreationField,
-  ISpecificContractData {}
-
-export interface IGetContractsWithSpecificField {
-  tokens: IGetContractsTokenContractWithSpecificField[];
-  lostkeys: IGetContractsLostKeyContractWithSpecificField[];
-  lastwills: IGetContractsWillContractWithSpecificField[];
-  crowdsales: IGetContractsCrowdsaleContractWithSpecificField[];
-  weddings: IGetContractsWeddingContractWithSpecificField[];
-}
+import {
+  IContractButton, IContractsCard, IGetContractsCrowdsaleContractWithSpecificField, IGetContractsLostKeyContractWithSpecificField, IGetContractsTokenContractWithSpecificField, IGetContractsWeddingContractWithSpecificField, IGetContractsWillContractWithSpecificField, IGetContractsWithSpecificField, TAdditionalContentRenderType, TContractButtons, TContractButtonsTypes, TContractType,
+} from './MyContracts.types';
 
 export const contractButtonsHelper: Partial<
 Record<TContractButtonsTypes, IContractButton>
@@ -215,7 +80,7 @@ const createContractCard = (
 const createCrowdsaleCard = ({
   name,
   address,
-  test_node,
+  is_testnet,
   createdAt,
   contractCreationData,
   specificContractData,
@@ -223,7 +88,7 @@ const createCrowdsaleCard = ({
   ...createContractCard(
     name,
     address,
-    test_node,
+    is_testnet,
     createdAt,
     contractCreationData,
     specificContractData,
@@ -235,13 +100,13 @@ const createCrowdsaleCard = ({
 const createTokenCard = ({
   name,
   address,
-  test_node,
+  is_testnet,
   createdAt,
   contractCreationData,
   specificContractData,
 }: IGetContractsTokenContractWithSpecificField) => ({
   ...createContractCard(
-    name, address, test_node, createdAt, contractCreationData, specificContractData,
+    name, address, is_testnet, createdAt, contractCreationData, specificContractData,
   ),
   contractType: 'Token contract',
   contractButtons: [contractButtonsHelper.viewContract],
@@ -250,7 +115,7 @@ const createTokenCard = ({
 const createLostkeyCard = ({
   name,
   address,
-  test_node,
+  is_testnet,
   createdAt,
   contractCreationData,
   specificContractData,
@@ -263,7 +128,7 @@ const createLostkeyCard = ({
   }
   return {
     ...createContractCard(
-      name, address, test_node, createdAt, contractCreationData, specificContractData,
+      name, address, is_testnet, createdAt, contractCreationData, specificContractData,
     ),
     contractType: 'Lostkey contract',
     contractButtons,
@@ -273,7 +138,7 @@ const createLostkeyCard = ({
 const createWillCard = ({
   name,
   address,
-  test_node,
+  is_testnet,
   createdAt,
   contractCreationData,
   specificContractData,
@@ -286,7 +151,7 @@ const createWillCard = ({
   }
   return {
     ...createContractCard(
-      name, address, test_node, createdAt, contractCreationData, specificContractData,
+      name, address, is_testnet, createdAt, contractCreationData, specificContractData,
     ),
     contractType: 'Will contract',
     contractButtons,
@@ -296,7 +161,7 @@ const createWillCard = ({
 const createWeddingCard = ({
   name,
   address,
-  test_node,
+  is_testnet,
   createdAt,
   contractCreationData,
   specificContractData,
@@ -342,7 +207,7 @@ const createWeddingCard = ({
 
   return {
     ...createContractCard(
-      name, address, test_node, createdAt, contractCreationData, specificContractData,
+      name, address, is_testnet, createdAt, contractCreationData, specificContractData,
     ),
     contractType: 'Wedding contract',
     additionalContentRenderType,

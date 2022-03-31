@@ -1,7 +1,7 @@
 import {
   IGetContractsWillContractWithContractCreationField,
   IGetContractsWillContractWithSpecificField,
-} from 'pages/MyContracts/MyContracts.helpers';
+} from 'pages/MyContracts/MyContracts.types';
 import { ISpecificLostKeyContractData } from 'types';
 
 export const transformMergeWillContractsAndSpecificData = (

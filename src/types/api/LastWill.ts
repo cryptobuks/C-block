@@ -9,8 +9,8 @@
 
 export interface LastWill {
     address?: string;
+    isTestnet?: boolean;
     name?: string;
     ownerMail?: string;
-    testNode?: boolean;
     txHash?: string;
 }

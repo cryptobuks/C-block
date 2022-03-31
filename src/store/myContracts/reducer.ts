@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { contractButtonsHelper, IContractsCard, isFoundContract } from 'pages/MyContracts/MyContracts.helpers';
+import { contractButtonsHelper, isFoundContract } from 'pages/MyContracts/MyContracts.helpers';
 import {
   ISetUpModalTokenAddressField,
   ISpecificLostKeyContractData,
   MyContractsState,
 } from 'types';
+import { IContractsCard } from 'pages/MyContracts/MyContracts.types';
 
 export const initialState: MyContractsState = {
   contracts: [],

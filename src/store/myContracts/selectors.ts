@@ -1,9 +1,10 @@
-import { IContractsCard, isFoundContract } from 'pages/MyContracts/MyContracts.helpers';
+import { isFoundContract } from 'pages/MyContracts/MyContracts.helpers';
 import type {
   ISpecificLostKeyContractData,
   ISpecificWillContractData,
   State,
 } from 'types';
+import { IContractsCard } from 'pages/MyContracts/MyContracts.types';
 
 const getMyContracts = (state: State): IContractsCard[] => state.myContracts.contracts;
 

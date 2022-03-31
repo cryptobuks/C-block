@@ -1,6 +1,6 @@
 import {
   IGetContractsWeddingContractWithContractCreationField, IGetContractsWeddingContractWithSpecificField,
-} from 'pages/MyContracts/MyContracts.helpers';
+} from 'pages/MyContracts/MyContracts.types';
 import { ISpecificWeddingContractData } from 'types';
 
 export interface IFetchWeddingContractReturnType extends ISpecificWeddingContractData {}

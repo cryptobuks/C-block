@@ -36,10 +36,9 @@ import { ISpecificWeddingContractData, IWeddingContract, RequestStatus } from 't
 import {
   AdditionalContent, AdditionalContentRequestDivorce, AdditionalContentRequestWithdrawal,
 } from './components';
+import { IContractsCard, TContractButtonsTypes } from './MyContracts.types';
 import {
   isFoundContractKey,
-  IContractsCard,
-  TContractButtonsTypes,
   getContractLogo,
 } from './MyContracts.helpers';
 import {

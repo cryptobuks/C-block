@@ -100,38 +100,42 @@ function* extendFinishedContractsWithRewardAmount(
   }
 }
 
-function* fetchFinishedWillContracts() {
+function* fetchFinishedWillContracts(isMainnet: boolean) {
   try {
     const {
       data: { lastwills },
     }: AxiosResponse<IGetFinishedWillContractsReturnType> = yield call(
       baseApi.getFinishedWillContracts,
     );
-    return lastwills;
+    return lastwills[isMainnet ? 'mainnet' : 'testnet'];
   } catch (err) {
     console.log(err);
     return [];
   }
 }
 
-function* fetchFinishedLostKeyContracts() {
+function* fetchFinishedLostKeyContracts(isMainnet: boolean) {
   try {
     const {
       data: { lostkeys },
     }: AxiosResponse<IGetFinishedLostKeyContractsReturnType> = yield call(
       baseApi.getFinishedLostKeyContracts,
     );
-    return lostkeys;
+    return lostkeys[isMainnet ? 'mainnet' : 'testnet'];
   } catch (err) {
     console.log(err);
     return [];
   }
 }
 
-function* fetchAndTransformFinishedContracts(provider: Web3) {
+function* fetchAndTransformFinishedContracts(provider: Web3, isMainnet: boolean) {
   try {
-    const lastwills: IFinishedWillContract[] = yield call(fetchFinishedWillContracts);
-    const lostkeys: IFinishedLostKeyContract[] = yield call(fetchFinishedLostKeyContracts);
+    const lastwills: IFinishedWillContract[] = yield call(
+      fetchFinishedWillContracts, isMainnet,
+    );
+    const lostkeys: IFinishedLostKeyContract[] = yield call(
+      fetchFinishedLostKeyContracts, isMainnet,
+    );
     const finishedContracts = [
       ...lastwills,
       ...lostkeys,
@@ -173,6 +177,7 @@ function* getFinishedContractsSaga({
     const finishedContracts: TFinishedContract[] = yield call(
       fetchAndTransformFinishedContracts,
       provider,
+      isMainnet,
     );
     yield put(setFinishedContracts(finishedContracts));
     yield put(setActiveModal({
