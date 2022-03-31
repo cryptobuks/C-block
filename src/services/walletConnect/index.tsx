@@ -59,14 +59,20 @@ class Connector extends React.Component<TConnectorProps, TConnectorState> {
   }
 
   componentDidMount() {
-    this.state.provider.connectWallet.initWeb3(
-      getProduction()
-        ? 'https://forno.celo.org/'
-        : 'https://alfajores-forno.celo-testnet.org/',
-    );
+    this.initWeb3();
 
     if (localStorage.walletconnect) {
       this.connect(WalletProviders.walletConnect);
+    }
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<TConnectorProps>,
+    // prevState: Readonly<TConnectorState>,
+    // snapshot?: any,
+  ): void {
+    if (this.props.isMainnet !== prevProps.isMainnet) {
+      this.initWeb3();
     }
   }
 
@@ -142,6 +148,14 @@ class Connector extends React.Component<TConnectorProps, TConnectorState> {
     });
     this.props.disconnectWallet();
   };
+
+  initWeb3() {
+    this.state.provider.connectWallet.initWeb3(
+      getProduction()
+        ? 'https://forno.celo.org/'
+        : 'https://alfajores-forno.celo-testnet.org/',
+    );
+  }
 
   render() {
     return (
