@@ -239,6 +239,8 @@ export const Preview: FC<PreviewProps> = ({
                   <Link
                     className={classes.contractExplorerUrl}
                     href={contractExplorerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >{address}
                   </Link>
                 </Typography>
