@@ -141,6 +141,7 @@ export const CrowdsaleContract: FC = () => {
                       <RemovableContractsFormBlock
                         isFirst={i === 0}
                         title="Token supported for payment"
+                        subtitle="Tokens from CELO blockchain are supported ONLY."
                         deleteForm={() => remove(i)}
                       >
                         {dynamicFormDataConfig.map(
