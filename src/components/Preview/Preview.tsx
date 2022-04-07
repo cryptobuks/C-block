@@ -9,6 +9,7 @@ import {
   Container,
   IconButton,
   Typography,
+  Link,
 } from '@material-ui/core';
 import clsx from 'clsx';
 
@@ -24,7 +25,7 @@ import uiSelector from 'store/ui/selectors';
 import apiActions from 'store/ui/actions';
 import { RequestStatus } from 'types';
 import { getContractCreationPrice } from 'store/contractForms/actions';
-import { contractsHelper, getTokenAmountDisplay } from 'utils';
+import { constructExplorerUrl, contractsHelper, getTokenAmountDisplay } from 'utils';
 import { COMPLETE_MODAL_CONTRACT_CREATION_SUCCESS_TEXT } from 'appConstants';
 import { FullscreenLoader } from '../FullscreenLoader';
 import { CompleteModal } from '../CompleteModal';
@@ -177,6 +178,7 @@ export const Preview: FC<PreviewProps> = ({
     contractForms.weddingContract.additional.contractCreationPrice,
     type,
   ]);
+  const contractExplorerUrl = useMemo(() => constructExplorerUrl(address, isMainnet), [address, isMainnet]);
 
   useEffect(() => {
     switch (createContractRequestStatus) {
@@ -209,8 +211,6 @@ export const Preview: FC<PreviewProps> = ({
     }
   }, [closeResultModal, deleteAction, resultModalState.open, resultModalState.result]);
 
-  // console.log()
-
   return (
     <Container className={classes.root}>
       <Box className={clsx(classes.content, className)}>
@@ -233,9 +233,15 @@ export const Preview: FC<PreviewProps> = ({
                 className={classes.copyableContainer}
                 onlyIconActive
                 withBorder
-                valueToCopy={address}
+                valueToCopy={contractExplorerUrl}
               >
-                <Typography noWrap>{address}</Typography>
+                <Typography noWrap>
+                  <Link
+                    className={classes.contractExplorerUrl}
+                    href={contractExplorerUrl}
+                  >{address}
+                  </Link>
+                </Typography>
               </Copyable>
             </Box>
           )

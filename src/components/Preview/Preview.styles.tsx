@@ -75,5 +75,8 @@ export const useStyles = makeStyles((theme: Theme) => {
       paddingTop: theme.spacing(2),
       paddingBottom: theme.spacing(2),
     },
+    contractExplorerUrl: {
+      textDecoration: 'none',
+    },
   });
 });
