@@ -25,6 +25,7 @@ import {
   staticTokenContractPreviewHelpers,
 } from './TokenContractPreview.helpers';
 import { useStyles } from './TokenContractPreview.styles';
+import { DistributionBar } from './components';
 
 export const TokenContractPreview = () => {
   const navigate = useNavigate();
@@ -168,6 +169,16 @@ export const TokenContractPreview = () => {
                 },
               )}
             </Grid>
+            {index === tokenContract.tokens.length - 1 && (
+            <Grid className={classes.distributionBarContainer} container>
+              <Grid item xs={12}>
+                <DistributionBar
+                  tokens={tokenContract.tokens}
+                  tokenSymbol={tokenContract.tokenSymbol}
+                />
+              </Grid>
+            </Grid>
+            )}
             {index === tokenContract.tokens.length - 1 && (
               <Typography
                 variant="body1"

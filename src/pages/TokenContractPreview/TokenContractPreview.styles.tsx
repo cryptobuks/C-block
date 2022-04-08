@@ -39,4 +39,8 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
   newCount: {
     color: theme.palette.type === 'dark' ? COLOR_GREY_1 : COLOR_BLACK_1,
   },
+  distributionBarContainer: {
+    ...baseFieldWidthRestriction(theme),
+    margin: 0,
+  },
 }));

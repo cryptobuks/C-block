@@ -2,6 +2,9 @@ export const COLOR_AKZ = 'linear-gradient(90deg, #70FF00 0%, #D4FB50 100%);';
 export const COLOR_AKZ_1 = 'linear-gradient(90deg, #74E90D 0%, #D4FB50 0%, #74E90D 100%);';
 export const COLOR_ACID_GREEN = '#70FF00';
 export const COLOR_GREEN = '#212F1A';
+export const COLOR_PURPLE = '#8F00FF';
+export const COLOR_PINK = '#FF2B91';
+export const COLOR_ORANGE = '#FEA129';
 
 export const COLOR_WHITE = '#ffffff';
 export const COLOR_BLACK = '#000000';
