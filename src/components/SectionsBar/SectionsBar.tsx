@@ -25,7 +25,7 @@ export const SectionsBar: VFC<IProps> = ({ circles }) => {
   const sectionsLength = useMemo(() => circles.map(({ value }) => {
     const percent = value / sumCircleValue;
     const sectionLength = Math.trunc(percent * circleLength);
-    return sectionLength;
+    return sectionLength < 5 ? 5 : sectionLength; // if section is too small -> set fixed size of at least 1px to paint something
   }), [circleLength, circles, sumCircleValue]);
 
   const [shouldDisplayBarSections, setShouldDisplayBarSections] = useState(false);
