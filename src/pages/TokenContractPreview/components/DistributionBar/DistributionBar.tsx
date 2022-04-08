@@ -19,7 +19,7 @@ interface IProps {
 export const DistributionBar: VFC<IProps> = ({ tokens, tokenSymbol }) => {
   const classes = useStyles();
 
-  const colors = [COLOR_PURPLE, COLOR_ACID_GREEN, COLOR_PINK, COLOR_ORANGE];
+  const colors = [COLOR_PURPLE, COLOR_ACID_GREEN, COLOR_PINK, COLOR_ORANGE, 'blue'];
 
   return (
     <Box className={classes.root}>
