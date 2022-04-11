@@ -42,6 +42,10 @@ export const willContractDynamicFormInitialData: IWillContractDynamicForm = {
 const contractAdditionalFieldsInitialData: ContractAdditionalField = {
   additional: {
     contractCreationPrice: '',
+    minCreationPrice: {
+      usd: '',
+      celo: '',
+    },
   },
 };
 
@@ -76,6 +80,10 @@ const crowdsaleContractInitialState: ICrowdsaleContract = {
 
   additional: {
     contractCreationPrice: '',
+    minCreationPrice: {
+      usd: '',
+      celo: '',
+    },
     paymentTokensSymbols: [], // to be fetched after user successfully fills contract fields
     tokenToSaleSymbol: '', // to be fetched after user successfully fills contract fields
   },
@@ -128,6 +136,15 @@ export const contractFormReducer = createSlice({
   name: 'contractForms',
   initialState,
   reducers: {
+    setAllContractForms: (state, action: PayloadAction<ContractFormsState>) => ({
+      ...state,
+      ...action.payload,
+    }),
+    clearAllForms: (state) => ({
+      ...state,
+      ...initialState,
+    }),
+
     setTokenContractForm: (state, action: PayloadAction<TokenContract>) => ({
       ...state,
       tokenContract: action.payload,
@@ -171,15 +188,13 @@ export const contractFormReducer = createSlice({
       ...state,
       willContract: initialState.willContract,
     }),
-
-    clearAllForms: (state) => ({
-      ...state,
-      ...initialState,
-    }),
   },
 });
 
 export const {
+  setAllContractForms,
+  clearAllForms,
+
   setTokenContractForm,
   deleteTokenContractForm,
 
@@ -194,8 +209,6 @@ export const {
 
   setWillContractForm,
   deleteWillContractForm,
-
-  clearAllForms,
 } = contractFormReducer.actions;
 
 export default contractFormReducer.reducer;

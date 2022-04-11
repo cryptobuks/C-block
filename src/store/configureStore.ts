@@ -67,6 +67,7 @@ const store = configureStore({
           erc20ActionTypes.APPROVE,
           erc20ActionTypes.GET_ERC20_SYMBOL,
 
+          contractFormsActionTypes.GET_CONTRACTS_MIN_CREATION_PRICE,
           contractFormsActionTypes.GET_CONTRACT_CREATION_PRICE,
           contractFormsActionTypes.CREATE_TOKEN_CONTRACT,
           contractFormsActionTypes.CREATE_LOSTKEY_CONTRACT,

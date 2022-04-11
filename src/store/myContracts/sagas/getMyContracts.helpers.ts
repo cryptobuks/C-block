@@ -78,6 +78,10 @@ const transformCreationDataToTokenContract = (
     tokens,
     additional: {
       contractCreationPrice: '',
+      minCreationPrice: {
+        usd: '',
+        celo: '',
+      },
     },
   };
   return ret;
@@ -150,6 +154,10 @@ const transformCreationDataToCrowdsaleContract = async (
     tokens,
     additional: {
       contractCreationPrice: '',
+      minCreationPrice: {
+        usd: '',
+        celo: '',
+      },
       tokenToSaleSymbol: '',
       paymentTokensSymbols: [
         '',
@@ -203,6 +211,10 @@ export const getContractCreationData = (
         rewardAmount: getTokenAmountDisplay(rewardAmount, +celoDecimals),
         additional: {
           contractCreationPrice: '',
+          minCreationPrice: {
+            usd: '',
+            celo: '',
+          },
         },
       };
       return ret;
@@ -239,6 +251,10 @@ export const getContractCreationData = (
         rewardAmount: getTokenAmountDisplay(rewardAmount, +celoDecimals),
         additional: {
           contractCreationPrice: '',
+          minCreationPrice: {
+            usd: '',
+            celo: '',
+          },
         },
       };
       return ret;
@@ -271,6 +287,10 @@ export const getContractCreationData = (
         ).toString(),
         additional: {
           contractCreationPrice: '',
+          minCreationPrice: {
+            usd: '',
+            celo: '',
+          },
         },
       };
       return ret;

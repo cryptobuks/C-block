@@ -81,3 +81,10 @@ export interface IGetFinishedLostKeyContractsReturnType {
     [chainType in TChainType]: IFinishedLostKeyContract[];
   }
 }
+
+interface IGetRatesReturnType {
+  rate: string;
+  symbol: string;
+  name: string;
+}
+export type TGetRatesReturnType = IGetRatesReturnType[];

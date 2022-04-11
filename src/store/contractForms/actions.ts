@@ -8,6 +8,7 @@ import {
   TCreateCrowdsaleContractAction,
   TCreateWeddingContractAction,
   TGetCrowdsaleContractAdditionalDataAction,
+  TGetContractsMinCreationPrice,
 } from 'types';
 
 import actionTypes from './actionTypes';
@@ -32,4 +33,7 @@ export const getCrowdsaleContractAdditionalData = createAction<TGetCrowdsaleCont
 );
 export const createWeddingContract = createAction<TCreateWeddingContractAction>(
   actionTypes.CREATE_WEDDING_CONTRACT,
+);
+export const getContractsMinCreationPrice = createAction<TGetContractsMinCreationPrice>(
+  actionTypes.GET_CONTRACTS_MIN_CREATION_PRICE,
 );

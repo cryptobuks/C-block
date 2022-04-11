@@ -10,6 +10,7 @@ import {
   TGetContractsReturnType,
   IGetFinishedWillContractsReturnType,
   IGetFinishedLostKeyContractsReturnType,
+  TGetRatesReturnType,
 } from './apiRequestBuilder.types';
 
 const client: AxiosInstance = axios.create({
@@ -78,6 +79,13 @@ export const baseApi = {
     return ajax<IGetFinishedLostKeyContractsReturnType>({
       method: 'get',
       url: URL.getFinishedLostKeyContracts,
+    });
+  },
+
+  getRates() {
+    return ajax<TGetRatesReturnType>({
+      method: 'GET',
+      url: URL.getRates,
     });
   },
 };

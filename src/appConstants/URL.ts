@@ -7,4 +7,6 @@ export default {
   getContracts: 'history/',
   getFinishedWillContracts: 'lastwill_finished/',
   getFinishedLostKeyContracts: 'lostkey_finished/',
+
+  getRates: 'rates/',
 };

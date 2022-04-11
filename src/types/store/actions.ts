@@ -15,6 +15,7 @@ export type TCreateCrowdsaleContractAction = TProvider;
 export type TCreateWeddingContractAction = TProvider;
 
 export type TGetCrowdsaleContractAdditionalDataAction = TProvider;
+export type TGetContractsMinCreationPrice = TProvider;
 
 export type TContractAddress = { contractAddress: string };
 

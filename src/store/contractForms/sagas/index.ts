@@ -10,11 +10,13 @@ import createWillContract from './createWillContract';
 import createCrowdsaleContract from './createCrowdsaleContract';
 import createWeddingContract from './createWeddingContract';
 import getCrowdsaleContractAdditionalData from './getCrowdsaleContractAdditionalData';
+import getContractsMinCreationPriceSaga from './getContractsMinCreationPriceSaga';
 
 export default function* createContractsSaga() {
   yield fork(getErc20Symbol);
   yield fork(approveSaga);
   yield fork(getContractCreationPriceSaga);
+  yield fork(getContractsMinCreationPriceSaga);
 
   yield fork(createTokenContract);
   yield fork(createLostKeyContract);

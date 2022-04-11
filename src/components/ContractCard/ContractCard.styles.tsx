@@ -1,9 +1,14 @@
 import { makeStyles } from '@material-ui/core';
 import { createStyles, Theme } from '@material-ui/core/styles';
-import { COLOR_ACID_GREEN } from 'theme/colors';
+import {
+  COLOR_ACID_GREEN, COLOR_BLACK_1, COLOR_BLACK_3, COLOR_GREY_1, COLOR_GREY_2, COLOR_GREY_4,
+} from 'theme/colors';
+import { FontWeights } from 'theme/Typography';
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
     cursor: 'pointer',
     padding: theme.spacing(3),
     background: theme.palette.primary.main,
@@ -26,5 +31,35 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
   },
   icon: {
     marginRight: theme.spacing(3),
+  },
+
+  chip: {
+    display: 'flex',
+    alignItems: 'center',
+    width: 'fit-content',
+    padding: theme.spacing(0.75, 1.5),
+    marginTop: 'auto',
+
+    border: `1px solid ${theme.palette.type === 'dark' ? COLOR_BLACK_3 : COLOR_GREY_2}`,
+    background: theme.palette.type === 'dark' ? '#1F2023' : COLOR_GREY_4,
+    borderRadius: theme.spacing(4.25),
+  },
+  celoIcon: {
+    marginRight: theme.spacing(0.625),
+  },
+  chipHelperText: {
+    marginRight: theme.spacing(0.625),
+    color: '#6F6E6E',
+    fontSize: '12px',
+    fontWeight: FontWeights.fontWeightRegular,
+    lineHeight: '20px',
+    letterSpacing: '-0.5px',
+  },
+  chipAmount: {
+    color: theme.palette.type === 'dark' ? COLOR_GREY_1 : COLOR_BLACK_1,
+    fontSize: '14px',
+    fontWeight: FontWeights.fontWeightRegular,
+    lineHeight: '20px',
+    letterSpacing: '-0.5px',
   },
 }));
