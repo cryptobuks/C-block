@@ -62,4 +62,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     lineHeight: '20px',
     letterSpacing: '-0.5px',
   },
+  usdIcon: {
+    fill: theme.palette.type === 'dark' ? COLOR_ACID_GREEN : COLOR_BLACK_1,
+  },
 }));
