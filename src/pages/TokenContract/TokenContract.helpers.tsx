@@ -179,7 +179,7 @@ export const tokenContractFormConfigEnd: TokenContractFieldType[] = [
       name: 'futureMinting',
       type: 'switch',
     },
-    helperText: ['Yes - you can create more tokens in the future & use token for Crowdsale.', 'No - no more tokens will be created in the future. Crowdsale is impossible.'],
+    helperText: ['Yes - you can create more tokens in the future.', 'No - no more tokens will be created in the future.'],
   },
   {
     id: 'burnable',
