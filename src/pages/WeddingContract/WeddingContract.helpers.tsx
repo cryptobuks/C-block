@@ -57,7 +57,7 @@ export const weddingContractFormConfigStart: TokenContractFormConfig = [
         label: 'Partner 2 address',
         name: 'partnerTwoAddress',
       },
-      helperText: ['When one partner initializes the divorce, the second partner has to approve in in a specified period of time.'],
+      helperText: ['When one partner initializes the divorce, the second partner has to approve it in a specified period of time.'],
     },
     {
       id: 'partnerOneEmail',
@@ -86,7 +86,7 @@ export const weddingContractFormConfigStart: TokenContractFormConfig = [
         label: 'Days for divorce approval',
         name: 'daysForDivorceApproval',
       },
-      helperText: ['When one partner initializes the divorce, the second partner has to approve in in a specified period of time.'],
+      helperText: ['When one partner initializes the divorce, the second partner has to approve it in a specified period of time.'],
     },
   ],
 ];
@@ -100,7 +100,7 @@ export const weddingContractFormConfigEnd: TokenContractFormConfig = [
       name: 'daysForWithdrawalApproval',
     },
     helperText: [
-      'When one partner initializes the divorce, the second partner has to approve in in a specified period of time.',
+      'If one of the partners wants to withdraw tokens, another partner has to approve it or to reject it in the specified time.',
       'If there are no response from the second partner during the specified time the withdrawal will be considered approved',
     ],
   }],

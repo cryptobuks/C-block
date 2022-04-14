@@ -200,7 +200,7 @@ export const crowdsaleContractFormConfigEnd: ICrowdsaleContractSwitchableSection
   {
     id: 'minMaxInvestmentsSection',
     title: 'Min & Max investments',
-    description: 'You can specify minimum/maximum amount of tokens hat user can buy per one transaction.',
+    description: 'You can specify minimum/maximum amount of tokens that user can buy per one transaction.',
     fields: [
       {
         id: 'minInvestments',
