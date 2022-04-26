@@ -5,6 +5,7 @@ export * from './contractForms.shared';
 export * from './contractForms';
 export * from './myContracts';
 export * from './setUpModal';
+export * from './burnTokenModal';
 export * from './earn';
 export * from './confirmActiveStatusModal';
 

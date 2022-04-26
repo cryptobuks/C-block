@@ -16,9 +16,10 @@ import {
   RequestWithdrawalModal,
   GetFundsModal,
   CompleteModal,
+  BurnTokenModal,
   EmptyTableBlock,
 } from 'components';
-import { CheckmarkCircleIcon, SearchIcon } from 'theme/icons';
+import { CheckmarkCircleIcon, SearchIcon, FlameIcon } from 'theme/icons';
 import { useShallowSelector, useWeb3Provider } from 'hooks';
 import myContractsActions from 'store/myContracts/actions';
 import myContractsWeddingsActions, { getFundsAfterDivorce } from 'store/myContracts/weddingContracts/actions';
@@ -26,12 +27,15 @@ import myContractsSelector from 'store/myContracts/selectors';
 import userSelector from 'store/user/selectors';
 import uiSelector from 'store/ui/selectors';
 import apiActions from 'store/ui/actions';
+import burnTokenModalActions from 'store/myContracts/burnTokenModal/actions';
 import setUpModalActions from 'store/myContracts/setUpModal/actions';
 import setUpActionTypes from 'store/myContracts/setUpModal/actionTypes';
 import confirmActiveStatusModalActions from 'store/myContracts/confirmActiveStatusModal/actions';
 
-import { convertIntervalAsSeconds } from 'utils';
-import { ISpecificWeddingContractData, IWeddingContract, RequestStatus } from 'types';
+import { convertIntervalAsSeconds, getTokenAmount } from 'utils';
+import {
+  ISpecificWeddingContractData, IWeddingContract, RequestStatus, TokenContract,
+} from 'types';
 
 import {
   AdditionalContent, AdditionalContentRequestDivorce, AdditionalContentRequestWithdrawal,
@@ -40,6 +44,7 @@ import { IContractsCard, TContractButtonsTypes } from './MyContracts.types';
 import {
   isFoundContractKey,
   getContractLogo,
+  splitContractButtonsIntoGroups,
 } from './MyContracts.helpers';
 import {
   useSearch, useMyContracts, useMyLostKeyContract,
@@ -59,6 +64,7 @@ export const MyContracts: FC = () => {
   const [isSendTransactionModalOpen, setIsSendTransactionModalOpen] = useState(false);
   const [isRequestWithdrawalModalOpen, setIsRequestWithdrawalModalOpen] = useState(false);
   const [isGetFundsModalOpen, setIsGetFundsModalOpen] = useState(false);
+  const [isBurnTokenModalOpen, setIsBurnTokenModalOpen] = useState(false);
 
   const classes = useStyles();
 
@@ -67,6 +73,7 @@ export const MyContracts: FC = () => {
   const openConfirmActiveStatusModal = useCallback(() => setIsConfirmActiveStatusModalOpen(true), []);
   const openRequestWithdrawalModal = useCallback(() => setIsRequestWithdrawalModalOpen(true), []);
   const openGetFundsModal = useCallback(() => setIsGetFundsModalOpen(true), []);
+  const openBurnTokenModal = useCallback(() => setIsBurnTokenModalOpen(true), []);
 
   const [withdrawalActions, setWithdrawalActions] = useState<ComponentProps<typeof RequestWithdrawalModal> | {}>({});
   const [getFundsActions, setGetFundsActions] = useState<ComponentProps<typeof GetFundsModal> | {}>({});
@@ -101,6 +108,9 @@ export const MyContracts: FC = () => {
   const [
     setUpModalProps, setSetUpModalProps,
   ] = useState<ComponentProps<typeof SetUpModal> | {}>({});
+  const [
+    burnTokenModalProps, setBurnTokenModalProps,
+  ] = useState<ComponentProps<typeof BurnTokenModal> | {}>({});
 
   const buttonClickHandler = useCallback(async (contractKey: string, type: TContractButtonsTypes) => {
     const card = cards.find((item) => isFoundContractKey(item, contractKey));
@@ -109,6 +119,31 @@ export const MyContracts: FC = () => {
     switch (type) {
       case 'viewContract': {
         handleViewContract(card);
+        break;
+      }
+      case 'mintToken': {
+        // TODO: mint token
+        break;
+      }
+      case 'burnToken': {
+        openBurnTokenModal();
+        setBurnTokenModalProps({
+          ...burnTokenModalProps,
+          onAccept: (burnAmount) => {
+            dispatch(burnTokenModalActions.burnTokenModalBurn({
+              provider: getDefaultProvider(),
+              contractAddress,
+              burnAmount: getTokenAmount(
+                burnAmount,
+                +(card.contractCreationData as TokenContract).decimals,
+                false,
+              ),
+            }));
+          },
+          onClose: () => {
+            setIsBurnTokenModalOpen(false);
+          },
+        });
         break;
       }
       case 'requestWithdrawal': {
@@ -250,7 +285,7 @@ export const MyContracts: FC = () => {
         break;
       }
     }
-  }, [activeStatusModalProps, cards, dispatch, fetchActiveStatusConfirmData, getDefaultProvider, getFundsActions, handleViewContract, liveStatusModalProps, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openRequestWithdrawalModal, openSetUpModal, setUpModalProps, withdrawalActions]);
+  }, [activeStatusModalProps, burnTokenModalProps, cards, dispatch, fetchActiveStatusConfirmData, getDefaultProvider, getFundsActions, handleViewContract, liveStatusModalProps, openBurnTokenModal, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openRequestWithdrawalModal, openSetUpModal, setUpModalProps, withdrawalActions]);
 
   const isSameDivorceAddress = useCallback((divorceProposedBy: string) => userWalletAddress.toLowerCase() === divorceProposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject divorce with the same address
   const isSameWithdrawalAddress = useCallback((proposedBy: string) => userWalletAddress.toLowerCase() === proposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject withdrawal with the same address
@@ -383,6 +418,11 @@ export const MyContracts: FC = () => {
         date={0}
         {...activeStatusModalProps}
       />
+      <BurnTokenModal
+        open={isBurnTokenModalOpen}
+        setIsModalOpen={setIsBurnTokenModalOpen}
+        {...burnTokenModalProps}
+      />
       <Grid container className={classes.root}>
         <TextField
           id="input-with-icon-textfield"
@@ -423,25 +463,41 @@ export const MyContracts: FC = () => {
                 <Typography variant="h3">{contractName}</Typography>
               </Box>
               {
-                  renderAdditionalContent(filteredCards[cardIndex])
-                }
+                renderAdditionalContent(filteredCards[cardIndex])
+              }
               <Box className={classes.contractBottom}>
-                <Box className={classes.contractButtons}>
-                  {contractButtons.map(({
-                    type, title,
-                  }, index) => (
-                    <Button
+                {
+                  splitContractButtonsIntoGroups(contractButtons).map((group, groupIndex) => {
+                    const isRightColumn = groupIndex !== 0;
+                    return (
+                      <Box
+                        // @disable-reason: there will be always 2 non-dynamic columns
                         // eslint-disable-next-line react/no-array-index-key
-                      key={`${type}_${index}`}
-                      className={classes.button}
-                      value={type}
-                      variant="outlined"
-                      onClick={() => buttonClickHandler(contractKey, type)}
-                    >
-                      {title}
-                    </Button>
-                  ))}
-                </Box>
+                        key={groupIndex}
+                        className={clsx(classes.contractButtons, {
+                          [classes.contractButtonsRightColumn]: isRightColumn,
+                        })}
+                      >
+                        {group.map(({
+                          type, title,
+                        }, index) => (
+                          <Button
+                              // eslint-disable-next-line react/no-array-index-key
+                            key={`${type}_${index}`}
+                            className={classes.button}
+                            value={type}
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => buttonClickHandler(contractKey, type)}
+                            endIcon={type === 'burnToken' ? <FlameIcon className={classes.flameIcon} /> : undefined}
+                          >
+                            {title}
+                          </Button>
+                        ))}
+                      </Box>
+                    );
+                  })
+                }
               </Box>
             </Box>
           )) : (

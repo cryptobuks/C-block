@@ -8,7 +8,7 @@ import {
   WillContract,
 } from 'theme/icons';
 import {
-  ISpecificLostKeyContractData, ISpecificWeddingContractData, ISpecificWillContractData, TMyContracts, TSpecificContractData,
+  ISpecificLostKeyContractData, ISpecificWeddingContractData, ISpecificWillContractData, TMyContracts, TokenContract, TSpecificContractData,
 } from 'types';
 import { formattedDate } from 'utils';
 import {
@@ -18,12 +18,18 @@ import {
   IContractButton, IContractsCard, IGetContractsCrowdsaleContractWithSpecificField, IGetContractsLostKeyContractWithSpecificField, IGetContractsTokenContractWithSpecificField, IGetContractsWeddingContractWithSpecificField, IGetContractsWillContractWithSpecificField, IGetContractsWithSpecificField, TAdditionalContentRenderType, TContractButtons, TContractButtonsTypes, TContractType,
 } from './MyContracts.types';
 
-export const contractButtonsHelper: Partial<
-Record<TContractButtonsTypes, IContractButton>
-> = {
+export const contractButtonsHelper: Partial<Record<TContractButtonsTypes, IContractButton>> = {
   viewContract: {
     type: 'viewContract',
     title: 'View contract',
+  },
+  mintToken: {
+    type: 'mintToken',
+    title: 'Mint',
+  },
+  burnToken: {
+    type: 'burnToken',
+    title: 'Burn',
   },
   setUp: {
     type: 'setUp',
@@ -51,6 +57,15 @@ Record<TContractButtonsTypes, IContractButton>
   },
 };
 
+const getContractButton = (type: TContractButtonsTypes, altGroup = false) => {
+  const baseButton = contractButtonsHelper[type];
+  if (!altGroup) return baseButton;
+  return {
+    ...baseButton,
+    altGroup,
+  };
+};
+
 export const isFoundContractKey = (
   card: IContractsCard,
   contractKeyToBeFound: string,
@@ -60,6 +75,19 @@ export const isFoundContract = (
   card: IContractsCard,
   contractAddress: string,
 ) => card.address.toLowerCase() === contractAddress.toLowerCase();
+
+export const splitContractButtonsIntoGroups = (contractButtons: TContractButtons) => {
+  const leftGroup: TContractButtons = [];
+  const rightGroup: TContractButtons = [];
+  contractButtons.forEach((btn) => {
+    if (btn.altGroup) {
+      rightGroup.push(btn);
+    } else {
+      leftGroup.push(btn);
+    }
+  });
+  return [leftGroup, rightGroup];
+};
 
 const createContractCard = (
   contractName: string,
@@ -104,13 +132,23 @@ const createTokenCard = ({
   createdAt,
   contractCreationData,
   specificContractData,
-}: IGetContractsTokenContractWithSpecificField) => ({
-  ...createContractCard(
-    name, address, is_testnet, createdAt, contractCreationData, specificContractData,
-  ),
-  contractType: 'Token contract',
-  contractButtons: [contractButtonsHelper.viewContract],
-} as IContractsCard);
+}: IGetContractsTokenContractWithSpecificField) => {
+  const contractButtons = [contractButtonsHelper.viewContract];
+  const { burnable, futureMinting } = contractCreationData as TokenContract;
+  if (futureMinting) {
+    contractButtons.push(getContractButton('mintToken'));
+  }
+  if (burnable) {
+    contractButtons.push(getContractButton('burnToken', true));
+  }
+  return ({
+    ...createContractCard(
+      name, address, is_testnet, createdAt, contractCreationData, specificContractData,
+    ),
+    contractType: 'Token contract',
+    contractButtons,
+  } as IContractsCard);
+};
 
 const createLostkeyCard = ({
   name,

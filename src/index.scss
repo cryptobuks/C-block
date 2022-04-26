@@ -10,11 +10,13 @@ div[id="root"] {
   border: 0;
   height: 100%;
   width: 100%;
+
   ::-webkit-datetime-edit-fields-wrapper {
     position: absolute;
     left: 12px;
     top: 35%;
   }
+
   ::-webkit-calendar-picker-indicator {
     position: absolute;
     right: 12px;
@@ -81,6 +83,14 @@ button {
   cursor: pointer;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
 .slide-enter-done {
   transform: translateX(0);
 }
@@ -100,8 +110,7 @@ button {
   }
 }
 
-.Toastify
-.Toastify__toast {
+.Toastify .Toastify__toast {
   padding: 0 !important;
   display: flex;
   box-shadow: none;
@@ -113,21 +122,19 @@ button {
   background: transparent !important;
   border-radius: 12px !important;
 
-  & > svg {
+  &>svg {
     position: absolute;
     right: 16px;
     top: 20px;
   }
 
-  &--success {
-  }
+  &--success {}
 
   &--error {
     // background: $color-orange;
   }
 
-  &--info {
-  }
+  &--info {}
 }
 
 .Toastify {
@@ -145,7 +152,7 @@ button {
     color: red;
     background: blue;
 
-    & > svg {
+    &>svg {
       display: none;
     }
 
@@ -156,6 +163,7 @@ button {
     }
   }
 }
+
 /**************************/
 /* CSS Animations Classes */
 /**************************/
@@ -170,13 +178,16 @@ have very specific meanings to <CSSTransition />
   opacity: 0;
   z-index: 1;
 }
+
 .fade-enter.fade-enter-active {
   opacity: 1;
   transition: opacity 300ms ease-out;
 }
+
 .fade-exit {
   opacity: 1;
 }
+
 .fade-exit.fade-exit-active {
   opacity: 0;
   transition: opacity 300ms ease-out;

@@ -1,0 +1,3 @@
+export default {
+  BURN_TOKEN_MODAL_BURN: 'BURN_TOKEN_MODAL_BURN',
+};

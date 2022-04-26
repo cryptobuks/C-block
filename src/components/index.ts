@@ -24,3 +24,4 @@ export * from './RequestWithdrawalModal';
 export * from './GetFundsModal';
 export * from './ConnectDropdownModal';
 export * from './SectionsBar';
+export * from './BurnTokenModal';

@@ -1,5 +1,6 @@
 import { AbiItem } from 'web3-utils';
 import bep20 from './bep20.json';
+import erc20BurnableMintablePausableFreezableToken from './erc20BurnableMintablePausableFreezableToken.json';
 import sale from './sale.json';
 
 import tokenMintableFreezable from './tokenMintableFreezable.json';
@@ -21,8 +22,10 @@ import lostKey from './lostKey.json'; // Instance of LostKeyFactory
 import lastWillFactory from './lastWillFactory.json';
 
 export const bep20Abi = bep20 as AbiItem[];
+export const erc20BurnableMintablePausableFreezableTokenAbi = erc20BurnableMintablePausableFreezableToken as AbiItem[]; // Common instance of TokenFactory
 export const saleAbi = sale as AbiItem[];
 
+// Factories
 export const tokenMintableFreezableAbi = tokenMintableFreezable as AbiItem[];
 export const tokenMintableNonFreezableAbi = tokenMintableNonFreezable as AbiItem[];
 export const tokenNonMintableFreezableAbi = tokenNonMintableFreezable as AbiItem[];

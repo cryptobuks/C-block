@@ -4,6 +4,7 @@ import { AbiItem } from 'web3-utils';
 
 import {
   bep20Abi,
+  erc20BurnableMintablePausableFreezableTokenAbi,
   crowdsaleNonSoftCappableBonusableAbi,
   crowdsaleNonSoftCappableNonBonusableAbi,
   crowdsaleSoftCappableBonusableAbi,
@@ -43,6 +44,7 @@ import { LostKeyFactory } from 'types/abi/lostKeyFactory';
 import { Wedding } from 'types/abi/wedding';
 import { WeddingFactory } from 'types/abi/weddingFactory';
 import { LastWillFactory } from 'types/abi/lastWillFactory';
+import { Erc20BurnableMintablePausableFreezableToken } from 'types/abi/erc20BurnableMintablePausableFreezableToken';
 
 enum ContractFactorySettings {
   Non = 'Non',
@@ -80,6 +82,12 @@ const contractsGetter = {
       bep20Abi,
       contractAddress,
     ) as unknown as Bep20;
+  },
+  getErc20BurnableMintablePausableFreezableToken(provider: Web3, contractAddress: string) {
+    return new provider.eth.Contract(
+      erc20BurnableMintablePausableFreezableTokenAbi,
+      contractAddress,
+    ) as unknown as Erc20BurnableMintablePausableFreezableToken;
   },
   getWillContract(provider: Web3, contractAddress: string) {
     return new provider.eth.Contract(

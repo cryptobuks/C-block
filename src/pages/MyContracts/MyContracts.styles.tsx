@@ -5,6 +5,7 @@ import {
   COLOR_BLACK_3,
   COLOR_BUTTON_PRIMARY_LIGHT_DEFAULT,
   COLOR_BUTTON_SECONDARY_LIGHT_DEFAULT, COLOR_GREY_3,
+  COLOR_ACID_GREEN,
 } from 'theme/colors';
 import { flexHelper } from 'utils';
 
@@ -49,7 +50,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     padding: theme.spacing(3),
     width: '100%',
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column-reverse',
+      flexDirection: 'column',
       ...flexHelper('flex-start', 'flex-start'),
     },
   },
@@ -58,7 +59,13 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
+      '&:not(:last-child)': {
+        marginBottom: theme.spacing(2),
+      },
     },
+  },
+  contractButtonsRightColumn: {
+    justifyContent: 'flex-end',
   },
   contractActionBlockInner: {
     display: 'flex',
@@ -109,6 +116,9 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
         marginBottom: theme.spacing(2),
       },
     },
+  },
+  flameIcon: {
+    fill: theme.palette.type === 'dark' ? COLOR_ACID_GREEN : COLOR_BLACK_1,
   },
   successfulAdditionalContent: {
     ...flexHelper('flex-start'),

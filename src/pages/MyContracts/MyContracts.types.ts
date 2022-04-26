@@ -12,6 +12,8 @@ import {
 
 export type TContractButtonsTypes =
 | 'viewContract'
+| 'mintToken'
+| 'burnToken'
 | 'setUp'
 | 'requestDivorce'
 | 'divorceApprove'
@@ -32,6 +34,7 @@ export type TAdditionalContentRenderType =
 export interface IContractButton {
   type: TContractButtonsTypes;
   title: string;
+  altGroup?: boolean;
 }
 
 export type TContractButtons = IContractButton[];

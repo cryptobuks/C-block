@@ -29,6 +29,12 @@ export const Default: React.FC = () => (
       <Button variant="outlined" startIcon={<WeddingRingIcon />}>BUTTON l</Button>
       <Button variant="outlined" size="small" startIcon={<WeddingRingIcon />}>BUTTON s</Button>
     </Box>
+    <Typography>Icon right</Typography>
+    <Box>
+      <Button variant="outlined" size="large" endIcon={<WeddingRingIcon />}>BUTTON Xl</Button>
+      <Button variant="outlined" endIcon={<WeddingRingIcon />}>BUTTON l</Button>
+      <Button variant="outlined" size="small" endIcon={<WeddingRingIcon />}>BUTTON s</Button>
+    </Box>
     <Typography>Icon button</Typography>
     <Box>
       <IconButton color="primary"><WeddingRingIcon /></IconButton>
