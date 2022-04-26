@@ -23,6 +23,7 @@ import earnActionTypes from './earn/actionTypes';
 import setUpActionTypes from './myContracts/setUpModal/actionTypes';
 import confirmActiveStatusModalActionTypes from './myContracts/confirmActiveStatusModal/actionTypes';
 import burnTokenModalActionTypes from './myContracts/burnTokenModal/actionTypes';
+import mintTokenModalActionTypes from './myContracts/mintTokenModal/actionTypes';
 import { initWalletConnectStore } from './configureWalletConnectStore';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -97,6 +98,7 @@ const store = configureStore({
           confirmActiveStatusModalActionTypes.CONFIRM_ACTIVE_STATUS_MODAL_CONFIRM,
 
           burnTokenModalActionTypes.BURN_TOKEN_MODAL_BURN,
+          mintTokenModalActionTypes.MINT_TOKEN_MODAL_MINT,
         ],
       },
     },

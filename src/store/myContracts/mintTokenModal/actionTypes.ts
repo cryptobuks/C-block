@@ -1,0 +1,3 @@
+export default {
+  MINT_TOKEN_MODAL_MINT: 'MINT_TOKEN_MODAL_MINT',
+};

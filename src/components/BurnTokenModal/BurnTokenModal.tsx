@@ -30,7 +30,7 @@ export const BurnTokenModal: VFC<Props> = ({
 }) => {
   const classes = useStyles();
 
-  const [burnAmount, setBurnAmount] = useState('0');
+  const [burnAmount, setBurnAmount] = useState('');
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setBurnAmount(e.target.value);

@@ -17,6 +17,7 @@ import {
   GetFundsModal,
   CompleteModal,
   BurnTokenModal,
+  MintTokenModal,
   EmptyTableBlock,
 } from 'components';
 import { CheckmarkCircleIcon, SearchIcon, FlameIcon } from 'theme/icons';
@@ -31,6 +32,7 @@ import burnTokenModalActions from 'store/myContracts/burnTokenModal/actions';
 import setUpModalActions from 'store/myContracts/setUpModal/actions';
 import setUpActionTypes from 'store/myContracts/setUpModal/actionTypes';
 import confirmActiveStatusModalActions from 'store/myContracts/confirmActiveStatusModal/actions';
+import mintTokenModalActions from 'store/myContracts/mintTokenModal/actions';
 
 import { convertIntervalAsSeconds, getTokenAmount } from 'utils';
 import {
@@ -65,6 +67,7 @@ export const MyContracts: FC = () => {
   const [isRequestWithdrawalModalOpen, setIsRequestWithdrawalModalOpen] = useState(false);
   const [isGetFundsModalOpen, setIsGetFundsModalOpen] = useState(false);
   const [isBurnTokenModalOpen, setIsBurnTokenModalOpen] = useState(false);
+  const [isMintTokenModalOpen, setIsMintTokenModalOpen] = useState(false);
 
   const classes = useStyles();
 
@@ -74,6 +77,7 @@ export const MyContracts: FC = () => {
   const openRequestWithdrawalModal = useCallback(() => setIsRequestWithdrawalModalOpen(true), []);
   const openGetFundsModal = useCallback(() => setIsGetFundsModalOpen(true), []);
   const openBurnTokenModal = useCallback(() => setIsBurnTokenModalOpen(true), []);
+  const openMintTokenModal = useCallback(() => setIsMintTokenModalOpen(true), []);
 
   const [withdrawalActions, setWithdrawalActions] = useState<ComponentProps<typeof RequestWithdrawalModal> | {}>({});
   const [getFundsActions, setGetFundsActions] = useState<ComponentProps<typeof GetFundsModal> | {}>({});
@@ -111,6 +115,9 @@ export const MyContracts: FC = () => {
   const [
     burnTokenModalProps, setBurnTokenModalProps,
   ] = useState<ComponentProps<typeof BurnTokenModal> | {}>({});
+  const [
+    mintTokenModalProps, setMintTokenModalProps,
+  ] = useState<ComponentProps<typeof MintTokenModal> | {}>({});
 
   const buttonClickHandler = useCallback(async (contractKey: string, type: TContractButtonsTypes) => {
     const card = cards.find((item) => isFoundContractKey(item, contractKey));
@@ -122,7 +129,27 @@ export const MyContracts: FC = () => {
         break;
       }
       case 'mintToken': {
-        // TODO: mint token
+        openMintTokenModal();
+        setMintTokenModalProps({
+          ...mintTokenModalProps,
+          freezable: (card.contractCreationData as TokenContract).freezable,
+          onAccept: (accountAddress, mintAmount, freezeUntilTimestamp) => {
+            dispatch(mintTokenModalActions.mintTokenModalMint({
+              provider: getDefaultProvider(),
+              contractAddress,
+              accountAddress,
+              mintAmount: getTokenAmount(
+                mintAmount,
+                +(card.contractCreationData as TokenContract).decimals,
+                false,
+              ),
+              freezeUntilTimestamp,
+            }));
+          },
+          onClose: () => {
+            setIsBurnTokenModalOpen(false);
+          },
+        });
         break;
       }
       case 'burnToken': {
@@ -285,7 +312,7 @@ export const MyContracts: FC = () => {
         break;
       }
     }
-  }, [activeStatusModalProps, burnTokenModalProps, cards, dispatch, fetchActiveStatusConfirmData, getDefaultProvider, getFundsActions, handleViewContract, liveStatusModalProps, openBurnTokenModal, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openRequestWithdrawalModal, openSetUpModal, setUpModalProps, withdrawalActions]);
+  }, [activeStatusModalProps, burnTokenModalProps, cards, dispatch, fetchActiveStatusConfirmData, getDefaultProvider, getFundsActions, handleViewContract, liveStatusModalProps, mintTokenModalProps, openBurnTokenModal, openConfirmActiveStatusModal, openConfirmLiveStatusModal, openGetFundsModal, openMintTokenModal, openRequestWithdrawalModal, openSetUpModal, setUpModalProps, withdrawalActions]);
 
   const isSameDivorceAddress = useCallback((divorceProposedBy: string) => userWalletAddress.toLowerCase() === divorceProposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject divorce with the same address
   const isSameWithdrawalAddress = useCallback((proposedBy: string) => userWalletAddress.toLowerCase() === proposedBy.toLowerCase(), [userWalletAddress]); // cannot approve/reject withdrawal with the same address
@@ -422,6 +449,12 @@ export const MyContracts: FC = () => {
         open={isBurnTokenModalOpen}
         setIsModalOpen={setIsBurnTokenModalOpen}
         {...burnTokenModalProps}
+      />
+      <MintTokenModal
+        open={isMintTokenModalOpen}
+        setIsModalOpen={setIsMintTokenModalOpen}
+        freezable={false}
+        {...mintTokenModalProps}
       />
       <Grid container className={classes.root}>
         <TextField

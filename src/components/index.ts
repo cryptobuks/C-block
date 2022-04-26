@@ -25,3 +25,4 @@ export * from './GetFundsModal';
 export * from './ConnectDropdownModal';
 export * from './SectionsBar';
 export * from './BurnTokenModal';
+export * from './MintTokenModal';
