@@ -31,6 +31,8 @@ import apiActions from 'store/ui/actions';
 import burnTokenModalActions from 'store/myContracts/burnTokenModal/actions';
 import setUpModalActions from 'store/myContracts/setUpModal/actions';
 import setUpActionTypes from 'store/myContracts/setUpModal/actionTypes';
+import burnTokenModalActionTypes from 'store/myContracts/burnTokenModal/actionTypes';
+import mintTokenModalActionTypes from 'store/myContracts/mintTokenModal/actionTypes';
 import confirmActiveStatusModalActions from 'store/myContracts/confirmActiveStatusModal/actions';
 import mintTokenModalActions from 'store/myContracts/mintTokenModal/actions';
 
@@ -156,15 +158,13 @@ export const MyContracts: FC = () => {
         openBurnTokenModal();
         setBurnTokenModalProps({
           ...burnTokenModalProps,
+          contractAddress,
+          decimals: +(card.contractCreationData as TokenContract).decimals,
           onAccept: (burnAmount) => {
             dispatch(burnTokenModalActions.burnTokenModalBurn({
               provider: getDefaultProvider(),
               contractAddress,
-              burnAmount: getTokenAmount(
-                burnAmount,
-                +(card.contractCreationData as TokenContract).decimals,
-                false,
-              ),
+              burnAmount,
             }));
           },
           onClose: () => {
@@ -397,6 +397,12 @@ export const MyContracts: FC = () => {
   const setUpModalRequestStatus = useShallowSelector(
     uiSelector.getProp(setUpActionTypes.SETUP_MODAL_ADD_TOKENS),
   );
+  const burnTokenModalBurnRequestStatus = useShallowSelector(
+    uiSelector.getProp(burnTokenModalActionTypes.BURN_TOKEN_MODAL_BURN),
+  );
+  const mintTokenModalMintRequestStatus = useShallowSelector(
+    uiSelector.getProp(mintTokenModalActionTypes.MINT_TOKEN_MODAL_MINT),
+  );
 
   useEffect(() => {
     if (setUpModalRequestStatus === RequestStatus.SUCCESS) {
@@ -404,6 +410,20 @@ export const MyContracts: FC = () => {
       setIsSetUpModalOpen(false);
     }
   }, [dispatch, setUpModalRequestStatus]);
+
+  useEffect(() => {
+    if (burnTokenModalBurnRequestStatus === RequestStatus.SUCCESS) {
+      dispatch(apiActions.reset(burnTokenModalActionTypes.BURN_TOKEN_MODAL_BURN));
+      setIsBurnTokenModalOpen(false);
+    }
+  }, [dispatch, burnTokenModalBurnRequestStatus]);
+
+  useEffect(() => {
+    if (mintTokenModalMintRequestStatus === RequestStatus.SUCCESS) {
+      dispatch(apiActions.reset(mintTokenModalActionTypes.MINT_TOKEN_MODAL_MINT));
+      setIsMintTokenModalOpen(false);
+    }
+  }, [dispatch, mintTokenModalMintRequestStatus]);
 
   return (
     <Container>
@@ -448,6 +468,8 @@ export const MyContracts: FC = () => {
       <BurnTokenModal
         open={isBurnTokenModalOpen}
         setIsModalOpen={setIsBurnTokenModalOpen}
+        contractAddress=""
+        decimals={0}
         {...burnTokenModalProps}
       />
       <MintTokenModal
