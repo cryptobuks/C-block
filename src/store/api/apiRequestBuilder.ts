@@ -1,5 +1,9 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import axios, {
+  AxiosRequestConfig, AxiosInstance, AxiosResponse,
+} from 'axios';
 import { URL } from 'appConstants';
+// import configureStore from '../configureStore';
+// import userSelectors from '../user/selectors';
 import {
   ICreateWillContractData,
   ICreateCrowdsaleContractData,
@@ -12,6 +16,14 @@ import {
   IGetFinishedLostKeyContractsReturnType,
   TGetRatesReturnType,
 } from './apiRequestBuilder.types';
+import {
+  IConfirmResetPassword,
+  IResetPassword,
+  IResetPasswordReturnType,
+  IGetMetamaskMessageReturnType,
+  IRegisterAccount,
+  ILogin,
+} from './auth.types';
 
 const client: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_BASE_URL,
@@ -23,6 +35,58 @@ export default async function ajax<T>(
   const apiCall: AxiosResponse<T, typeof requestConfig> = await client(requestConfig);
   return apiCall;
 }
+
+export const authApi = {
+  getMetamaskMessage() {
+    return ajax<IGetMetamaskMessageReturnType>({
+      method: 'get',
+      url: URL.accounts.getMetamaskMessage,
+    });
+  },
+  registerAccount(data: IRegisterAccount) {
+    return ajax({
+      method: 'post',
+      url: URL.accounts.registerAccount,
+      data,
+    });
+  },
+  login(data: ILogin) {
+    return ajax({
+      method: 'post',
+      url: URL.accounts.login,
+      data,
+      withCredentials: true,
+    });
+  },
+  logout() {
+    return ajax({
+      method: 'post',
+      url: URL.accounts.logout,
+      withCredentials: true,
+    });
+  },
+  resetPassword(data: IResetPassword) {
+    return ajax<IResetPasswordReturnType>({
+      method: 'post',
+      url: URL.accounts.resetPassword,
+      data,
+    });
+  },
+  confirmResetPassword(data: IConfirmResetPassword) {
+    return ajax({
+      method: 'post',
+      url: URL.accounts.confirmResetPassword,
+      data,
+    });
+  },
+  getRegistrationAccountData() {
+    return ajax({
+      method: 'get',
+      url: URL.accounts.getRegistrationAccountData,
+      withCredentials: true,
+    });
+  },
+};
 
 export const baseApi = {
   createTokenContract(data: ICreateTokenContractData) {

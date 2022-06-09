@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserState, WalletProviders } from 'types';
 
@@ -7,12 +6,20 @@ const initialState: UserState = {
   wallet: WalletProviders.init,
   isLight: false,
   isMainnet: true,
+
+  email: '',
+  registrationEmail: '',
+  registrationWalletAddress: '',
 };
 
 export const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setUser: (state, action: PayloadAction<Partial<UserState>>) => ({
+      ...state,
+      ...action.payload,
+    }),
     toggleTestnet: (state) => ({
       ...state,
       isMainnet: !state.isMainnet,
@@ -37,7 +44,11 @@ export const userReducer = createSlice({
 });
 
 export const {
-  connectWalletState, disconnectWalletState, toggleTheme, toggleTestnet,
+  setUser,
+  connectWalletState,
+  disconnectWalletState,
+  toggleTheme,
+  toggleTestnet,
 } = userReducer.actions;
 
 export default userReducer.reducer;

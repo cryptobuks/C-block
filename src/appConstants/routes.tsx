@@ -18,6 +18,8 @@ const ADMIN_PANEL = 'admin-panel';
 const EARN_PATH = 'earn';
 const TERMS = 'terms';
 const PRIVACY = 'privacy';
+const RESET_PASSWORD_CONFIRMATION_LINK = 'password/reset/:uid/:token';
+const CONFIRM_EMAIL = 'confirm-email';
 
 const PREVIEW_TOKEN_CONTRACT = 'preview-token-contract' as const;
 const PREVIEW_CROWDSALE_CONTRACT = 'preview-crowdsale-contract' as const;
@@ -131,6 +133,17 @@ const privacyRoute = {
   icon: null,
 };
 
+const resetPasswordRoute = {
+  root: `/${RESET_PASSWORD_CONFIRMATION_LINK}`,
+  title: 'Reset password',
+  icon: null,
+};
+const confirmEmailRoute = {
+  root: `/${CONFIRM_EMAIL}`,
+  title: 'Confirm email',
+  icon: null,
+};
+
 export const routes = {
   root: `/${CREATE_CONTRACT}`,
   title: 'Create Contract',
@@ -146,4 +159,7 @@ export const routes = {
   [ADMIN_PANEL]: adminPanelRoute,
   [TERMS]: termsRoute,
   [PRIVACY]: privacyRoute,
+
+  [RESET_PASSWORD_CONFIRMATION_LINK]: resetPasswordRoute,
+  [CONFIRM_EMAIL]: confirmEmailRoute,
 };
