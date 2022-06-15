@@ -9,4 +9,7 @@ export const editableFieldPropsMocked: EditableFieldProps = {
   onClick(): void {
     throw new Error('Function not implemented.');
   },
+  onChange(): void {
+    throw new Error('Function not implemented.');
+  },
 };

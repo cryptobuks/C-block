@@ -88,3 +88,8 @@ interface IGetRatesReturnType {
   name: string;
 }
 export type TGetRatesReturnType = IGetRatesReturnType[];
+
+export type TGetIsMainnetDisabledReturnType = {
+  mainnet_enabled: boolean;
+};
+export type TSetIsMainnetDisabledData = TGetIsMainnetDisabledReturnType;

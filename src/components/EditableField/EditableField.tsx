@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
-  ChangeEvent, ReactElement, useState, VFC,
+  ReactElement, VFC,
 } from 'react';
 
 import {
@@ -14,24 +13,32 @@ import { useStyles } from './EditableField.styles';
 export interface EditableFieldProps {
   className?: string;
   icon?: ReactElement;
-  value: string|number
+  value: string | number;
   disabled: boolean;
-  onClick: (e: string | ChangeEvent<any>) => void;
+  onClick: (fieldValue: string | number, isDisabled: boolean) => void;
+  onChange: (fieldValue: string | number) => void;
 }
 
 export const EditableField: VFC<EditableFieldProps> = ({
-  className, icon, value, disabled, onClick,
+  className, icon, value, disabled, onClick, onChange,
 }) => {
   const classes = useStyles();
-  const [fieldValue, setFieldValue] = useState(value);
   const handleChange = (event) => {
-    setFieldValue(event.target.value);
+    if (onChange) {
+      onChange(event.target.value);
+    }
+  };
+
+  const handleEditOrSaveClick = () => {
+    if (onClick) {
+      onClick(value, disabled);
+    }
   };
 
   return (
     <Box className={clsx(classes.root, className)}>
       <TextField
-        value={fieldValue}
+        value={value}
         disabled={disabled}
         className={classes.textField}
         InputProps={{
@@ -43,14 +50,16 @@ export const EditableField: VFC<EditableFieldProps> = ({
         <IconButton
           color="primary"
           className={classes.button}
-          onClick={onClick}
-        ><Edit />
+          onClick={handleEditOrSaveClick}
+        >
+          <Edit />
         </IconButton>
       ) : (
         <Button
           variant="contained"
-          onClick={onClick}
-        >Save
+          onClick={handleEditOrSaveClick}
+        >
+          Save
         </Button>
       )}
     </Box>

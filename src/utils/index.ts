@@ -12,3 +12,5 @@ export * from './contractsHelper';
 export * from './dateTimeConverters';
 export * from './validationSchema.helpers';
 export * from './web3Objects.helpers';
+export * from './decamelize';
+export * from './validateOnlyNumbers';

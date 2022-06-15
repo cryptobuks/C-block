@@ -25,6 +25,7 @@ import confirmActiveStatusModalActionTypes from './myContracts/confirmActiveStat
 import burnTokenModalActionTypes from './myContracts/burnTokenModal/actionTypes';
 import mintTokenModalActionTypes from './myContracts/mintTokenModal/actionTypes';
 import authActionTypes from './user/auth/actionTypes';
+import adminActionTypes from './admin/actionTypes';
 import { initWalletConnectStore } from './configureWalletConnectStore';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -36,7 +37,7 @@ const userPersistConfig: {
 } = {
   key: 'user',
   storage,
-  whitelist: ['address', 'wallet', 'isLight', 'isMainnet', 'email', 'registrationEmail', 'registrationWalletAddress'],
+  whitelist: ['address', 'wallet', 'isLight', 'email', 'registrationEmail', 'registrationWalletAddress'],
 };
 
 const contractFormsPersistConfig: {
@@ -102,6 +103,11 @@ const store = configureStore({
           mintTokenModalActionTypes.MINT_TOKEN_MODAL_MINT,
 
           authActionTypes.USER_AUTH_REGISTER_ACCOUNT,
+
+          adminActionTypes.ADMIN_CHECK_IS_ADMIN,
+          adminActionTypes.ADMIN_SET_PAYMENTS_RECEIVER,
+          adminActionTypes.ADMIN_SET_PRICE,
+          adminActionTypes.ADMIN_GET_PAYMENTS_RECEIVER,
         ],
       },
     },

@@ -18,10 +18,16 @@ import {
   tokenNonMintableNonFreezableAbi,
   weddingAbi,
   weddingFactoryAbi,
+  controllerAbi,
 } from 'config/abi';
 import {
+  FactoryContracts,
+  TDeployContractCreationMethodNames,
   TDeployCrowdsaleContractCreationMethodNames,
+  TDeployLostKeyContractCreationMethodNames,
   TDeployTokenContractCreationMethodNames,
+  TDeployWeddingContractCreationMethodNames,
+  TDeployWillContractCreationMethodNames,
 } from 'types/utils/contractsHelper';
 import { getCeloConfigMetamask, contracts } from 'config';
 
@@ -45,6 +51,7 @@ import { Wedding } from 'types/abi/wedding';
 import { WeddingFactory } from 'types/abi/weddingFactory';
 import { LastWillFactory } from 'types/abi/lastWillFactory';
 import { Erc20BurnableMintablePausableFreezableToken } from 'types/abi/erc20BurnableMintablePausableFreezableToken';
+import { Controller } from 'types/abi/controller';
 
 enum ContractFactorySettings {
   Non = 'Non',
@@ -153,9 +160,111 @@ const contractsGetter = {
       contractAddress,
     ) as unknown as WeddingFactory;
   },
+  getControllerContract(provider: Web3, contractAddress: string) {
+    return new provider.eth.Contract(
+      controllerAbi,
+      contractAddress,
+    ) as unknown as Controller;
+  },
 };
 
 const getChainNativeCurrency = (isMainnet: boolean) => getCeloConfigMetamask(isMainnet)[0].nativeCurrency;
+
+const getTokenFactoryContractMethodName = (
+  burnable: boolean,
+  futureMinting: boolean,
+  freezable: boolean,
+) => [
+  'deployERC20',
+  burnable ? TokenContractFactorySettings.Burnable : '',
+  futureMinting ? TokenContractFactorySettings.Mintable : '',
+  TokenContractFactorySettings.Pausable,
+  freezable ? TokenContractFactorySettings.Freezable : '',
+  'Token',
+].join('') as TDeployTokenContractCreationMethodNames;
+
+const getCrowdsaleFactoryContractMethodName = (
+  isSoftcappable: boolean,
+  isBonusable: boolean,
+  isDatesChangeable: boolean,
+) => [
+  'deploy',
+  isSoftcappable ? '' : ContractFactorySettings.Non,
+  CrowdsaleContractFactorySettings.SoftCappable,
+  isBonusable ? CrowdsaleContractFactorySettings.Bonusable : '',
+  isDatesChangeable ? CrowdsaleContractFactorySettings.DatesChangeable : '',
+  'Crowdsale',
+].join('') as TDeployCrowdsaleContractCreationMethodNames;
+
+const getFactoryContractMethodName = (
+  factoryName: FactoryContracts,
+): TDeployContractCreationMethodNames[] => {
+  if (factoryName === 'Tokens') {
+    // 8 - is a count of all variations of token contracts (futureMinting, freezable, burnable)
+    const allVariations = [
+      [0, 0, 0],
+      [0, 0, 1],
+      [0, 1, 0],
+      [0, 1, 1],
+      [1, 0, 0],
+      [1, 0, 1],
+      [1, 1, 0],
+      [1, 1, 1],
+    ];
+    // 0: "deployERC20PausableToken"
+    // 1: "deployERC20BurnablePausableToken"
+    // 2: "deployERC20PausableFreezableToken"
+    // 3: "deployERC20BurnablePausableFreezableToken"
+    // 4: "deployERC20MintablePausableToken"
+    // 5: "deployERC20BurnableMintablePausableToken"
+    // 6: "deployERC20MintablePausableFreezableToken"
+    // 7: "deployERC20BurnableMintablePausableFreezableToken"
+    return allVariations.map(
+      ([futureMinting, freezable, burnable]) => getTokenFactoryContractMethodName(
+        !!burnable, !!futureMinting, !!freezable,
+      ),
+    ) as TDeployTokenContractCreationMethodNames[];
+  }
+
+  if (factoryName === 'Crowdsales') {
+    // 8 - is a count of all variations of crowdsale contracts
+    // [ isSoftcappable, isBonusable, isDatesChangeable ]
+    const allVariations = [
+      [0, 0, 0],
+      [0, 0, 1],
+      [0, 1, 0],
+      [0, 1, 1],
+      [1, 0, 0],
+      [1, 0, 1],
+      [1, 1, 0],
+      [1, 1, 1],
+    ];
+
+    // 0: "deployNonSoftCappableCrowdsale"
+    // 1: "deployNonSoftCappableDatesChangeableCrowdsale"
+    // 2: "deployNonSoftCappableBonusableCrowdsale"
+    // 3: "deployNonSoftCappableBonusableDatesChangeableCrowdsale"
+    // 4: "deploySoftCappableCrowdsale"
+    // 5: "deploySoftCappableDatesChangeableCrowdsale"
+    // 6: "deploySoftCappableBonusableCrowdsale"
+    // 7: "deploySoftCappableBonusableDatesChangeableCrowdsale"
+    return allVariations.map(
+      ([isSoftcappable, isBonusable, isDatesChangeable]) => getCrowdsaleFactoryContractMethodName(
+        !!isSoftcappable, !!isBonusable, !!isDatesChangeable,
+      ),
+    ) as TDeployCrowdsaleContractCreationMethodNames[];
+  }
+
+  if (factoryName === 'Last Will') {
+    return ['deployLastWill'] as TDeployWillContractCreationMethodNames[];
+  }
+
+  if (factoryName === 'Lost Key') {
+    return ['deployLostKey'] as TDeployLostKeyContractCreationMethodNames[];
+  }
+
+  return ['deployWedding'] as TDeployWeddingContractCreationMethodNames[];
+};
 
 export const contractsHelper = {
   ...contractsGetter,
@@ -166,6 +275,7 @@ export const contractsHelper = {
   ): INoNameContract {
     return contracts.params[contractName][isMainnet ? 'mainnet' : 'testnet'];
   },
+  getFactoryContractMethodName,
   getTokenFactoryContractName(futureMinting: boolean, freezable: boolean) {
     return [
       'token',
@@ -175,20 +285,7 @@ export const contractsHelper = {
       TokenContractFactorySettings.Freezable,
     ].join('');
   },
-  getTokenFactoryContractMethodName(
-    burnable: boolean,
-    futureMinting: boolean,
-    freezable: boolean,
-  ) {
-    return [
-      'deployERC20',
-      burnable ? TokenContractFactorySettings.Burnable : '',
-      futureMinting ? TokenContractFactorySettings.Mintable : '',
-      TokenContractFactorySettings.Pausable,
-      freezable ? TokenContractFactorySettings.Freezable : '',
-      'Token',
-    ].join('') as TDeployTokenContractCreationMethodNames;
-  },
+  getTokenFactoryContractMethodName,
 
   /**
    * Reversed `getTokenFactoryContractMethodName`, to retrieve token params burnable, mintable...
@@ -224,20 +321,7 @@ export const contractsHelper = {
       CrowdsaleContractFactorySettings.Bonusable,
     ].join('');
   },
-  getCrowdsaleFactoryContractMethodName(
-    isSoftcappable: boolean,
-    isBonusable: boolean,
-    isDatesChangeable: boolean,
-  ) {
-    return [
-      'deploy',
-      isSoftcappable ? '' : ContractFactorySettings.Non,
-      CrowdsaleContractFactorySettings.SoftCappable,
-      isBonusable ? CrowdsaleContractFactorySettings.Bonusable : '',
-      isDatesChangeable ? CrowdsaleContractFactorySettings.DatesChangeable : '',
-      'Crowdsale',
-    ].join('') as TDeployCrowdsaleContractCreationMethodNames;
-  },
+  getCrowdsaleFactoryContractMethodName,
 
   /**
    * Reversed `getCrowdsaleFactoryContractMethodName`, to retrieve contract params isSoftcappable...

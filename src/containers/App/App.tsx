@@ -6,9 +6,9 @@ import { ThemeProvider, StylesProvider } from '@material-ui/styles';
 import { BreakpointsProvider } from 'hooks/useBreakpoints';
 import { darkTheme, lightTheme } from 'theme';
 import {
-  Layout, ModalsContainer, AuthModalsContainer, AppRoutes,
+  Layout, ModalsContainer, AuthModalsContainer, AppRoutes, AdminModalsContainer,
 } from 'containers';
-import { useShallowSelector } from 'hooks';
+import { useAdminPanel, useShallowSelector } from 'hooks';
 import userSelector from 'store/user/selectors';
 import { useWalletConnectorContext } from 'services';
 
@@ -29,6 +29,8 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useAdminPanel();
+
   return (
     <ThemeProvider theme={selectedTheme}>
       <BreakpointsProvider>
@@ -42,6 +44,7 @@ function App() {
           />
           <ModalsContainer />
           <AuthModalsContainer />
+          <AdminModalsContainer />
           <Layout>
             <AppRoutes />
           </Layout>

@@ -2,8 +2,6 @@ import axios, {
   AxiosRequestConfig, AxiosInstance, AxiosResponse,
 } from 'axios';
 import { URL } from 'appConstants';
-// import configureStore from '../configureStore';
-// import userSelectors from '../user/selectors';
 import {
   ICreateWillContractData,
   ICreateCrowdsaleContractData,
@@ -15,6 +13,8 @@ import {
   IGetFinishedWillContractsReturnType,
   IGetFinishedLostKeyContractsReturnType,
   TGetRatesReturnType,
+  TGetIsMainnetDisabledReturnType,
+  TSetIsMainnetDisabledData,
 } from './apiRequestBuilder.types';
 import {
   IConfirmResetPassword,
@@ -150,6 +150,22 @@ export const baseApi = {
     return ajax<TGetRatesReturnType>({
       method: 'GET',
       url: URL.getRates,
+    });
+  },
+
+  getIsMainnetDisabled() {
+    return ajax<TGetIsMainnetDisabledReturnType>({
+      method: 'GET',
+      url: URL.getIsMainnetDisabled,
+    });
+  },
+
+  setIsMainnetDisabled(data: TSetIsMainnetDisabledData) {
+    return ajax({
+      method: 'POST',
+      url: URL.setIsMainnetDisabled,
+      data,
+      withCredentials: true,
     });
   },
 };
