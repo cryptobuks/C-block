@@ -35,13 +35,31 @@ function* confirmResetPasswordSaga({
       throw new Error('Backend thrown response with status code not equal to 2xx');
     }
 
+    setNotification({
+      type: 'success',
+      message: 'Password has been reset with the new password.',
+    });
+
     yield put(apiActions.success(type));
   } catch (err) {
-    console.log(err);
-    setNotification({
-      type: 'error',
-      message: 'Error occurred while resetting password. Check if link that sent to email is valid',
-    });
+    console.log(err, err.response);
+
+    // backend error
+    if (err?.response?.data) {
+    /**
+     * make errors from backend like
+     * @example {"uid":["Invalid value"]}
+     * to be
+     * @example '"Invalid value" error in "uid"'
+     */
+      // @ts-expect-error: garanteed that error is in exact this form
+      const axiosRequestError = Object.entries(err?.response?.data).map(([key, value]) => `"${value?.join('; ')}" error in "${key}"`).join('; ');
+      setNotification({
+        type: 'error',
+        message: `Error occurred while resetting password. ${axiosRequestError}`,
+      });
+    }
+
     yield put(apiActions.error(type, err));
   }
 }
