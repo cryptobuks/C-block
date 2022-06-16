@@ -140,6 +140,21 @@ export const useAuthHandlers = () => {
     }
   }, [dispatch, confirmResetPasswordRequestStatus]);
   useEffect(() => {
+    if (confirmResetPasswordRequestStatus === RequestStatus.SUCCESS) {
+      dispatch(
+        setActiveModal({
+          modals: {
+            [Modals.PasswordReset]: false,
+            [Modals.Login]: true,
+          },
+        }),
+      );
+      dispatch(
+        apiActions.reset(authActionTypes.USER_AUTH_CONFIRM_RESET_PASSWORD),
+      );
+    }
+  }, [dispatch, confirmResetPasswordRequestStatus]);
+  useEffect(() => {
     if (registerAccountRequestStatus === RequestStatus.SUCCESS ||
       registerAccountRequestStatus === RequestStatus.ERROR) {
       dispatch(closeModal(Modals.SignUpPending));

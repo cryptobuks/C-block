@@ -25,6 +25,7 @@ export const useStyles = makeStyles((theme: Theme) => {
       borderRadius: theme.spacing(1.5),
       padding: theme.spacing(2),
       paddingRight: theme.spacing(6),
+      whiteSpace: 'pre-line',
     },
     closeBtnContainer: {
       position: 'absolute',

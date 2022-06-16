@@ -53,10 +53,12 @@ function* confirmResetPasswordSaga({
      * @example '"Invalid value" error in "uid"'
      */
       // @ts-expect-error: garanteed that error is in exact this form
-      const axiosRequestError = Object.entries(err?.response?.data).map(([key, value]) => `"${value?.join('; ')}" error in "${key}"`).join('; ');
+      const axiosRequestError = Object.values(err?.response?.data).map((value) => `${value?.join('\n')}`).join('\n');
       setNotification({
         type: 'error',
         message: `Error occurred while resetting password. ${axiosRequestError}`,
+      }, {
+        autoClose: 12000,
       });
     }
 
