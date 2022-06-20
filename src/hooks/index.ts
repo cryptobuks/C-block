@@ -11,3 +11,4 @@ export * from './useBreakpoints';
 export * from './useAuthHandlers';
 export * from './useAdminPanel';
 export * from './useAuthConnectWallet';
+export * from './useUserPilot';
