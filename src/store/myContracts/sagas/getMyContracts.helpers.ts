@@ -80,9 +80,10 @@ const transformCreationDataToTokenContract = (
       contractCreationPrice: '',
       allVariantsCreationPrices: [],
       minCreationPrice: {
-        usd: '',
+        cusd: '',
         celo: '',
       },
+      selectedBuyToken: 'celo',
     },
   };
 };
@@ -156,9 +157,10 @@ const transformCreationDataToCrowdsaleContract = async (
       contractCreationPrice: '',
       allVariantsCreationPrices: [],
       minCreationPrice: {
-        usd: '',
+        cusd: '',
         celo: '',
       },
+      selectedBuyToken: 'celo',
       tokenToSaleSymbol: '',
       paymentTokensSymbols: [
         '',
@@ -213,7 +215,7 @@ export const getContractCreationData = (
           contractCreationPrice: '',
           allVariantsCreationPrices: [],
           minCreationPrice: {
-            usd: '',
+            cusd: '',
             celo: '',
           },
         },
@@ -253,7 +255,7 @@ export const getContractCreationData = (
           contractCreationPrice: '',
           allVariantsCreationPrices: [],
           minCreationPrice: {
-            usd: '',
+            cusd: '',
             celo: '',
           },
         },
@@ -289,7 +291,7 @@ export const getContractCreationData = (
           contractCreationPrice: '',
           allVariantsCreationPrices: [],
           minCreationPrice: {
-            usd: '',
+            cusd: '',
             celo: '',
           },
         },

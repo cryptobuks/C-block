@@ -1,3 +1,4 @@
+import { Tokens } from 'types/utils/contractsHelper';
 import { ContractAdditionalField } from './contractForms.shared';
 
 export interface ICrowdsaleContractDynamicForm {
@@ -8,11 +9,12 @@ export interface ICrowdsaleContractDynamicForm {
 interface ICrowdsaleAdditionalField extends ContractAdditionalField {
   additional: {
     contractCreationPrice: string;
-    allVariantsCreationPrices: string[];
+    allVariantsCreationPrices: string[][];
     minCreationPrice: {
-      usd: string;
+      cusd: string;
       celo: string;
     };
+    selectedBuyToken: Tokens;
 
     tokenToSaleSymbol: string;
     paymentTokensSymbols: string[];

@@ -6,6 +6,7 @@ import {
   Button, Container, Grid, Typography,
 } from '@material-ui/core';
 import clsx from 'clsx';
+import BigNumber from 'bignumber.js';
 
 import userSelectors from 'store/user/selectors';
 import contractFormsSelector from 'store/contractForms/selectors';
@@ -13,6 +14,7 @@ import adminActions from 'store/admin/actions';
 import adminActionTypes from 'store/admin/actionTypes';
 import adminSelector from 'store/admin/selectors';
 import uiSelectors from 'store/ui/selectors';
+import ratesSelectors from 'store/rates/selectors';
 
 import { useShallowSelector, useWeb3Provider } from 'hooks';
 
@@ -25,10 +27,11 @@ import { routes } from 'appConstants';
 import {
   contractsHelper, getTokenAmountDisplay, setNotification,
 } from 'utils';
-import { FactoryContracts, TDeployContractCreationMethodNames } from 'types/utils/contractsHelper';
+import { FactoryContracts, TDeployContractCreationMethodNames, Tokens } from 'types/utils/contractsHelper';
 import { getContractsMinCreationPrice } from 'store/contractForms/actions';
 import { Modals, RequestStatus } from 'types';
 import { setActiveModal } from 'store/modals/reducer';
+import { getRates } from 'store/rates/actions';
 import { contractsMock, getContracts } from './AdminPanel.helpers';
 import { useStyle } from './AdminPanel.styles';
 
@@ -62,9 +65,14 @@ export const AdminPanel = () => {
     userSelectors.getUser,
   );
   const celoDecimals = useMemo(
-    () => contractsHelper.getChainNativeCurrency(isMainnet).decimals,
+    () => contractsHelper.getTokensDecimals('celo', isMainnet),
     [isMainnet],
   );
+  const cusdDecimals = useMemo(
+    () => contractsHelper.getTokensDecimals('cusd', isMainnet),
+    [isMainnet],
+  );
+  const rates = useShallowSelector(ratesSelectors.selectRates);
   const handleChangePaymentsReceiverAddress = (fieldValue: string | number) => {
     setPaymentsReceiverAddress(fieldValue.toString());
   };
@@ -93,9 +101,12 @@ export const AdminPanel = () => {
     }
   };
 
-  const handleSavePrice = (deployContractName: TDeployContractCreationMethodNames) => (
+  const handleSavePrice = (
+    deployContractName: TDeployContractCreationMethodNames,
+  ) => (
     fieldValue: string | number,
     isEditMode: boolean,
+    tokenName: Tokens,
   ) => {
     // trigger only if saved & not allowed to edit
     if (isEditMode) return;
@@ -105,6 +116,7 @@ export const AdminPanel = () => {
         contractType: selectedContractType,
         deployContractName,
         price: fieldValue.toString(),
+        tokenName,
       }),
     );
   };
@@ -122,6 +134,11 @@ export const AdminPanel = () => {
       }),
     );
   }, [dispatch, getDefaultProvider]);
+  useEffect(() => {
+    dispatch(
+      getRates(),
+    );
+  }, [dispatch]);
 
   const adminCheckIsAdminRequestStatus = useShallowSelector(
     uiSelectors.getProp(adminActionTypes.ADMIN_CHECK_IS_ADMIN),
@@ -180,7 +197,12 @@ export const AdminPanel = () => {
           </Typography>
           <EditableField
             className={classes.fieldContainer}
-            icon={<SuccessIcon className={classes.icon} />}
+            otherClasses={{
+              textField: classes.fieldContainerLargeIconPadding,
+            }}
+            InputProps={{
+              endAdornment: <SuccessIcon />,
+            }}
             value={paymentsReceiverAddress}
             disabled={!isPaymentsReceiverFieldEdit}
             onClick={handleSavePaymentsReceiverAddress}
@@ -210,9 +232,19 @@ export const AdminPanel = () => {
       <Grid container className={classes.cardsContainer}>
         {
           getContracts(selectedContractType, contractForms).map(({
-            contractDeployName, contractDisplayName, price = '',
+            contractDeployName, contractDisplayName, price = [],
           }) => {
-            const celoPrice = getTokenAmountDisplay(price, celoDecimals);
+            const [
+              rawCeloPrice,
+              rawCusdPrice,
+            ] = price;
+            const celoPrice = getTokenAmountDisplay(rawCeloPrice, celoDecimals);
+            const cusdPrice = getTokenAmountDisplay(rawCusdPrice, cusdDecimals);
+            const prices: Record<Tokens, string> = {
+              celo: celoPrice,
+              cusd: cusdPrice,
+            };
+            const celoAsUsdPrice = new BigNumber(celoPrice).multipliedBy(rates['celo']).toFixed(2);
             return (
               <Grid
                 key={contractDeployName}
@@ -225,7 +257,8 @@ export const AdminPanel = () => {
               >
                 <ChangePriceCard
                   title={contractDisplayName}
-                  price={celoPrice}
+                  prices={prices}
+                  celoAsUsdPrice={celoAsUsdPrice}
                   onClick={handleSavePrice(contractDeployName)}
                 />
               </Grid>

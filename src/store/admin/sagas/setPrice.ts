@@ -22,6 +22,7 @@ function* setPriceSaga({
     contractType,
     deployContractName,
     price,
+    tokenName,
   },
 }: ReturnType<typeof setPrice>) {
   try {
@@ -33,8 +34,9 @@ function* setPriceSaga({
     const allVariantsContracts = contractsHelper.getFactoryContractMethodName(contractType);
 
     const { address: userWalletAddress, isMainnet }: UserState = yield select(userSelector.getUser);
-    const celoDecimals = contractsHelper.getChainNativeCurrency(isMainnet).decimals;
-    const serializedPrice = getTokenAmount(price, celoDecimals, false);
+    const celoDecimals = contractsHelper.getTokensDecimals('celo', isMainnet);
+    const cusdDecimals = contractsHelper.getTokensDecimals('cusd', isMainnet);
+    const serializedPrice = getTokenAmount(price, tokenName === 'celo' ? celoDecimals : cusdDecimals, false);
 
     let contractName: ContractsNames;
     let priceArg: string | string[] = [];
@@ -60,7 +62,11 @@ function* setPriceSaga({
       const priceIndex = allVariantsContracts.findIndex(
         (deployContractMethodName) => deployContractMethodName === tokenFactoryContractName,
       );
-      priceArg[+!isBurnable] = contractForms.tokenContract.additional.allVariantsCreationPrices[priceIndex];
+      const [
+        rawCeloPrice,
+        rawCusdPrice,
+      ] = contractForms.tokenContract.additional.allVariantsCreationPrices[priceIndex];
+      priceArg[+!isBurnable] = tokenName === 'celo' ? rawCeloPrice : rawCusdPrice;
     } else if (contractType === 'Crowdsales') {
       const {
         isBonusable, isDatesChangeable, isSoftcappable,
@@ -80,7 +86,11 @@ function* setPriceSaga({
       const priceIndex = allVariantsContracts.findIndex(
         (deployContractMethodName) => deployContractMethodName === crowdsaleFactoryContractName,
       );
-      priceArg[+!isDatesChangeable] = contractForms.crowdsaleContract.additional.allVariantsCreationPrices[priceIndex];
+      const [
+        rawCeloPrice,
+        rawCusdPrice,
+      ] = contractForms.crowdsaleContract.additional.allVariantsCreationPrices[priceIndex];
+      priceArg[+!isDatesChangeable] = tokenName === 'celo' ? rawCeloPrice : rawCusdPrice;
     } else if (contractType === 'Last Will') {
       contractName = ContractsNames.lastWillFactory;
       priceArg = serializedPrice;
@@ -101,10 +111,10 @@ function* setPriceSaga({
       factoryContractData.address,
     );
 
-    const celoAddress = contractsHelper.getContractData(ContractsNames.celo, isMainnet).address;
+    const tokenAddress = contractsHelper.getContractData(tokenName as ContractsNames, isMainnet).address;
 
     yield call(
-      contract.methods.setPrice(celoAddress, priceArg).send,
+      contract.methods.setPrice(tokenAddress, priceArg).send,
       {
         from: userWalletAddress,
       },

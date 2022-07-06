@@ -1,10 +1,13 @@
+import { Tokens } from 'types/utils/contractsHelper';
+
 export type ContractAdditionalField = {
   additional: {
     contractCreationPrice: string;
-    allVariantsCreationPrices: string[];
+    allVariantsCreationPrices: string[][];
     minCreationPrice: {
-      usd: string;
+      cusd: string;
       celo: string;
     };
+    selectedBuyToken: Tokens;
   };
 };
