@@ -10,9 +10,10 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
+  createMigrate,
 } from 'redux-persist';
 
-import { ContractFormsState, UserState } from 'types';
+import { ContractFormsState, MyPersistConfig, UserState } from 'types';
 import reducer from './rootReducer';
 import rootSaga from './rootSaga';
 import erc20ActionTypes from './erc20/actionTypes';
@@ -30,24 +31,30 @@ import { initWalletConnectStore } from './configureWalletConnectStore';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const userPersistConfig: {
-  key: 'user';
-  storage: typeof storage;
-  whitelist: (keyof UserState)[];
-} = {
+const userPersistConfig: MyPersistConfig<UserState> = {
   key: 'user',
+  version: 0,
   storage,
   whitelist: ['address', 'wallet', 'isLight', 'email', 'registrationEmail', 'registrationWalletAddress'],
+  migrate: createMigrate({
+    0: (state) => ({
+      // eslint-disable-next-line no-underscore-dangle
+      _persist: state._persist,
+    }),
+  }, { debug: true }),
 };
 
-const contractFormsPersistConfig: {
-  key: 'contractForms';
-  storage: typeof storage;
-  whitelist: (keyof ContractFormsState)[];
-} = {
+const contractFormsPersistConfig: MyPersistConfig<ContractFormsState> = {
   key: 'contractForms',
+  version: 0,
   storage,
   whitelist: ['tokenContract', 'crowdsaleContract', 'weddingContract', 'lostKeyContract', 'willContract'],
+  migrate: createMigrate({
+    0: (state) => ({
+      // eslint-disable-next-line no-underscore-dangle
+      _persist: state._persist,
+    }),
+  }, { debug: true }),
 };
 
 const reducers = {

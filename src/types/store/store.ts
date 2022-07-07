@@ -1,4 +1,5 @@
 import type { Dispatch as DispatchReact } from 'react';
+import type { PersistConfig } from 'redux-persist';
 import { ContractFormsState } from './contractForms';
 import { UserState } from './user';
 import { MyContractsState } from './myContracts';
@@ -22,3 +23,5 @@ export type State = {
   admin: AdminState;
   rates: RatesState;
 };
+
+export type MyPersistConfig<T> = PersistConfig<T> & { whitelist: (keyof T)[] };
