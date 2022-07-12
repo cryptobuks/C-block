@@ -271,7 +271,7 @@ export const LoginModal: VFC<Props> = ({
                       readOnly: true,
                       endAdornment: <WalletIcon />,
                     }}
-                    onClick={userWalletAddress ? undefined : handleConnectWalletModal}
+                    onClick={handleConnectWalletModal}
                   />
 
                   <Typography className={classes.disclaimer} variant="body2">
@@ -401,7 +401,7 @@ export const LoginModal: VFC<Props> = ({
                         readOnly: true,
                         endAdornment: <WalletIcon />,
                       }}
-                      onClick={userWalletAddress ? undefined : handleConnectWalletModal}
+                      onClick={handleConnectWalletModal}
                     />
                     <Button
                       className={clsx(classes.button)}
