@@ -4,5 +4,5 @@ export const connectButtonPropsMocked: ConnectButtonProps = {
   handleModal(): void {
     throw new Error('Function not implemented.');
   },
-  address: '',
+  address: '0x123',
 };
