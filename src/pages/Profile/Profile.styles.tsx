@@ -95,6 +95,7 @@ export const useStyles = makeStyles<Theme, { hasUploadedLogoImage: boolean }>((t
       height: '100%',
       opacity: 0,
       borderRadius: 'inherit',
+      cursor: 'pointer',
     },
     link: {
       textDecoration: 'underline',
@@ -112,6 +113,9 @@ export const useStyles = makeStyles<Theme, { hasUploadedLogoImage: boolean }>((t
       '&:focus': {
         background: 'transparent',
       },
+    },
+    copyableIcon: {
+      paddingLeft: theme.spacing(2),
     },
   });
 });
