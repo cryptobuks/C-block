@@ -2,8 +2,11 @@ import React, {
   useCallback, useMemo, useState, VFC,
 } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { Typography, Box, Button } from '@material-ui/core';
+import {
+  Typography, Box, Button,
+} from '@material-ui/core';
 
 import { useWalletConnectorContext } from 'services';
 import { WalletProviders } from 'types';
@@ -11,7 +14,7 @@ import { AddressButton, Modal, UserNameBox } from 'components';
 import {
   useShallowSelector,
 } from 'hooks';
-import { disconnectWalletState } from 'store/user/reducer';
+import * as userReducer from 'store/user/reducer';
 import userSelectors from 'store/user/selectors';
 import { clearAllForms } from 'store/contractForms/reducer';
 import authActions from 'store/user/auth/actions';
@@ -43,7 +46,8 @@ export const ConnectDropdownModal: VFC<ConnectDropdownModalProps> = ({
   const { connect } = useWalletConnectorContext();
   const disconnect = useCallback(async () => {
     handleCloseModal();
-    dispatch(disconnectWalletState());
+    dispatch(userReducer.disconnectWalletState());
+    dispatch(userReducer.resetState());
     dispatch(authActions.logout());
     dispatch(clearAllForms());
     setNotification({
@@ -57,6 +61,8 @@ export const ConnectDropdownModal: VFC<ConnectDropdownModalProps> = ({
     connect(walletProvider);
   }, [handleCloseModal]);
 
+  const { userName, avatarUrl } = useShallowSelector(userSelectors.selectProfile);
+  const isAdmin = useShallowSelector(userSelectors.selectIsAdmin);
   const isAuthenticated = useShallowSelector(
     userSelectors.selectIsAuthenticated,
   );
@@ -77,22 +83,29 @@ export const ConnectDropdownModal: VFC<ConnectDropdownModalProps> = ({
       open={open}
       onClose={handleCloseModal}
       title={isAuthenticated ? (
-        <UserNameBox name="" address={address} imageUrl="" hasDefaultRole />
+        <UserNameBox name={userName} address={address} imageUrl={avatarUrl} isExtended={isAdmin} />
       ) : 'Connect Wallet'}
       className={className}
     >
       {isAuthenticated && isConfirmDisconnect && confirmDisconnectJsx}
       {isAuthenticated && !isConfirmDisconnect && (
       <>
-        <AddressButton className={classes.addressBtn} address={address} onClick={() => {}} />
-        <Button
+        <AddressButton className={classes.addressBtn} address={address} />
+        <Link
           className={classes.btnItem}
-          variant="outlined"
-          size="medium"
-          href={routes.profile.root}
+          to={routes.profile.root}
+          onClick={handleCloseModal}
         >
-          <PersonIcon /> Profile
-        </Button>
+          <Button
+            className={classes.btnItem}
+            fullWidth
+            variant="outlined"
+            size="medium"
+          >
+            <PersonIcon /> Profile
+          </Button>
+        </Link>
+
         <Button
           className={classes.btnItem}
           variant="outlined"
