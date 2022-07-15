@@ -160,6 +160,6 @@ export const getMuiTextFieldDefaultProps = (): ComponentsProps['MuiTextField'] =
 export const getMuiFormHelperText = (): Overrides['MuiTextField'] => ({
   root: {
     position: 'absolute',
-    bottom: '-22px',
+    top: '100%',
   },
 });

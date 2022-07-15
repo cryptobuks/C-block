@@ -467,6 +467,9 @@ export const Profile = memo(() => {
                     render={
                       ({ form: { isSubmitting } }: FieldProps) => (
                         <TextField
+                          style={errors['office']?.length > 32 ? {
+                            marginBottom: 16, // for 1 more rows errorText
+                          } : {}}
                           label="Office"
                           name="office"
                           disabled={isSubmitting}
@@ -474,6 +477,7 @@ export const Profile = memo(() => {
                           value={values['office']}
                           onBlur={handleBlur}
                           error={errors['office'] && touched['office']}
+                          helperText={(errors['office'] && touched['office']) && errors['office']}
                         />
                       )
                     }
@@ -490,6 +494,9 @@ export const Profile = memo(() => {
                     render={
                       ({ form: { isSubmitting } }: FieldProps) => (
                         <TextField
+                          style={errors['building']?.length > 32 ? {
+                            marginBottom: 16, // for 1 more rows errorText
+                          } : {}}
                           label="Building"
                           name="building"
                           disabled={isSubmitting}
@@ -497,6 +504,7 @@ export const Profile = memo(() => {
                           value={values['building']}
                           onBlur={handleBlur}
                           error={errors['building'] && touched['building']}
+                          helperText={(errors['building'] && touched['building']) && errors['building']}
                         />
                       )
                     }
@@ -520,6 +528,7 @@ export const Profile = memo(() => {
                           value={values['zipcode']}
                           onBlur={handleBlur}
                           error={errors['zipcode'] && touched['zipcode']}
+                          helperText={(errors['zipcode'] && touched['zipcode']) && errors['zipcode']}
                         />
                       )
                     }

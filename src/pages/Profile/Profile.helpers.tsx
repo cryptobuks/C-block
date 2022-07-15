@@ -16,9 +16,9 @@ export const validationSchema = Yup.object().shape({
   }),
   city: Yup.string().latinNumbersSpecialChars('Should contain latin, digits or special characters').max(128).required('Required'),
   street: Yup.string().latinNumbersSpecialChars('Should contain latin, digits or special characters').max(128).required('Required'),
-  office: Yup.string().max(32).required('Required'),
-  building: Yup.string().max(128).required('Required'),
-  zipcode: Yup.string().max(20).required('Required'),
+  office: Yup.string().latinNumbersSpecialChars('Should contain latin, digits or special characters').max(32).required('Required'),
+  building: Yup.string().latinNumbersSpecialChars('Should contain latin, digits or special characters').max(128).required('Required'),
+  zipcode: Yup.string().latinNumbersSpecialChars('Should contain latin, digits or special characters').max(20).required('Required'),
   avatarUrl: Yup.string(),
 });
 
