@@ -30,12 +30,23 @@ export type CountryCodesItem = {
   phoneCode: number;
 };
 
+export type Permissions = {
+  superAdmin: boolean;
+  changeNetworkMode: boolean;
+  setFeeReceiver: boolean;
+  setPrice: boolean;
+  contactUsers: boolean;
+  freezeUsers: boolean;
+  viewUsers: boolean;
+};
+
 export type UserState = {
   address: string;
   wallet: WalletProviders;
   isLight: boolean;
   isMainnet: boolean;
 
+  registrationDate: string;
   email: string;
   registrationEmail: string;
   registrationWalletAddress: string;
@@ -44,9 +55,7 @@ export type UserState = {
 
   countryCodes: CountryCodesItem[];
 
-  permissions: {
-    setFeeReceiver: boolean;
-    setPrice: boolean;
-    superAdmin: boolean;
-  };
+  isFrozen: boolean;
+
+  permissions: Permissions;
 };

@@ -7,11 +7,8 @@ import {
   Grid,
   Button,
   Typography,
-  TextField,
-  Switch,
   Box,
 } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
 import clsx from 'clsx';
 
 import userSelectors from 'store/user/selectors';
@@ -27,7 +24,7 @@ import { useShallowSelector, useWeb3Provider } from 'hooks';
 import {
   ChangePriceCard, CheckBox, EditableField,
 } from 'components';
-import { PeopleIcon, SearchIcon, SuccessIcon } from 'theme/icons';
+import { PeopleIcon, SuccessIcon } from 'theme/icons';
 import { routes } from 'appConstants';
 
 import {
@@ -38,7 +35,7 @@ import { getContractsMinCreationPrice } from 'store/contractForms/actions';
 import { Modals, RequestStatus } from 'types';
 import { setActiveModal } from 'store/modals/reducer';
 import { getRates } from 'store/rates/actions';
-import { CollapsibleList } from './components/CollapsibleList';
+import { UsersView } from './components/UsersView';
 import {
   AdminTabs, contractsMock, getContracts, tabs,
 } from './AdminPanel.helpers';
@@ -51,12 +48,7 @@ export const AdminPanel = () => {
   const [selectedContractType, setSelectedContractType] = useState<FactoryContracts>(
     contractsMock[0],
   );
-  const [selectedTab, setSelectedTab] = useState<AdminTabs>(tabs[0]);
-  const [selectedOnlyAdmins, setSelectedOnlyAdmins] = useState(false);
-
-  const handleAdminsSwitch = () => {
-    setSelectedOnlyAdmins((prevState) => !prevState);
-  };
+  const [selectedTab, setSelectedTab] = useState<AdminTabs>(tabs[1]);
 
   const { paymentsReceiverAddress: defaultPaymentsReceiverAddress, isMainnetDisabled } = useShallowSelector(
     adminSelector.selectState,
@@ -72,7 +64,7 @@ export const AdminPanel = () => {
   const [paymentsReceiverAddress, setPaymentsReceiverAddress] = useState(
     defaultPaymentsReceiverAddress,
   );
-  const { isMainnet } = useShallowSelector(
+  const { isMainnet, permissions } = useShallowSelector(
     userSelectors.getUser,
   );
   const isAdmin = useShallowSelector(userSelectors.selectIsAdmin);
@@ -138,6 +130,14 @@ export const AdminPanel = () => {
       defaultPaymentsReceiverAddress,
     );
   }, [defaultPaymentsReceiverAddress]);
+
+  useEffect(() => {
+    if (selectedTab === 'Users') {
+      dispatch(
+        adminActions.getUsers(),
+      );
+    }
+  }, [dispatch, selectedTab]);
 
   useEffect(() => {
     dispatch(
@@ -231,7 +231,8 @@ export const AdminPanel = () => {
       </Grid>
       <Box className={classes.tabsContainer}>
         {
-          tabs.map((title) => (
+          /* Users is only available if user has permission */
+          tabs.filter((title) => title !== 'Users' || permissions.viewUsers).map((title) => (
             <Box key={title}>
               <Button
                 className={clsx(classes.tabButton, {
@@ -259,42 +260,7 @@ export const AdminPanel = () => {
 
       {
         selectedTab === 'Users' ? (
-          <Grid container>
-            <Grid item xs={12} md={8} className={classes.searchContainer}>
-              <TextField
-                id="input-with-icon-textfield"
-                placeholder="Wallet address/email/name"
-            // onChange={(e) => searchHandler(e.target.value)}
-                InputProps={{
-                  startAdornment: <SearchIcon />,
-                }}
-                className={classes.searchContainerField}
-              />
-              <Button
-                size="large"
-                variant="outlined"
-              >
-                Search
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Box className={classes.adminsSwitch}>
-                <Switch name="Admins" checked={selectedOnlyAdmins} onClick={handleAdminsSwitch} />
-                <Typography>Admins</Typography>
-              </Box>
-            </Grid>
-            <Grid item container xs={12} className={classes.collapsibleList}>
-              <CollapsibleList />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Pagination
-                className={classes.pagination}
-                count={10}
-                variant="outlined"
-                shape="rounded"
-              />
-            </Grid>
-          </Grid>
+          <UsersView permissions={permissions} />
         ) : (
           <Grid container className={classes.cardsContainer}>
             {

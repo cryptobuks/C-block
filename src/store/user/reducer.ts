@@ -7,6 +7,7 @@ const initialState: UserState = {
   isLight: false,
   isMainnet: false,
 
+  registrationDate: '',
   email: '',
   registrationEmail: '',
   registrationWalletAddress: '',
@@ -31,10 +32,16 @@ const initialState: UserState = {
 
   countryCodes: [],
 
+  isFrozen: false,
+
   permissions: {
+    superAdmin: false,
+    changeNetworkMode: false,
     setFeeReceiver: false,
     setPrice: false,
-    superAdmin: false,
+    contactUsers: false,
+    freezeUsers: false,
+    viewUsers: false,
   },
 };
 

@@ -22,5 +22,11 @@ export default {
     changePassword: 'accounts/password/change/',
     accountsUser: 'accounts/user/',
     countryCodes: 'accounts/country_codes/',
+
+    roleSystem: {
+      usersList: 'accounts/role_system/users_list/',
+      contactUser: 'accounts/role_system/contact_user/',
+      freezeUser: 'accounts/role_system/freeze_user/',
+    },
   },
 };

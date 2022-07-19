@@ -15,3 +15,15 @@ export type TAdminGetPaymentsReceiverAction = TProvider;
 export type TSetIsMainnetDisabledAction = {
   isMainnetDisabled: boolean;
 };
+// export type TGetUsersAction = {};
+export type TSendEmailAction = {
+  userId: number;
+  message: string;
+};
+export type TSetIsFrozenUserAction = {
+  userId: number;
+  isFrozen: boolean;
+};
+export type TAdminGetUserContractsAction = {
+  userId: number;
+};
