@@ -16,4 +16,5 @@ function getProduction(store: any) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const initWalletConnectStore = (store: any) => {
   store.subscribe(() => getProduction(store));
+  store.subscribe(() => console.log('REDUX STORE: users', store.getState().user));
 };
