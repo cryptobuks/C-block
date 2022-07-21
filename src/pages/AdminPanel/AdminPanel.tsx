@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Web3 from 'web3';
-import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -11,6 +10,7 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 
+import userActions from 'store/user/auth/actions';
 import userSelectors from 'store/user/selectors';
 import contractFormsSelector from 'store/contractForms/selectors';
 import adminActions from 'store/admin/actions';
@@ -25,7 +25,6 @@ import {
   ChangePriceCard, CheckBox, EditableField,
 } from 'components';
 import { PeopleIcon, SuccessIcon } from 'theme/icons';
-import { routes } from 'appConstants';
 
 import {
   contractsHelper, getTokenAmountDisplay, setNotification,
@@ -48,7 +47,7 @@ export const AdminPanel = () => {
   const [selectedContractType, setSelectedContractType] = useState<FactoryContracts>(
     contractsMock[0],
   );
-  const [selectedTab, setSelectedTab] = useState<AdminTabs>(tabs[1]);
+  const [selectedTab, setSelectedTab] = useState<AdminTabs>(tabs[0]);
 
   const { paymentsReceiverAddress: defaultPaymentsReceiverAddress, isMainnetDisabled } = useShallowSelector(
     adminSelector.selectState,
@@ -64,10 +63,9 @@ export const AdminPanel = () => {
   const [paymentsReceiverAddress, setPaymentsReceiverAddress] = useState(
     defaultPaymentsReceiverAddress,
   );
-  const { isMainnet, permissions } = useShallowSelector(
+  const { isMainnet, permissions, countryCodes } = useShallowSelector(
     userSelectors.getUser,
   );
-  const isAdmin = useShallowSelector(userSelectors.selectIsAdmin);
   const celoDecimals = useMemo(
     () => contractsHelper.getTokensDecimals('celo', isMainnet),
     [isMainnet],
@@ -151,6 +149,14 @@ export const AdminPanel = () => {
       getRates(),
     );
   }, [dispatch]);
+  useEffect(() => {
+    if (!permissions.viewUsers) return;
+    if (!countryCodes.length) {
+      dispatch(
+        userActions.getCountryCodes(),
+      );
+    }
+  }, [countryCodes.length, dispatch, permissions.viewUsers]);
 
   const adminCheckIsAdminRequestStatus = useShallowSelector(
     uiSelectors.getProp(adminActionTypes.ADMIN_CHECK_IS_ADMIN),
@@ -172,20 +178,6 @@ export const AdminPanel = () => {
     }
   }, [adminCheckIsAdminRequestStatus, dispatch]);
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (adminCheckIsAdminRequestStatus !== RequestStatus.SUCCESS &&
-      adminCheckIsAdminRequestStatus !== RequestStatus.ERROR) return;
-    if (!isAdmin) {
-      navigate(routes.root);
-      setNotification({
-        type: 'error',
-        message: 'You have insufficient permissions to see this page',
-      });
-    }
-    // NOTE: make sure that deps has only [isAdmin, adminCheckIsAdminRequestStatus], due to [isAdmin, navigate] causes to run this effect twice
-  }, [adminCheckIsAdminRequestStatus, isAdmin]);
-
   const contractForms = useShallowSelector(contractFormsSelector.getContractForms);
   const classes = useStyle();
 
@@ -197,29 +189,39 @@ export const AdminPanel = () => {
     <Container>
       <Grid container>
         <Grid item xs={12} sm={12} md={9} lg={7} xl={7}>
-          <CheckBox
-            className={classes.checkBox}
-            name="Allow users to deploy contracts to mainnet"
-            value={!isMainnetDisabled}
-            label="Allow users to deploy contracts to mainnet"
-            onClick={handleIsAllowedDeployToMainnet}
-          />
-          <Typography variant="h3" className={classes.addressLabel}>
-            Manage payments` receiving address
-          </Typography>
-          <EditableField
-            className={classes.fieldContainer}
-            otherClasses={{
-              textField: classes.fieldContainerLargeIconPadding,
-            }}
-            InputProps={{
-              endAdornment: <SuccessIcon />,
-            }}
-            value={paymentsReceiverAddress}
-            disabled={!isPaymentsReceiverFieldEdit}
-            onClick={handleSavePaymentsReceiverAddress}
-            onChange={handleChangePaymentsReceiverAddress}
-          />
+          {
+              permissions.changeNetworkMode && (
+                <CheckBox
+                  className={classes.checkBox}
+                  name="Allow users to deploy contracts to mainnet"
+                  value={!isMainnetDisabled}
+                  label="Allow users to deploy contracts to mainnet"
+                  onClick={handleIsAllowedDeployToMainnet}
+                />
+              )
+          }
+          {
+            permissions.setFeeReceiver && (
+              <>
+                <Typography variant="h3" className={classes.addressLabel}>
+                  Manage payments` receiving address
+                </Typography>
+                <EditableField
+                  className={classes.fieldContainer}
+                  otherClasses={{
+                    textField: classes.fieldContainerLargeIconPadding,
+                  }}
+                  InputProps={{
+                    endAdornment: <SuccessIcon />,
+                  }}
+                  value={paymentsReceiverAddress}
+                  disabled={!isPaymentsReceiverFieldEdit}
+                  onClick={handleSavePaymentsReceiverAddress}
+                  onChange={handleChangePaymentsReceiverAddress}
+                />
+              </>
+            )
+          }
           {
             selectedTab !== 'Users' && (
             <Typography variant="h3" className={classes.contractsLabel}>
@@ -231,8 +233,15 @@ export const AdminPanel = () => {
       </Grid>
       <Box className={classes.tabsContainer}>
         {
-          /* Users is only available if user has permission */
-          tabs.filter((title) => title !== 'Users' || permissions.viewUsers).map((title) => (
+          tabs.filter((title) => {
+            if (title === 'Users' && permissions.viewUsers) {
+              return true;
+            }
+            if (title !== 'Users' && permissions.setPrice) {
+              return true;
+            }
+            return false;
+          }).map((title) => (
             <Box key={title}>
               <Button
                 className={clsx(classes.tabButton, {
@@ -259,48 +268,50 @@ export const AdminPanel = () => {
       </Box>
 
       {
-        selectedTab === 'Users' ? (
+        selectedTab === 'Users' && permissions.viewUsers && (
           <UsersView permissions={permissions} />
-        ) : (
+        )
+      }
+      {
+        selectedTab !== 'Users' && permissions.setPrice && (
           <Grid container className={classes.cardsContainer}>
             {
-            getContracts(selectedContractType, contractForms).map(({
-              contractDeployName, contractDisplayName, price = [],
-            }) => {
-              const [
-                rawCeloPrice,
-                rawCusdPrice,
-              ] = price;
-              const celoPrice = getTokenAmountDisplay(rawCeloPrice, celoDecimals);
-              const cusdPrice = getTokenAmountDisplay(rawCusdPrice, cusdDecimals);
-              const prices: Record<Tokens, string> = {
-                celo: celoPrice,
-                cusd: cusdPrice,
-              };
-              return (
-                <Grid
-                  key={contractDeployName}
-                  item
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={6}
-                  xl={6}
-                >
-                  <ChangePriceCard
-                    title={contractDisplayName}
-                    prices={prices}
-                    usdPerCelo={rates['celo']}
-                    onClick={handleSavePrice(contractDeployName)}
-                  />
-                </Grid>
-              );
-            })
-          }
+                getContracts(selectedContractType, contractForms).map(({
+                  contractDeployName, contractDisplayName, price = [],
+                }) => {
+                  const [
+                    rawCeloPrice,
+                    rawCusdPrice,
+                  ] = price;
+                  const celoPrice = getTokenAmountDisplay(rawCeloPrice, celoDecimals);
+                  const cusdPrice = getTokenAmountDisplay(rawCusdPrice, cusdDecimals);
+                  const prices: Record<Tokens, string> = {
+                    celo: celoPrice,
+                    cusd: cusdPrice,
+                  };
+                  return (
+                    <Grid
+                      key={contractDeployName}
+                      item
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={6}
+                      xl={6}
+                    >
+                      <ChangePriceCard
+                        title={contractDisplayName}
+                        prices={prices}
+                        usdPerCelo={rates['celo']}
+                        onClick={handleSavePrice(contractDeployName)}
+                      />
+                    </Grid>
+                  );
+                })
+              }
           </Grid>
         )
       }
-
     </Container>
   );
 };

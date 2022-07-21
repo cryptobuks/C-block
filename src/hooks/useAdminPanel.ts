@@ -51,6 +51,12 @@ export const useAdminPanel = () => {
   const setIsMainnetDisabledRequestStatus = useShallowSelector(
     uiSelector.getProp(adminActionTypes.ADMIN_SET_IS_MAINNET_DISABLED),
   );
+  const adminSendEmailRequestStatus = useShallowSelector(
+    uiSelector.getProp(adminActionTypes.ADMIN_SEND_EMAIL),
+  );
+  const adminUpdatePermissionsRequestStatus = useShallowSelector(
+    uiSelector.getProp(adminActionTypes.ADMIN_UPDATE_PERMISSIONS),
+  );
 
   // Requests
   useEffect(() => {
@@ -71,6 +77,24 @@ export const useAdminPanel = () => {
       }));
     }
   }, [dispatch, setPriceRequestStatus]);
+  useEffect(() => {
+    if (adminSendEmailRequestStatus === RequestStatus.REQUEST) {
+      dispatch(setActiveModal({
+        modals: {
+          [Modals.AdminSendEmailPending]: true,
+        },
+      }));
+    }
+  }, [dispatch, adminSendEmailRequestStatus]);
+  useEffect(() => {
+    if (adminUpdatePermissionsRequestStatus === RequestStatus.REQUEST) {
+      dispatch(setActiveModal({
+        modals: {
+          [Modals.AdminUpdatePermissionsPending]: true,
+        },
+      }));
+    }
+  }, [dispatch, adminUpdatePermissionsRequestStatus]);
 
   // Success
   useEffect(() => {
@@ -148,4 +172,18 @@ export const useAdminPanel = () => {
       dispatch(apiActions.reset(adminActionTypes.ADMIN_SET_IS_MAINNET_DISABLED));
     }
   }, [dispatch, setIsMainnetDisabledRequestStatus]);
+  useEffect(() => {
+    if (adminSendEmailRequestStatus === RequestStatus.ERROR ||
+      adminSendEmailRequestStatus === RequestStatus.SUCCESS) {
+      dispatch(apiActions.reset(adminActionTypes.ADMIN_SEND_EMAIL));
+      dispatch(closeModal(Modals.AdminSendEmailPending));
+    }
+  }, [dispatch, adminSendEmailRequestStatus]);
+  useEffect(() => {
+    if (adminUpdatePermissionsRequestStatus === RequestStatus.ERROR ||
+      adminUpdatePermissionsRequestStatus === RequestStatus.SUCCESS) {
+      dispatch(apiActions.reset(adminActionTypes.ADMIN_UPDATE_PERMISSIONS));
+      dispatch(closeModal(Modals.AdminUpdatePermissionsPending));
+    }
+  }, [dispatch, adminUpdatePermissionsRequestStatus]);
 };

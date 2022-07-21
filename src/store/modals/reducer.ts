@@ -30,7 +30,8 @@ export const initialState: ModalsState = {
     AdminChangePricePending: false,
     AdminChangePriceSuccess: false,
     AdminChangePriceError: false,
-    AdminSendEmail: false,
+    AdminSendEmailPending: false,
+    AdminUpdatePermissionsPending: false,
   },
 };
 
