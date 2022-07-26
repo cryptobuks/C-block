@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserState, WalletProviders } from 'types';
 
 const initialState: UserState = {
+  id: -1,
   address: '',
   wallet: WalletProviders.init,
   isLight: false,
@@ -53,10 +54,6 @@ export const userReducer = createSlice({
       ...state,
       ...action.payload,
     }),
-    resetState: (state) => ({
-      ...state,
-      ...initialState,
-    }),
     toggleTestnet: (state) => ({
       ...state,
       isMainnet: !state.isMainnet,
@@ -84,17 +81,25 @@ export const userReducer = createSlice({
         ...action.payload,
       },
     }),
+    logout: (state) => ({
+      ...initialState,
+      address: state.address,
+      isLight: state.isLight,
+      isMainnet: state.isMainnet,
+      wallet: state.wallet,
+      countryCodes: state.countryCodes,
+    }),
   },
 });
 
 export const {
   setUser,
-  resetState,
   connectWalletState,
   disconnectWalletState,
   toggleTheme,
   toggleTestnet,
   setPermissions,
+  logout,
 } = userReducer.actions;
 
 export default userReducer.reducer;
