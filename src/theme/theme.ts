@@ -35,6 +35,13 @@ import { getTypographyOptions } from './Typography';
 import { getMuiSlider, getMuiSliderDefaultProps } from './Slider/Slider.theme';
 import { getMuiTablePagination, getMuiTablePaginationDefaultProps } from './TablePagination/TablePagination.theme';
 import { getMuiTableCell, getMuiTableCellDefaultProps } from './TableCell/TableCell.theme';
+import {
+  getMuiMenu,
+  getMuiPaper,
+  getMuiMenuItem,
+  getMuiListItem,
+  getMuiSelect,
+} from './Select';
 
 const getBaseTheme = (theme: Theme): ThemeOptions => ({
   props: {
@@ -71,6 +78,11 @@ const getBaseTheme = (theme: Theme): ThemeOptions => ({
     MuiSlider: getMuiSlider(theme),
     MuiTableCell: getMuiTableCell(theme),
     MuiTablePagination: getMuiTablePagination(),
+    MuiSelect: getMuiSelect(),
+    MuiMenu: getMuiMenu(theme),
+    MuiPaper: getMuiPaper(),
+    MuiMenuItem: getMuiMenuItem(),
+    MuiListItem: getMuiListItem(),
   },
 });
 

@@ -17,6 +17,9 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     borderTop: `1px solid ${theme.palette.type === 'dark' ? COLOR_BLACK_3 : COLOR_GREY_5}`,
     padding: theme.spacing(5, 0),
   },
+  crowdsaleTokenContainer: {
+    ...flexHelper(),
+  },
   shortTextField: {
     maxWidth: '50%',
   },
@@ -51,5 +54,14 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
   changingDatesTitle: {
     ...flexHelper('flex-start', 'flex-start'),
     color: theme.palette.type === 'dark' ? COLOR_GREY_1 : COLOR_BLACK_1,
+  },
+
+  selectWrapper: {
+    padding: '16px 42px 16px 30px !important',
+    '& *': {
+      border: 'none !important',
+    },
+    // border: 'none',
+    // borderLeft: `1px solid ${COLOR_GREY_1}`,
   },
 }));

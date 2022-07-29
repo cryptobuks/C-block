@@ -130,7 +130,7 @@ export const dynamicFormDataConfig: CrowdsaleContractFieldType[] = [
     renderProps: {
       label: 'Token address',
       name: 'tokenAddress',
-      type: 'input',
+      type: 'select',
     },
     helperText: [
       'Please provide the address of the token that will be accepted from users as payment method.',
