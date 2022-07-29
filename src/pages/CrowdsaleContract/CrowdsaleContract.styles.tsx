@@ -57,10 +57,6 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 
   selectWrapper: {
-    padding: '16px 42px 16px 30px !important',
-    '& *': {
-      border: 'none !important',
-    },
     // border: 'none',
     // borderLeft: `1px solid ${COLOR_GREY_1}`,
   },

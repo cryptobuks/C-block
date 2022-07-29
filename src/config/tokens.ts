@@ -1,0 +1,161 @@
+import {
+  abrTokenIcon, ariTokenIcon, avaxTokenIcon, bnbTokenIcon,
+  celoTokenIcon,
+  cEurTokenIcon,
+  cRealTokenIcon,
+  cUsdTokenIcon, daiTokenIcon,
+  mooTokenIcon, mossTokenIcon,
+  pactTokenIcon,
+  ubeTokenIcon, usdcTokenIcon, usdtTokenIcon, wBtcTokenIcon, wEthTokenIcon, wMaticTokenIcon,
+} from '../assets';
+
+export const tokens = [
+  {
+    name: 'CELO',
+    label: 'CELO',
+    address: '0x471EcE3750Da237f93B8E339c536989b8978a438',
+    icon: celoTokenIcon,
+  },
+  {
+    name: 'cUSD',
+    label: 'cUSD',
+    address: '0x765DE816845861e75A25fCA122bb6898B8B1282a',
+    icon: cUsdTokenIcon,
+  },
+  {
+    name: 'cEUR',
+    label: 'cEUR',
+    address: '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73',
+    icon: cEurTokenIcon,
+  },
+  {
+    name: 'cREAL',
+    label: 'cREAL',
+    address: '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787',
+    icon: cRealTokenIcon,
+  },
+  {
+    name: 'PACT',
+    label: 'PACT (ImpactMarket)',
+    address: '0x46c9757C5497c5B1f2eb73aE79b6B67D119B0B58',
+    icon: pactTokenIcon,
+  },
+  {
+    name: 'MOO',
+    label: 'MOO (Moola)',
+    address: '0x17700282592D6917F6A73D0bF8AcCf4D578c131e',
+    icon: mooTokenIcon,
+  },
+  {
+    name: 'UBE',
+    label: 'UBE (Ubeswap)',
+    address: '0x00Be915B9dCf56a3CBE739D9B9c202ca692409EC',
+    icon: ubeTokenIcon,
+  },
+  {
+    name: 'MOSS',
+    label: 'MOSS (Moss.Earth)',
+    address: '0x32A9FE697a32135BFd313a6Ac28792DaE4D9979d',
+    icon: mossTokenIcon,
+  },
+  {
+    name: 'USDC',
+    label: 'USDC',
+    address: '0xef4229c8c3250C675F21BCefa42f58EfbfF6002a',
+    icon: usdcTokenIcon,
+  },
+  {
+    name: 'USDT',
+    label: 'USDT',
+    address: '0x88eeC49252c8cbc039DCdB394c0c2BA2f1637EA0',
+    icon: usdtTokenIcon,
+  },
+  {
+    name: 'WBTC',
+    label: 'WBTC',
+    address: '0xBAAB46E28388d2779e6E31Fd00cF0e5Ad95E327B',
+    icon: wBtcTokenIcon,
+  },
+  {
+    name: 'WETH',
+    label: 'WETH',
+    address: '0x122013fd7dF1C6F636a5bb8f03108E876548b455',
+    icon: wEthTokenIcon,
+  },
+  {
+    name: 'WMATIC',
+    label: 'WMATIC',
+    address: '0x2E3487F967DF2Ebc2f236E16f8fCAeac7091324D',
+    icon: wMaticTokenIcon,
+  },
+  {
+    name: 'ABR',
+    label: 'ABR (AllBridge)',
+    address: '0x6e512BFC33be36F2666754E996ff103AD1680Cc9',
+    icon: abrTokenIcon,
+  },
+  {
+    name: 'ARI',
+    label: 'ARI (AriSwap)',
+    address: '0x20677d4f3d0F08e735aB512393524A3CfCEb250C',
+    icon: ariTokenIcon,
+  },
+  {
+    name: 'AVAX',
+    label: 'AVAX (Avalanche)',
+    address: '0x8E3670FD7B0935d3FE832711deBFE13BB689b690',
+    icon: avaxTokenIcon,
+  },
+  {
+    name: 'BNB',
+    label: 'BNB (Binance)',
+    address: '0xA649325Aa7C5093d12D6F98EB4378deAe68CE23F',
+    icon: bnbTokenIcon,
+  },
+  {
+    name: 'DAI',
+    label: 'DAI (Dai Stablecoin)',
+    address: '0xE4fE50cdD716522A56204352f00AA110F731932d',
+    icon: daiTokenIcon,
+  },
+  {
+    name: ' cDEFI',
+    label: 'cDEFI (Celo DeFi Index)',
+    address: '0xA287A3722c367849eFA5c76e96BE36efd65C290e',
+  },
+  {
+    name: '',
+    label: '',
+    address: '',
+  },
+  {
+    name: '',
+    label: '',
+    address: '',
+  },
+  {
+    name: '',
+    label: '',
+    address: '',
+  },
+  {
+    name: '',
+    label: '',
+    address: '',
+  },
+  {
+    name: '',
+    label: '',
+    address: '',
+  },
+  {
+    name: '',
+    label: '',
+    address: '',
+  },
+  {
+    name: '',
+    label: '',
+    address: '',
+  },
+];
