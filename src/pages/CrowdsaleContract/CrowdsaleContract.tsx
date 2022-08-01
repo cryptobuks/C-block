@@ -1,11 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import React, {
-  ChangeEvent,
   FC,
   Fragment,
   SyntheticEvent,
-  useMemo,
-  useState,
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -17,9 +14,6 @@ import {
   Button,
   Box,
   Switch,
-  ListSubheader,
-  Select,
-  MenuItem,
 } from '@material-ui/core';
 import {
   Formik, Form, Field, FieldProps, FieldArray,
@@ -38,7 +32,7 @@ import {
 import { routes } from 'appConstants';
 
 import { getCrowdsaleContractAdditionalData } from 'store/contractForms/actions';
-import { InfoBlock, SwitchableBlockForm } from './components';
+import { InfoBlock, SwitchableBlockForm, TokenSelect } from './components';
 import {
   validationSchema,
   crowdsaleContractFormConfigStart,
@@ -52,8 +46,6 @@ import { useStyles } from './CrowdsaleContract.styles';
 
 const tokensSupportedForPayment = 3;
 
-const allOptions = ['Option One', 'Option Two', 'Option Three', 'Option Four'];
-
 export const CrowdsaleContract: FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -61,22 +53,6 @@ export const CrowdsaleContract: FC = () => {
   const { getDefaultProvider } = useWeb3Provider();
   const { crowdsaleContract } = useShallowSelector(contractFormsSelector.getContractForms);
   const { isAuthenticated, connectDropdownModal, handleConnect } = useAuthConnectWallet();
-
-  const [selectedOption, setSelectedOption] = useState('');
-
-  const [searchText, setSearchText] = useState<string>('');
-
-  const containsText = (text, searchText) => text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
-
-  const displayedOptions = useMemo(
-    () => allOptions.filter((option) => containsText(option, searchText)),
-    [searchText],
-  );
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const handleSetOption = (e: ChangeEvent<any>) => {
-    setSelectedOption(e.target.value);
-  };
 
   return (
     <Container>
@@ -210,44 +186,7 @@ export const CrowdsaleContract: FC = () => {
                                     InputProps={renderProps.type === 'select' && (
                                       {
                                         endAdornment: (
-                                          <Select
-                                            MenuProps={{ autoFocus: false }}
-                                            labelId="search-select-label"
-                                            id="search-select"
-                                            value={selectedOption}
-                                            onChange={(e) => handleSetOption(e)}
-                                            onClose={() => setSearchText('')}
-                                            renderValue={selectedOption !== '' ? undefined : () => <Box>Token</Box>}
-                                            displayEmpty
-                                            classes={{
-                                              root: classes.selectWrapper,
-                                            }}
-                                          >
-                                            <ListSubheader>
-                                              <TextField
-                                                size="small"
-                                                autoFocus
-                                                placeholder="Type to search..."
-                                                fullWidth
-                                                InputProps={{
-                                                  startAdornment: (
-                                                    <Box>1</Box>
-                                                  ),
-                                                }}
-                                                onChange={(e) => setSearchText(e.target.value)}
-                                                onKeyDown={(e) => {
-                                                  if (e.key !== 'Escape') {
-                                                    e.stopPropagation();
-                                                  }
-                                                }}
-                                              />
-                                            </ListSubheader>
-                                            {displayedOptions.map((option, i) => (
-                                              <MenuItem key={i} value={option}>
-                                                {option}
-                                              </MenuItem>
-                                            ))}
-                                          </Select>
+                                          <TokenSelect />
                                         ),
                                       }
                                     )}

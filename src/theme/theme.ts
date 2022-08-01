@@ -40,7 +40,7 @@ import {
   getMuiPaper,
   getMuiMenuItem,
   getMuiListItem,
-  getMuiSelect,
+  // getMuiSelect,
 } from './Select';
 
 const getBaseTheme = (theme: Theme): ThemeOptions => ({
@@ -78,10 +78,10 @@ const getBaseTheme = (theme: Theme): ThemeOptions => ({
     MuiSlider: getMuiSlider(theme),
     MuiTableCell: getMuiTableCell(theme),
     MuiTablePagination: getMuiTablePagination(),
-    MuiSelect: getMuiSelect(),
-    MuiMenu: getMuiMenu(theme),
+    // MuiSelect: getMuiSelect(),
     MuiPaper: getMuiPaper(),
-    MuiMenuItem: getMuiMenuItem(),
+    MuiMenu: getMuiMenu(theme),
+    MuiMenuItem: getMuiMenuItem(theme),
     MuiListItem: getMuiListItem(),
   },
 });

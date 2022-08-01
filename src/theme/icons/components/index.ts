@@ -41,3 +41,4 @@ export * from './LogOutIcon';
 export * from './CrownIcon';
 export * from './ImageIcon';
 export * from './PeopleIcon';
+export * from './ArrowDropdown';

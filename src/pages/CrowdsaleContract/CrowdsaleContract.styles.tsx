@@ -55,9 +55,4 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     ...flexHelper('flex-start', 'flex-start'),
     color: theme.palette.type === 'dark' ? COLOR_GREY_1 : COLOR_BLACK_1,
   },
-
-  selectWrapper: {
-    // border: 'none',
-    // borderLeft: `1px solid ${COLOR_GREY_1}`,
-  },
 }));

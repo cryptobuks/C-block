@@ -16,6 +16,7 @@ export const COLOR_BLACK_5 = '#192038';
 export const COLOR_BLACK_6 = '#131417';
 export const COLOR_BLACK_7 = '#111215';
 export const COLOR_BLACK_8 = '#151114';
+export const COLOR_BLACK_9 = 'rgba(217, 217, 217, 0.1)';
 
 export const COLOR_BLACK_SCALE_5 = 'rgba(0, 0, 0, .5)';
 

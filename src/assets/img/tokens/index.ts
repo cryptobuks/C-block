@@ -30,4 +30,4 @@ export { default as usdcTokenIcon } from './usdc.svg';
 export { default as usdtTokenIcon } from './usdt.svg';
 export { default as wBtcTokenIcon } from './wbtc.svg';
 export { default as wEthTokenIcon } from './weth.svg';
-export { default as wMaticTokenIcon } from './wMatic.svg';
+export { default as wMaticTokenIcon } from './wmatic.svg';
