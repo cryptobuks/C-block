@@ -38,4 +38,6 @@ export interface ICrowdsaleContract extends ICrowdsaleAdditionalField {
   minimumContribution: string;
 
   tokens: ICrowdsaleContractDynamicForm[];
+
+  temporaryPaymentTokensSymbols?: string[];
 }

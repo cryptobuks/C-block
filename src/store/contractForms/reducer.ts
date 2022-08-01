@@ -91,6 +91,8 @@ const crowdsaleContractInitialState: ICrowdsaleContract = {
     paymentTokensSymbols: [], // to be fetched after user successfully fills contract fields
     tokenToSaleSymbol: '', // to be fetched after user successfully fills contract fields
   },
+
+  temporaryPaymentTokensSymbols: [], // to be fetched before user successfully fills contract fields, when user chooses token addresses
 };
 
 const weddingContractInitialState: IWeddingContract = {

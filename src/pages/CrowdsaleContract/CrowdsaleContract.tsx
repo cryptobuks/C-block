@@ -80,7 +80,7 @@ export const CrowdsaleContract: FC = () => {
           handleChange,
           handleBlur,
           isValid,
-          // setFieldValue,
+          setFieldValue,
           // setFieldTouched,
         }) => (
           <Form className={classes.form} translate={undefined}>
@@ -186,7 +186,11 @@ export const CrowdsaleContract: FC = () => {
                                     InputProps={renderProps.type === 'select' && (
                                       {
                                         endAdornment: (
-                                          <TokenSelect />
+                                          <TokenSelect
+                                            fieldValue={token[name]}
+                                            handleUpdateField={setFieldValue}
+                                            fieldName={`tokens[${i}].${name}`}
+                                          />
                                         ),
                                       }
                                     )}
