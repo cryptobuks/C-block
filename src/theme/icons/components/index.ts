@@ -9,6 +9,7 @@ export * from './SettingGearIcon';
 export * from './AtIcon';
 export * from './PlusIcon';
 export * from './PersonIcon';
+export * from './FaucetIcon';
 export * from './MoonIcon';
 export * from './CloseIcon';
 export * from './CopyIcon';
