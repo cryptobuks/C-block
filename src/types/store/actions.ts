@@ -46,3 +46,9 @@ export type TTransferRewardAction = TProvider & TContractAddress;
 
 // Rates Slice
 export type TGetRatesAction = TProvider;
+
+// Token Symbols
+export type TGetPreviewTokenSymbols = TProvider & {
+  tokenAddress: string;
+  tokenIndex: string | number;
+};

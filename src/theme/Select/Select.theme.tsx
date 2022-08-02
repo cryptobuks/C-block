@@ -1,6 +1,8 @@
 import { Theme } from '@material-ui/core';
 import { Overrides } from '@material-ui/core/styles/overrides';
-import { COLOR_BLACK_1, COLOR_BLACK_3, COLOR_BLACK_9 } from '../colors';
+import {
+  COLOR_BLACK_1, COLOR_BLACK_3, COLOR_BLACK_9, COLOR_GREY_4,
+} from '../colors';
 
 export const getMuiPaper = (): Overrides['MuiPaper'] => ({
   root: {
@@ -11,7 +13,7 @@ export const getMuiPaper = (): Overrides['MuiPaper'] => ({
 export const getMuiMenu = (theme: Theme): Overrides['MuiMenu'] => ({
   paper: {
     marginTop: theme.spacing(1),
-    background: COLOR_BLACK_1,
+    background: theme.palette.type === 'dark' ? COLOR_BLACK_1 : COLOR_GREY_4,
     border: `1px solid ${COLOR_BLACK_3}`,
     margin: 5,
     borderRadius: 12,
@@ -21,6 +23,9 @@ export const getMuiMenu = (theme: Theme): Overrides['MuiMenu'] => ({
     [theme.breakpoints.down('xs')]: {
       marginLeft: theme.spacing(3),
     },
+    maxHeight: 419,
+    height: '100%',
+    overflowY: 'scroll',
   },
 });
 

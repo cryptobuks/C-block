@@ -91,8 +91,6 @@ const crowdsaleContractInitialState: ICrowdsaleContract = {
     paymentTokensSymbols: [], // to be fetched after user successfully fills contract fields
     tokenToSaleSymbol: '', // to be fetched after user successfully fills contract fields
   },
-
-  temporaryPaymentTokensSymbols: [], // to be fetched before user successfully fills contract fields, when user chooses token addresses
 };
 
 const weddingContractInitialState: IWeddingContract = {
@@ -136,6 +134,7 @@ export const initialState: ContractFormsState = {
   weddingContract: weddingContractInitialState,
   lostKeyContract: lostKeyContractInitialState,
   willContract: willContractInitialState,
+  temporaryPaymentTokenSymbols: [], // to be fetched before user successfully fills contract fields, when user chooses token addresses
 };
 
 export const contractFormReducer = createSlice({
@@ -239,6 +238,15 @@ export const contractFormReducer = createSlice({
       ...state,
       willContract: initialState.willContract,
     }),
+
+    setCrowdsaleTokenSymbol: (state, action: PayloadAction<string[]>) => ({
+      ...state,
+      temporaryPaymentTokenSymbols: action.payload,
+    }),
+    deleteCrowdSaleTokenSymbolByIndex: (state, action: PayloadAction<number>) => ({
+      ...state,
+      temporaryPaymentTokenSymbols: state.temporaryPaymentTokenSymbols.filter((_, index) => index !== action.payload),
+    }),
   },
 });
 
@@ -260,6 +268,9 @@ export const {
 
   setWillContractForm,
   deleteWillContractForm,
+
+  setCrowdsaleTokenSymbol,
+  deleteCrowdSaleTokenSymbolByIndex,
 } = contractFormReducer.actions;
 
 export default contractFormReducer.reducer;

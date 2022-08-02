@@ -13,6 +13,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
   },
   listSubheader: {
     padding: theme.spacing(0, 3),
+    position: 'relative',
   },
   listItem: {
     margin: theme.spacing(0, 3),
@@ -32,7 +33,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
       paddingBottom: 0,
     },
     '& img': {
-      display: 'none',
+      marginRight: theme.spacing(1),
     },
   },
 }));

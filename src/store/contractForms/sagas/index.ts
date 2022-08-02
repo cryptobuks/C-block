@@ -11,6 +11,7 @@ import createCrowdsaleContract from './createCrowdsaleContract';
 import createWeddingContract from './createWeddingContract';
 import getCrowdsaleContractAdditionalData from './getCrowdsaleContractAdditionalData';
 import getContractsMinCreationPriceSaga from './getContractsMinCreationPriceSaga';
+import getPreviewTokenSymbolSaga from './getPreviewTokenSymbol';
 
 export default function* createContractsSaga() {
   yield fork(getErc20Symbol);
@@ -25,4 +26,5 @@ export default function* createContractsSaga() {
   yield fork(createWeddingContract);
 
   yield fork(getCrowdsaleContractAdditionalData);
+  yield fork(getPreviewTokenSymbolSaga);
 }

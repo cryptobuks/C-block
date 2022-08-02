@@ -9,6 +9,7 @@ import {
   TCreateWeddingContractAction,
   TGetCrowdsaleContractAdditionalDataAction,
   TGetContractsMinCreationPrice,
+  TGetPreviewTokenSymbols,
 } from 'types';
 
 import actionTypes from './actionTypes';
@@ -36,4 +37,7 @@ export const createWeddingContract = createAction<TCreateWeddingContractAction>(
 );
 export const getContractsMinCreationPrice = createAction<TGetContractsMinCreationPrice>(
   actionTypes.GET_CONTRACTS_MIN_CREATION_PRICE,
+);
+export const getPreviewTokenSymbol = createAction<TGetPreviewTokenSymbols>(
+  actionTypes.GET_PREVIEW_TOKEN_SYMBOLS,
 );

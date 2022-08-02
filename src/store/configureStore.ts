@@ -86,6 +86,7 @@ const store = configureStore({
           contractFormsActionTypes.CREATE_CROWDSALE_CONTRACT,
           contractFormsActionTypes.CREATE_WEDDING_CONTRACT,
           contractFormsActionTypes.GET_CROWDSALE_CONTRACT_ADDITIONAL_DATA,
+          contractFormsActionTypes.GET_PREVIEW_TOKEN_SYMBOLS,
 
           myContractsActionTypes.GET_MY_CONTRACTS,
           myContractsWeddingActionTypes.INIT_DIVORCE,

@@ -44,4 +44,6 @@ export default {
     }
     return ret;
   },
+
+  getTemporaryTokenSymbols: (state: State): string[] => state.contractForms.temporaryPaymentTokenSymbols,
 };

@@ -104,7 +104,7 @@ export const Preview: FC<PreviewProps> = ({
 
   const handleBack = useCallback(() => {
     navigate(-1);
-  }, []);
+  }, [navigate]);
 
   const onPay = useCallback(async () => {
     await launchAction();

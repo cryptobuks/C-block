@@ -259,6 +259,7 @@ export function* getContractsMinCreationPriceSaga({
           },
         },
       },
+      temporaryPaymentTokenSymbols: [],
     }));
 
     yield put(apiActions.success(type));

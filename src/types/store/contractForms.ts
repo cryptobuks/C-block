@@ -17,6 +17,7 @@ export type ContractFormsState = {
   weddingContract: IWeddingContract;
   lostKeyContract: ILostKeyContract;
   willContract: IWillContract;
+  temporaryPaymentTokenSymbols: string[];
 };
 
 export type TSpecificContractData =

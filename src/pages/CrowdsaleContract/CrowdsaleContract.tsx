@@ -26,7 +26,7 @@ import contractFormsSelector from 'store/contractForms/selectors';
 import { ICrowdsaleContract } from 'types';
 import { useWeb3Provider, useShallowSelector, useAuthConnectWallet } from 'hooks';
 import {
-  crowdsaleContractDynamicFormInitialData,
+  crowdsaleContractDynamicFormInitialData, deleteCrowdSaleTokenSymbolByIndex,
   setCrowdsaleContractForm,
 } from 'store/contractForms/reducer';
 import { routes } from 'appConstants';
@@ -139,13 +139,17 @@ export const CrowdsaleContract: FC = () => {
                       (errors.tokens?.length && errors.tokens[i]) || {};
                   const tokensTouched =
                       (touched.tokens?.length && touched.tokens[i]) || {};
+                  const beforeRemove = () => {
+                    dispatch(deleteCrowdSaleTokenSymbolByIndex(i));
+                    remove(i);
+                  };
                   return (
                     <Fragment key={`dynamic_${i}`}>
                       <RemovableContractsFormBlock
                         isFirst={i === 0}
                         title="Token supported for payment"
                         subtitle="Tokens from CELO blockchain are supported ONLY."
-                        deleteForm={() => remove(i)}
+                        deleteForm={() => beforeRemove()}
                       >
                         {dynamicFormDataConfig.map(
                           (
@@ -190,6 +194,7 @@ export const CrowdsaleContract: FC = () => {
                                             fieldValue={token[name]}
                                             handleUpdateField={setFieldValue}
                                             fieldName={`tokens[${i}].${name}`}
+                                            fieldIndex={i}
                                           />
                                         ),
                                       }

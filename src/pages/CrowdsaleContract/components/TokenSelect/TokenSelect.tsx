@@ -3,7 +3,7 @@ import React, {
   ChangeEvent, FC, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import {
-  Box, ListSubheader, TextField, MenuItem, Select,
+  Box, ListSubheader, MenuItem, Select, TextField,
 } from '@material-ui/core';
 import { ArrowDropdown, SearchIcon } from 'theme/icons';
 import { tokensMainnet, tokensTestnet } from 'config';
@@ -11,13 +11,15 @@ import { useShallowSelector, useWeb3Provider } from 'hooks';
 import userSelector from 'store/user/selectors';
 import Web3 from 'web3';
 import { useDispatch } from 'react-redux';
-import { getErc20Symbol } from 'store/erc20/actions';
-import { SelectInput } from './SelectInput';
+import { getPreviewTokenSymbol } from 'store/contractForms/actions';
+import contractFormsSelector from 'store/contractForms/selectors';
 import { useStyles } from './TokenSelect.styles';
+import { SelectInput } from './SelectInput';
 
 interface ITokenSelectProps {
   fieldValue: string;
   handleUpdateField: any;
+  fieldIndex: number;
   fieldName: string;
   className?: string;
 }
@@ -25,6 +27,7 @@ interface ITokenSelectProps {
 export const TokenSelect: FC<ITokenSelectProps> = ({
   fieldValue,
   handleUpdateField,
+  fieldIndex,
   fieldName,
   className,
 }) => {
@@ -33,6 +36,7 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
   const { getDefaultProvider } = useWeb3Provider();
 
   const { isMainnet } = useShallowSelector(userSelector.getUser);
+  const temporaryPaymentTokenSymbols = useShallowSelector(contractFormsSelector.getTemporaryTokenSymbols);
 
   const [selectedOption, setSelectedOption] = useState('');
   const [searchText, setSearchText] = useState<string>('');
@@ -47,8 +51,8 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
   );
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const handleSetOption = useCallback((e: ChangeEvent<any>) => {
-    setSelectedOption(e.target.value);
     const currentToken = displayedOptions.filter((option) => option.name === e.target.value)[0];
+    setSelectedOption(currentToken.name);
     handleUpdateField(fieldName, currentToken.address);
   }, [displayedOptions, fieldName, handleUpdateField]);
 
@@ -58,12 +62,19 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
 
   useEffect(() => {
     if (Web3.utils.isAddress(fieldValue)) {
-      dispatch(getErc20Symbol({
-        provider: getDefaultProvider(),
-        tokenAddress: fieldValue,
-      }));
+      const symbol = displayedOptions.filter((option) => option.address === fieldValue)[0];
+      if (!symbol) {
+        setSelectedOption('');
+        dispatch(getPreviewTokenSymbol({
+          provider: getDefaultProvider(),
+          tokenAddress: fieldValue,
+          tokenIndex: fieldIndex,
+        }));
+      } else {
+        setSelectedOption(symbol.name);
+      }
     }
-  }, [dispatch, fieldValue, getDefaultProvider]);
+  }, [dispatch, displayedOptions, fieldIndex, fieldValue, getDefaultProvider]);
 
   return (
     <Select
@@ -85,7 +96,7 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
       // @ts-ignore
       onChange={(e) => handleSetOption(e)}
       // onClose={() => setSearchText('')}
-      renderValue={selectedOption !== '' ? undefined : () => <Box>Token</Box>}
+      renderValue={selectedOption !== '' ? undefined : () => <Box>{temporaryPaymentTokenSymbols[fieldIndex] || 'Token'}</Box>}
       displayEmpty
       IconComponent={() => (
         <ArrowDropdown />
@@ -122,7 +133,6 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
         />
       </ListSubheader>
       {displayedOptions.map((option) => (
-        // eslint-disable-next-line react/no-array-index-key
         <MenuItem key={option.address} value={option.name}>
           <Box className={classes.listItem}>
             <img className={classes.tokenIcon} src={option.icon} alt={option.name} />

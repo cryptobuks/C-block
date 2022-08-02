@@ -166,9 +166,6 @@ const transformCreationDataToCrowdsaleContract = async (
         '',
       ],
     },
-    temporaryPaymentTokensSymbols: [
-      '',
-    ],
   };
 };
 
