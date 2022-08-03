@@ -89,13 +89,15 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
           horizontal: 'right',
         },
         getContentAnchorEl: null,
+        classes: {
+          paper: classes.selectDropdownWrapper,
+        },
       }}
       labelId="search-select-label"
       id="search-select"
       value={selectedOption || ''}
       // @ts-ignore
       onChange={(e) => handleSetOption(e)}
-      // onClose={() => setSearchText('')}
       renderValue={selectedOption !== '' ? undefined : () => <Box>{temporaryPaymentTokenSymbols[fieldIndex] || 'Token'}</Box>}
       displayEmpty
       IconComponent={() => (
@@ -133,7 +135,7 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
         />
       </ListSubheader>
       {displayedOptions.map((option) => (
-        <MenuItem key={option.address} value={option.name}>
+        <MenuItem key={option.address} value={option.name} className={classes.listItemWrapper}>
           <Box className={classes.listItem}>
             <img className={classes.tokenIcon} src={option.icon} alt={option.name} />
             <span>{option.label}</span>

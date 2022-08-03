@@ -36,11 +36,8 @@ import { getMuiSlider, getMuiSliderDefaultProps } from './Slider/Slider.theme';
 import { getMuiTablePagination, getMuiTablePaginationDefaultProps } from './TablePagination/TablePagination.theme';
 import { getMuiTableCell, getMuiTableCellDefaultProps } from './TableCell/TableCell.theme';
 import {
-  getMuiMenu,
   getMuiPaper,
-  getMuiMenuItem,
   getMuiListItem,
-  // getMuiSelect,
 } from './Select';
 
 const getBaseTheme = (theme: Theme): ThemeOptions => ({
@@ -78,14 +75,10 @@ const getBaseTheme = (theme: Theme): ThemeOptions => ({
     MuiSlider: getMuiSlider(theme),
     MuiTableCell: getMuiTableCell(theme),
     MuiTablePagination: getMuiTablePagination(),
-    // MuiSelect: getMuiSelect(),
     MuiPaper: getMuiPaper(),
-    MuiMenu: getMuiMenu(theme),
-    MuiMenuItem: getMuiMenuItem(theme),
     MuiListItem: getMuiListItem(),
   },
 });
-
 // eslint-disable-next-line import/no-mutable-exports
 export let darkTheme = createTheme({
   palette: {

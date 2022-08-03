@@ -187,7 +187,7 @@ export const CrowdsaleContract: FC = () => {
                                       `tokens[${i}].${name}`,
                                     )}
                                     onBlur={handleBlur}
-                                    InputProps={renderProps.type === 'select' && (
+                                    InputProps={renderProps.type === 'select' ? (
                                       {
                                         endAdornment: (
                                           <TokenSelect
@@ -198,6 +198,8 @@ export const CrowdsaleContract: FC = () => {
                                           />
                                         ),
                                       }
+                                    ) : (
+                                      {}
                                     )}
                                   />
                                 )}
