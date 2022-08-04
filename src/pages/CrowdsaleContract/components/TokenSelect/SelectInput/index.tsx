@@ -13,10 +13,11 @@ export const SelectInput = styled(InputBase)(({ theme }) => ({
     boxSizing: 'border-box',
     padding: '6px 42px 7px 24px !important',
     ...flexHelper('center'),
-    width: '125px',
+    width: '150px',
     height: '100%',
     borderLeft: `1px solid ${COLOR_BLACK_3}`,
     borderRadius: 0,
+    zIndex: 100,
     [theme.breakpoints.down('sm')]: {},
   },
 }));

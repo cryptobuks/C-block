@@ -25,6 +25,13 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     height: '100%',
     overflowY: 'scroll',
   },
+  iconDropdown: {
+    display: 'inline-block',
+    flexShrink: 0,
+    userSelect: 'none',
+    right: 7,
+    position: 'absolute',
+  },
   search: {
     width: 257,
     marginBottom: theme.spacing(3),
@@ -58,9 +65,13 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     marginRight: theme.spacing(2.5),
   },
   listItemSelected: {
+    width: 150,
     '& *': {
       border: 'none',
       paddingBottom: 0,
+    },
+    '& div': {
+      marginLeft: 0,
     },
     '& img': {
       marginRight: theme.spacing(1),

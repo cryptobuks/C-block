@@ -100,9 +100,7 @@ export const TokenSelect: FC<ITokenSelectProps> = ({
       onChange={(e) => handleSetOption(e)}
       renderValue={selectedOption !== '' ? undefined : () => <Box>{temporaryPaymentTokenSymbols[fieldIndex] || 'Token'}</Box>}
       displayEmpty
-      IconComponent={() => (
-        <ArrowDropdown />
-      )}
+      IconComponent={() => <ArrowDropdown className={classes.iconDropdown} />}
       input={<SelectInput />}
       classes={{
         root: className,
