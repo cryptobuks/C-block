@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider, StylesProvider } from '@material-ui/styles';
+import { Userpilot } from 'userpilot';
 
 import { BreakpointsProvider } from 'hooks/useBreakpoints';
 import { darkTheme, lightTheme } from 'theme';
@@ -13,11 +14,14 @@ import {
   AdminModalsContainer,
   RoutesGuard,
 } from 'containers';
-import { useAdminPanel, useShallowSelector } from 'hooks';
+import { useAdminPanel, useShallowSelector, useUserPilot } from 'hooks';
 import userSelector from 'store/user/selectors';
 import { useWalletConnectorContext } from 'services';
 
 import 'react-toastify/dist/ReactToastify.css';
+
+// Initialize Userpilot
+Userpilot.initialize(process.env.REACT_APP_USERPILOT_TOKEN); // `appToken` should be replaced with your userpilot appToken.
 
 function App() {
   const { isLight, address, wallet } = useShallowSelector(userSelector.getUser);
@@ -35,6 +39,8 @@ function App() {
   }, []);
 
   useAdminPanel();
+
+  useUserPilot();
 
   return (
     <ThemeProvider theme={selectedTheme}>
