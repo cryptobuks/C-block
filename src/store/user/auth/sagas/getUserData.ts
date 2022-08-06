@@ -46,6 +46,7 @@ export function* getUserDataSaga({
       authApi.getUserData,
     );
 
+    console.log(process.env.REACT_APP_BACKEND_ORIGIN);
     yield put(setUser({
       id,
       registrationDate,
