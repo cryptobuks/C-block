@@ -1,6 +1,6 @@
 import {
   call,
-  put,
+  put, select,
   takeLatest,
 } from 'redux-saga/effects';
 
@@ -10,8 +10,10 @@ import { setUser } from 'store/user/reducer';
 import { AxiosResponse } from 'axios';
 import { setNotification } from 'utils';
 import { TGetUserDataReturnType } from 'store/api/auth.types';
+import { UserState } from 'types';
 import { logout } from '../actions';
 import actionTypes from '../actionTypes';
+import userSelector from '../../selectors';
 
 export function* getUserDataSaga({
   type,
@@ -21,6 +23,8 @@ export function* getUserDataSaga({
 }: ReturnType<typeof logout>) {
   try {
     yield put(apiActions.request(type));
+
+    const { isMainnet }: UserState = yield select(userSelector.getUser);
 
     const {
       data: {
@@ -71,8 +75,8 @@ export function* getUserDataSaga({
       permissions: {
         superAdmin: permissions.contract_super_admin,
         changeNetworkMode: permissions.can_change_network_mode,
-        setFeeReceiver: permissions.can_change_payment_addresses,
-        setPrice: permissions.can_change_price,
+        setFeeReceiver: isMainnet ? permissions.contract_mainnet.can_change_payment_addresses : permissions.contract_testnet.can_change_payment_addresses,
+        setPrice: isMainnet ? permissions.contract_mainnet.can_change_price : permissions.contract_testnet.can_change_price,
         contactUsers: permissions.can_contact_users,
         freezeUsers: permissions.can_freeze_users,
         viewUsers: permissions.can_view_users,

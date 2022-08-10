@@ -20,6 +20,7 @@ import contractFormsSelector from 'store/contractForms/selectors';
 import adminSelector from 'store/admin/selectors';
 import { getContractsMinCreationPrice } from 'store/contractForms/actions';
 import { ContractFormsState, MinCreationPriceField } from 'types';
+import { useWalletConnectorContext } from 'services';
 import { createContractHelpers } from './CreateContract.helpers';
 import { useStyles } from './CreateContract.styles';
 
@@ -27,11 +28,14 @@ export const CreateContract = () => {
   const { isMainnetDisabled } = useShallowSelector(
     adminSelector.selectState,
   );
+  const checkUserAuthenticated = useShallowSelector(
+    userSelector.selectIsAuthenticated,
+  );
 
   const contractForms: ContractFormsState = useShallowSelector(
     contractFormsSelector.getContractForms,
   );
-  const { isMainnet } = useShallowSelector(userSelector.getUser);
+  const { isMainnet, wallet } = useShallowSelector(userSelector.getUser);
   const celoDecimals = useMemo(() => contractsHelper.getTokensDecimals('celo', isMainnet), [isMainnet]);
   const cusdDecimals = useMemo(() => contractsHelper.getTokensDecimals('cusd', isMainnet), [isMainnet]);
   const { getDefaultProvider } = useWeb3Provider();
@@ -77,16 +81,18 @@ export const CreateContract = () => {
   );
 
   const dispatch = useDispatch();
+  const { connect } = useWalletConnectorContext();
   const handleTestnetChange = useCallback(() => {
     if (isMainnetDisabled) return;
     dispatch(toggleTestnet());
-    setNotification({
-      type: 'info',
-      message: `Please change network to ${
-        !isMainnet ? 'Celo Mainnet' : 'Alfahores Testnet'
-      } in your wallet`,
-    });
-  }, [dispatch, isMainnetDisabled, isMainnet]);
+    if (checkUserAuthenticated) {
+      setNotification({
+        type: 'info',
+        message: 'You will be logged out. Log in once again',
+      });
+    }
+    connect(wallet);
+  }, [isMainnetDisabled, dispatch, checkUserAuthenticated, connect, wallet]);
 
   useEffect(() => {
     dispatch(

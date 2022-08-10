@@ -35,7 +35,7 @@ const userPersistConfig: MyPersistConfig<UserState> = {
   key: 'user',
   version: 0,
   storage,
-  whitelist: ['address', 'wallet', 'isLight', 'email', 'registrationEmail', 'registrationWalletAddress'],
+  whitelist: ['address', 'isMainnet', 'wallet', 'isLight', 'email', 'registrationEmail', 'registrationWalletAddress'],
   migrate: createMigrate({
     0: (state) => ({
       // eslint-disable-next-line no-underscore-dangle

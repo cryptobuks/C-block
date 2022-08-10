@@ -39,6 +39,7 @@ import {
   getMuiPaper,
   getMuiListItem,
 } from './Select';
+import { getMuiRadio, getMuiRadioDefaultProps } from './Radio';
 
 const getBaseTheme = (theme: Theme): ThemeOptions => ({
   props: {
@@ -57,6 +58,7 @@ const getBaseTheme = (theme: Theme): ThemeOptions => ({
     MuiSlider: getMuiSliderDefaultProps(),
     MuiTableCell: getMuiTableCellDefaultProps(),
     MuiTablePagination: getMuiTablePaginationDefaultProps(),
+    MuiRadio: getMuiRadioDefaultProps(),
   },
   overrides: {
     MuiCssBaseline: getMuiCssBaseline(theme),
@@ -77,6 +79,7 @@ const getBaseTheme = (theme: Theme): ThemeOptions => ({
     MuiTablePagination: getMuiTablePagination(),
     MuiPaper: getMuiPaper(),
     MuiListItem: getMuiListItem(),
+    MuiRadio: getMuiRadio(theme),
   },
 });
 // eslint-disable-next-line import/no-mutable-exports

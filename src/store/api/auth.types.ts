@@ -36,14 +36,19 @@ export interface ILogin {
   password: string;
 }
 
-export type PermissionsBackend = {
-  can_change_network_mode: boolean;
+export type PermissionsByNetworkTypeBackend = {
   can_change_payment_addresses: boolean;
   can_change_price: boolean;
+};
+
+export type PermissionsBackend = {
+  can_change_network_mode: boolean;
   can_contact_users: boolean;
   can_freeze_users: boolean;
   can_view_users: boolean;
   contract_super_admin: boolean;
+  contract_testnet: PermissionsByNetworkTypeBackend;
+  contract_mainnet: PermissionsByNetworkTypeBackend;
 };
 
 export type TGetUserDataReturnType = {

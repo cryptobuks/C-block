@@ -1,4 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useEffect, useMemo, useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import Web3 from 'web3';
 import {
@@ -39,6 +41,7 @@ import {
   AdminTabs, contractsMock, getContracts, tabs,
 } from './AdminPanel.helpers';
 import { useStyle } from './AdminPanel.styles';
+import { useNetworkRadioGroup } from './components/useNetworkRadioGroup';
 
 export const AdminPanel = () => {
   const dispatch = useDispatch();
@@ -48,6 +51,11 @@ export const AdminPanel = () => {
     contractsMock[0],
   );
   const [selectedTab, setSelectedTab] = useState<AdminTabs>(tabs[0]);
+
+  const {
+    NetworkRadioGroup,
+  } =
+    useNetworkRadioGroup();
 
   const { paymentsReceiverAddress: defaultPaymentsReceiverAddress, isMainnetDisabled } = useShallowSelector(
     adminSelector.selectState,
@@ -63,7 +71,9 @@ export const AdminPanel = () => {
   const [paymentsReceiverAddress, setPaymentsReceiverAddress] = useState(
     defaultPaymentsReceiverAddress,
   );
-  const { isMainnet, permissions, countryCodes } = useShallowSelector(
+  const {
+    isMainnet, permissions, countryCodes,
+  } = useShallowSelector(
     userSelectors.getUser,
   );
   const celoDecimals = useMemo(
@@ -191,7 +201,7 @@ export const AdminPanel = () => {
 
   return (
     <Container>
-      <Grid container>
+      <Grid container justifyContent="space-between">
         <Grid item xs={12} sm={12} md={9} lg={7} xl={7}>
           {
               permissions.changeNetworkMode && (
@@ -233,6 +243,11 @@ export const AdminPanel = () => {
             </Typography>
             )
           }
+        </Grid>
+        <Grid item xs={12} sm={12} md={3} lg={5} xl={5}>
+          <Box className={classes.radioBox}>
+            <NetworkRadioGroup />
+          </Box>
         </Grid>
       </Grid>
       <Box className={classes.tabsContainer}>

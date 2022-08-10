@@ -78,5 +78,19 @@ export const useStyle = makeStyles((theme: Theme) => {
       fontSize: '14px',
       lineHeight: '24px',
     },
+
+    radioBox: {
+      background: COLOR_BLACK_1,
+      border: `1px solid ${COLOR_BLACK_3}`,
+      borderRadius: '12px',
+      maxWidth: 228,
+      marginLeft: 0,
+      padding: '10px 20px',
+      marginBottom: theme.spacing(4),
+
+      [formatMedia.BREAKPOINT_DESKTOP]: {
+        marginLeft: 'auto',
+      },
+    },
   });
 });
