@@ -112,6 +112,7 @@ const store = configureStore({
 
           authActionTypes.USER_AUTH_REGISTER_ACCOUNT,
           authActionTypes.USER_AUTH_UPDATE_PROFILE,
+          authActionTypes.USER_AUTH_GET_USER_DATA,
 
           adminActionTypes.ADMIN_CHECK_IS_ADMIN,
           adminActionTypes.ADMIN_SET_PAYMENTS_RECEIVER,

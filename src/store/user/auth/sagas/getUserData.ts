@@ -82,6 +82,7 @@ export function* getUserDataSaga({
         viewUsers: permissions.can_view_users,
       },
     }));
+
     yield put(apiActions.success(type));
   } catch (err) {
     console.log(err, err.response);

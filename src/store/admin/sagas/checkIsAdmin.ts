@@ -14,6 +14,7 @@ import { contractsHelper } from 'utils';
 import { checkIsAdmin } from '../actions';
 import actionTypes from '../actionTypes';
 
+// TODO: THIS SAGA PROBABLY IS NOT NEEDED, AS WE GET USER PERMISSIONS FROM BACKEND
 function* checkIsAdminSaga({
   type,
   payload: {

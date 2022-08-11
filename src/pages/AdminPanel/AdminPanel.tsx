@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {
   useCallback,
   useEffect, useMemo, useState,
@@ -16,7 +18,7 @@ import clsx from 'clsx';
 import userActions, { getUserData } from 'store/user/auth/actions';
 import userSelectors from 'store/user/selectors';
 import contractFormsSelector from 'store/contractForms/selectors';
-import adminActions from 'store/admin/actions';
+import adminActions, {checkIsAdmin} from 'store/admin/actions';
 import adminActionTypes from 'store/admin/actionTypes';
 import adminSelector from 'store/admin/selectors';
 import uiSelectors from 'store/ui/selectors';
@@ -110,11 +112,14 @@ export const AdminPanel = () => {
     dispatch(toggleTestnet());
     await connect(wallet);
     handleGetUsers();
-    handleGetContractsMinCreationPrice();
+    // handleGetContractsMinCreationPrice();
     handleGetRates();
     handleGetCountryCodes();
     dispatch(getUserData({
-      showErrorNotification: false,
+      showErrorNotification: true,
+    }));
+    dispatch(checkIsAdmin({
+      provider: getDefaultProvider(),
     }));
   }, [connect, dispatch, handleGetContractsMinCreationPrice, handleGetCountryCodes, handleGetRates, handleGetUsers, wallet]);
 
