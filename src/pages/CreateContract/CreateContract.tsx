@@ -102,6 +102,12 @@ export const CreateContract = () => {
     );
   }, [dispatch, getDefaultProvider]);
 
+  useEffect(() => {
+    if (isMainnet && isMainnetDisabled) {
+      dispatch(toggleTestnet());
+    }
+  }, [dispatch, isMainnet, isMainnetDisabled]);
+
   const classes = useStyles();
 
   return (
