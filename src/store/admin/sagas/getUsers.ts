@@ -61,7 +61,7 @@ function* getUsersSaga({
         isFrozen,
         isCompletedProfile,
         permissions: {
-          superAdmin: permissions.contract_super_admin,
+          superAdmin: isMainnet ? permissions.contract_mainnet.super_admin : permissions.contract_testnet.super_admin,
           changeNetworkMode: permissions.can_change_network_mode,
           setFeeReceiver: isMainnet ? permissions.contract_mainnet.can_change_payment_addresses : permissions.contract_testnet.can_change_payment_addresses,
           setPrice: isMainnet ? permissions.contract_mainnet.can_change_price : permissions.contract_testnet.can_change_price,

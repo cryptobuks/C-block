@@ -25,7 +25,7 @@ const mapPermissionsToPermissionsBackend: Record<keyof Permissions, keyof Permis
   freezeUsers: 'can_freeze_users',
   setFeeReceiver: 'can_change_payment_addresses',
   setPrice: 'can_change_price',
-  superAdmin: 'contract_super_admin',
+  superAdmin: 'super_admin',
   viewUsers: 'can_view_users',
 };
 
@@ -47,8 +47,6 @@ function* updatePermissionsSaga({
       ContractsNames.controller, isMainnet,
     ).address;
     const contract = contractsHelper.getControllerContract(provider, controllerAddress);
-
-    console.log('UPDATE', permissions);
 
     if (permissions.setFeeReceiver !== undefined) {
       yield call(

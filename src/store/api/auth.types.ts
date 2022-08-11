@@ -39,6 +39,7 @@ export interface ILogin {
 export type PermissionsByNetworkTypeBackend = {
   can_change_payment_addresses: boolean;
   can_change_price: boolean;
+  super_admin: boolean;
 };
 
 export type PermissionsBackend = {
@@ -46,7 +47,6 @@ export type PermissionsBackend = {
   can_contact_users: boolean;
   can_freeze_users: boolean;
   can_view_users: boolean;
-  contract_super_admin: boolean;
   contract_testnet: PermissionsByNetworkTypeBackend;
   contract_mainnet: PermissionsByNetworkTypeBackend;
 };
