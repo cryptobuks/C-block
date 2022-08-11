@@ -42,7 +42,7 @@ export const contracts: IContracts = {
     },
     tokenMintableFreezable: {
       mainnet: {
-        address: '',
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850', // temp
         abi: tokenMintableFreezableAbi,
       },
       testnet: {
@@ -52,7 +52,7 @@ export const contracts: IContracts = {
     },
     tokenMintableNonFreezable: {
       mainnet: {
-        address: '',
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850', // temp
         abi: tokenMintableNonFreezableAbi,
       },
       testnet: {
@@ -62,7 +62,7 @@ export const contracts: IContracts = {
     },
     tokenNonMintableFreezable: {
       mainnet: {
-        address: '',
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850', // temp
         abi: tokenNonMintableFreezableAbi,
       },
       testnet: {
@@ -72,7 +72,7 @@ export const contracts: IContracts = {
     },
     tokenNonMintableNonFreezable: {
       mainnet: {
-        address: '',
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850', // temp
         abi: tokenNonMintableNonFreezableAbi,
       },
       testnet: {
@@ -80,9 +80,10 @@ export const contracts: IContracts = {
         abi: tokenNonMintableNonFreezableAbi,
       },
     },
+
     lostKeyFactory: {
       mainnet: {
-        address: '',
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850', // temp
         abi: lostKeyFactoryAbi,
       },
       testnet: {
@@ -92,7 +93,7 @@ export const contracts: IContracts = {
     },
     lastWillFactory: {
       mainnet: {
-        address: '',
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850', // temp
         abi: lastWillFactoryAbi,
       },
       testnet: {
@@ -100,10 +101,20 @@ export const contracts: IContracts = {
         abi: lastWillFactoryAbi,
       },
     },
+    weddingFactory: {
+      mainnet: {
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850', // temp
+        abi: weddingFactoryAbi,
+      },
+      testnet: {
+        address: '0x917D930F2beD3591236346a5BCBf78dABE9708d0',
+        abi: weddingFactoryAbi,
+      },
+    },
 
     crowdsaleSoftCappableBonusable: {
       mainnet: {
-        address: '',
+        address: '0x1300D15108B8B78806D7FF7Cf0086533E6B504aB',
         abi: crowdsaleSoftCappableBonusableAbi,
       },
       testnet: {
@@ -113,7 +124,7 @@ export const contracts: IContracts = {
     },
     crowdsaleSoftCappableNonBonusable: {
       mainnet: {
-        address: '',
+        address: '0x88c08d7c3EF918ee43b5f8E75960c089D78a915D',
         abi: crowdsaleSoftCappableNonBonusableAbi,
       },
       testnet: {
@@ -123,7 +134,7 @@ export const contracts: IContracts = {
     },
     crowdsaleNonSoftCappableBonusable: {
       mainnet: {
-        address: '',
+        address: '0x5Feb36748Ace56dB4D6A7CC2Dc43B0771a0eFdd3',
         abi: crowdsaleNonSoftCappableBonusableAbi,
       },
       testnet: {
@@ -133,7 +144,7 @@ export const contracts: IContracts = {
     },
     crowdsaleNonSoftCappableNonBonusable: {
       mainnet: {
-        address: '',
+        address: '0xc5d5c2b6D5667cb41f278B7677883eB64875e850',
         abi: crowdsaleNonSoftCappableNonBonusableAbi,
       },
       testnet: {
@@ -141,20 +152,10 @@ export const contracts: IContracts = {
         abi: crowdsaleNonSoftCappableNonBonusableAbi,
       },
     },
-    weddingFactory: {
-      mainnet: {
-        address: '',
-        abi: weddingFactoryAbi,
-      },
-      testnet: {
-        address: '0x917D930F2beD3591236346a5BCBf78dABE9708d0',
-        abi: weddingFactoryAbi,
-      },
-    },
     // all the contracts controller (to setPrice, changeManagementAddress etc.)
     controller: {
       mainnet: {
-        address: '',
+        address: '0xB40caEc57b43addA9f5E96f00a396fe738ddF888',
         abi: controllerAbi,
       },
       testnet: {
