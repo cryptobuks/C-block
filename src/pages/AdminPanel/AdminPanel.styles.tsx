@@ -3,7 +3,7 @@ import { createStyles, Theme } from '@material-ui/core/styles';
 import {
   COLOR_ACID_GREEN,
   COLOR_BLACK_1,
-  COLOR_BLACK_3, COLOR_BLACK_5, COLOR_ERROR, COLOR_GREEN, COLOR_GREY, COLOR_GREY_2, COLOR_GREY_3,
+  COLOR_BLACK_3, COLOR_BLACK_5, COLOR_ERROR, COLOR_GREEN, COLOR_GREY, COLOR_GREY_2, COLOR_GREY_3, COLOR_GREY_4,
 } from 'theme/colors';
 import { FontWeights } from 'theme/Typography';
 import { getFormatMedia } from 'theme/utils';
@@ -81,7 +81,7 @@ export const useStyle = makeStyles((theme: Theme) => {
     },
 
     radioBox: {
-      background: COLOR_BLACK_1,
+      background: theme.palette.type === 'dark' ? COLOR_BLACK_1 : COLOR_GREY_3,
       border: `1px solid ${COLOR_BLACK_3}`,
       borderRadius: '12px',
       maxWidth: 228,
@@ -98,7 +98,7 @@ export const useStyle = makeStyles((theme: Theme) => {
       width: 24,
       height: 24,
       border: '1px solid rgba(255, 255, 255, 0.2)',
-      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      backgroundColor: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.05)' : COLOR_GREY_4,
       'input:hover ~ &': {
         borderColor: COLOR_ACID_GREEN,
       },
