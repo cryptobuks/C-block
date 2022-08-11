@@ -14,7 +14,7 @@ import {
   contractsHelper,
   formatNumber,
   getTokenAmountDisplay,
-  setNotification,
+  // setNotification,
 } from 'utils';
 import contractFormsSelector from 'store/contractForms/selectors';
 import adminSelector from 'store/admin/selectors';
@@ -28,9 +28,9 @@ export const CreateContract = () => {
   const { isMainnetDisabled } = useShallowSelector(
     adminSelector.selectState,
   );
-  const checkUserAuthenticated = useShallowSelector(
-    userSelector.selectIsAuthenticated,
-  );
+  // const checkUserAuthenticated = useShallowSelector(
+  //   userSelector.selectIsAuthenticated,
+  // );
 
   const contractForms: ContractFormsState = useShallowSelector(
     contractFormsSelector.getContractForms,
@@ -85,14 +85,14 @@ export const CreateContract = () => {
   const handleTestnetChange = useCallback(() => {
     if (isMainnetDisabled) return;
     dispatch(toggleTestnet());
-    if (checkUserAuthenticated) {
-      setNotification({
-        type: 'info',
-        message: 'You will be logged out. Log in once again',
-      });
-    }
+    // if (checkUserAuthenticated) {
+    //   setNotification({
+    //     type: 'info',
+    //     message: 'You will be logged out. Log in once again',
+    //   });
+    // }
     connect(wallet);
-  }, [isMainnetDisabled, dispatch, checkUserAuthenticated, connect, wallet]);
+  }, [connect, dispatch, isMainnetDisabled, wallet]);
 
   useEffect(() => {
     dispatch(

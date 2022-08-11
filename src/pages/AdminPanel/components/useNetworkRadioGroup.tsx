@@ -12,7 +12,7 @@ import userSelectors from 'store/user/selectors';
 import { toggleTestnet } from 'store/user/reducer';
 import { useDispatch } from 'react-redux';
 import { useWalletConnectorContext } from 'services';
-import { setNotification } from 'utils';
+// import { setNotification } from 'utils';
 import { useStyles } from './NetworkRadioGroup.styles';
 
 export const useNetworkRadioGroup = () => {
@@ -21,9 +21,9 @@ export const useNetworkRadioGroup = () => {
   const { isMainnet, wallet } = useShallowSelector(
     userSelectors.getUser,
   );
-  const checkUserAuthenticated = useShallowSelector(
-    userSelectors.selectIsAuthenticated,
-  );
+  // const checkUserAuthenticated = useShallowSelector(
+  //   userSelectors.selectIsAuthenticated,
+  // );
   const [radioState, setRadioState] = useState(isMainnet ? 'mainnet' : 'testnet');
   const isMainnetSelected = radioState === 'mainnet';
   const classes = useStyles();
@@ -31,14 +31,14 @@ export const useNetworkRadioGroup = () => {
   const radioHandler = useCallback((event) => {
     setRadioState(event.target.value);
     dispatch(toggleTestnet());
-    if (checkUserAuthenticated) {
-      setNotification({
-        type: 'info',
-        message: 'You will be logged out. Log in once again',
-      });
-    }
+    // if (checkUserAuthenticated) {
+    //   setNotification({
+    //     type: 'info',
+    //     message: 'You will be logged out. Log in once again',
+    //   });
+    // }
     connect(wallet);
-  }, [checkUserAuthenticated, connect, dispatch, wallet]);
+  }, [connect, dispatch, wallet]);
 
   const NetworkRadioGroup = useMemo(() => () => (
     <RadioGroup

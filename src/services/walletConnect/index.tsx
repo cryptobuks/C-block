@@ -120,7 +120,15 @@ class Connector extends React.Component<TConnectorProps, TConnectorState> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (err: IEventError) => {
           eventSubs.unsubscribe();
-          this.disconnect();
+          // @ts-ignore
+          const currentChain = this.state.provider.connectWallet.currentWeb3().currentProvider.chainId;
+          if (err.message.subtitle === 'chainChanged error' && currentChain !== '0xa4ec' && currentChain !== '0xaef3') {
+            setNotification({
+              type: 'error',
+              message: 'Wrong Network. Please change network to Alfajores in your wallet',
+            });
+            this.disconnect();
+          }
         },
       );
       return;
@@ -142,7 +150,6 @@ class Connector extends React.Component<TConnectorProps, TConnectorState> {
   };
 
   disconnect = () => {
-    delete localStorage.walletconnect;
     this.setState({
       address: '',
     });
