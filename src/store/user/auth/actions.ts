@@ -39,6 +39,9 @@ export const updateProfile = createAction<TUpdateProfileAction>(
 export const getCountryCodes = createAction(
   actionTypes.USER_GET_COUNTRY_CODES,
 );
+export const getUserData = createAction<TLogoutAction>(
+  actionTypes.USER_AUTH_GET_USER_DATA,
+);
 
 export default {
   resetPassword,
@@ -50,4 +53,5 @@ export default {
   checkAuthentication,
   updateProfile,
   getCountryCodes,
+  getUserData,
 };

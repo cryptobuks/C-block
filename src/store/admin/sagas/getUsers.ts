@@ -1,13 +1,15 @@
 import { AxiosResponse } from 'axios';
 import {
   call,
-  put,
+  put, select,
   takeLatest,
 } from 'redux-saga/effects';
 import { roleSystemApi } from 'store/api/apiRequestBuilder';
 import { TGetUsersListReturnType } from 'store/api/roleSystem.types';
 
 import apiActions from 'store/ui/actions';
+import { UserState } from 'types';
+import userSelector from 'store/user/selectors';
 import { getUsers } from '../actions';
 import actionTypes from '../actionTypes';
 import { setUsers } from '../reducer';
@@ -18,6 +20,7 @@ function* getUsersSaga({
   try {
     yield put(apiActions.request(type));
 
+    const { isMainnet }: UserState = yield select(userSelector.getUser);
     const {
       data,
     }: AxiosResponse<TGetUsersListReturnType> = yield call(roleSystemApi.getUsersList);
@@ -58,10 +61,10 @@ function* getUsersSaga({
         isFrozen,
         isCompletedProfile,
         permissions: {
-          superAdmin: permissions.contract_super_admin,
+          superAdmin: isMainnet ? permissions.contract_mainnet.super_admin : permissions.contract_testnet.super_admin,
           changeNetworkMode: permissions.can_change_network_mode,
-          setFeeReceiver: permissions.can_change_payment_addresses,
-          setPrice: permissions.can_change_price,
+          setFeeReceiver: isMainnet ? permissions.contract_mainnet.can_change_payment_addresses : permissions.contract_testnet.can_change_payment_addresses,
+          setPrice: isMainnet ? permissions.contract_mainnet.can_change_price : permissions.contract_testnet.can_change_price,
           contactUsers: permissions.can_contact_users,
           freezeUsers: permissions.can_freeze_users,
           viewUsers: permissions.can_view_users,

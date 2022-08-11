@@ -1,4 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect, useMemo, useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import Web3 from 'web3';
 import {
@@ -6,14 +9,14 @@ import {
   Grid,
   Button,
   Typography,
-  Box,
+  Box, FormControlLabel, Radio, RadioGroup,
 } from '@material-ui/core';
 import clsx from 'clsx';
 
-import userActions from 'store/user/auth/actions';
+import userActions, { getUserData } from 'store/user/auth/actions';
 import userSelectors from 'store/user/selectors';
 import contractFormsSelector from 'store/contractForms/selectors';
-import adminActions from 'store/admin/actions';
+import adminActions, { checkIsAdmin } from 'store/admin/actions';
 import adminActionTypes from 'store/admin/actionTypes';
 import adminSelector from 'store/admin/selectors';
 import uiSelectors from 'store/ui/selectors';
@@ -34,6 +37,8 @@ import { getContractsMinCreationPrice } from 'store/contractForms/actions';
 import { Modals, RequestStatus } from 'types';
 import { setActiveModal } from 'store/modals/reducer';
 import { getRates } from 'store/rates/actions';
+import { toggleTestnet } from 'store/user/reducer';
+import { useWalletConnectorContext } from 'services';
 import { UsersView } from './components/UsersView';
 import {
   AdminTabs, contractsMock, getContracts, tabs,
@@ -42,6 +47,7 @@ import { useStyle } from './AdminPanel.styles';
 
 export const AdminPanel = () => {
   const dispatch = useDispatch();
+  const { connect } = useWalletConnectorContext();
   const { getDefaultProvider } = useWeb3Provider();
   const [isPaymentsReceiverFieldEdit, setIsPaymentsReceiverFieldEdit] = useState(false);
   const [selectedContractType, setSelectedContractType] = useState<FactoryContracts>(
@@ -63,9 +69,58 @@ export const AdminPanel = () => {
   const [paymentsReceiverAddress, setPaymentsReceiverAddress] = useState(
     defaultPaymentsReceiverAddress,
   );
-  const { isMainnet, permissions, countryCodes } = useShallowSelector(
+  const {
+    isMainnet, permissions, countryCodes, wallet,
+  } = useShallowSelector(
     userSelectors.getUser,
   );
+
+  const handleGetUsers = useCallback(() => {
+    if (selectedTab === 'Users') {
+      dispatch(
+        adminActions.getUsers(),
+      );
+    }
+  }, [dispatch, selectedTab]);
+  const handleGetContractsMinCreationPrice = useCallback(() => {
+    dispatch(
+      getContractsMinCreationPrice({
+        provider: getDefaultProvider(),
+      }),
+    );
+  }, [dispatch, getDefaultProvider]);
+  const handleGetRates = useCallback(() => {
+    dispatch(
+      getRates(),
+    );
+  }, [dispatch]);
+  const handleGetCountryCodes = useCallback(() => {
+    if (!permissions.viewUsers) return;
+    if (!countryCodes.length) {
+      dispatch(
+        userActions.getCountryCodes(),
+      );
+    }
+  }, [countryCodes.length, dispatch, permissions.viewUsers]);
+
+  const [radioState, setRadioState] = useState(isMainnet ? 'mainnet' : 'testnet');
+
+  const radioHandler = useCallback(async (event) => {
+    setRadioState(event.target.value);
+    dispatch(toggleTestnet());
+    await connect(wallet);
+    handleGetUsers();
+    handleGetContractsMinCreationPrice();
+    handleGetRates();
+    handleGetCountryCodes();
+    dispatch(getUserData({
+      showErrorNotification: true,
+    }));
+    dispatch(checkIsAdmin({
+      provider: getDefaultProvider(),
+    }));
+  }, [connect, dispatch, getDefaultProvider, handleGetContractsMinCreationPrice, handleGetCountryCodes, handleGetRates, handleGetUsers, wallet]);
+
   const celoDecimals = useMemo(
     () => contractsHelper.getTokensDecimals('celo', isMainnet),
     [isMainnet],
@@ -134,33 +189,17 @@ export const AdminPanel = () => {
   }, [defaultPaymentsReceiverAddress]);
 
   useEffect(() => {
-    if (selectedTab === 'Users') {
-      dispatch(
-        adminActions.getUsers(),
-      );
-    }
-  }, [dispatch, selectedTab]);
-
+    handleGetUsers();
+  }, [handleGetUsers]);
   useEffect(() => {
-    dispatch(
-      getContractsMinCreationPrice({
-        provider: getDefaultProvider(),
-      }),
-    );
-  }, [dispatch, getDefaultProvider]);
+    handleGetContractsMinCreationPrice();
+  }, [handleGetContractsMinCreationPrice]);
   useEffect(() => {
-    dispatch(
-      getRates(),
-    );
-  }, [dispatch]);
+    handleGetRates();
+  }, [handleGetRates]);
   useEffect(() => {
-    if (!permissions.viewUsers) return;
-    if (!countryCodes.length) {
-      dispatch(
-        userActions.getCountryCodes(),
-      );
-    }
-  }, [countryCodes.length, dispatch, permissions.viewUsers]);
+    handleGetCountryCodes();
+  }, [handleGetCountryCodes]);
 
   const adminCheckIsAdminRequestStatus = useShallowSelector(
     uiSelectors.getProp(adminActionTypes.ADMIN_CHECK_IS_ADMIN),
@@ -191,7 +230,7 @@ export const AdminPanel = () => {
 
   return (
     <Container>
-      <Grid container>
+      <Grid container justifyContent="space-between">
         <Grid item xs={12} sm={12} md={9} lg={7} xl={7}>
           {
               permissions.changeNetworkMode && (
@@ -233,6 +272,41 @@ export const AdminPanel = () => {
             </Typography>
             )
           }
+        </Grid>
+        <Grid item xs={12} sm={12} md={3} lg={5} xl={5}>
+          <Box className={classes.radioBox}>
+            <RadioGroup
+              value={radioState}
+              onChange={radioHandler}
+            >
+              <FormControlLabel
+                classes={{
+                  label: clsx(classes.label, classes.labelRed),
+                }}
+                value="testnet"
+                control={(
+                  <Radio
+                    checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+                    icon={<span className={classes.icon} />}
+                  />
+                )}
+                label="Alfajores testnet"
+              />
+              <FormControlLabel
+                classes={{
+                  label: classes.label,
+                }}
+                value="mainnet"
+                control={(
+                  <Radio
+                    checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+                    icon={<span className={classes.icon} />}
+                  />
+                )}
+                label="Mainnet"
+              />
+            </RadioGroup>
+          </Box>
         </Grid>
       </Grid>
       <Box className={classes.tabsContainer}>

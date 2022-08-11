@@ -14,18 +14,18 @@ import {
 } from 'types';
 import { contractsHelper, setNotification } from 'utils';
 import { roleSystemApi } from 'store/api/apiRequestBuilder';
-import { PermissionsBackend } from 'store/api/auth.types';
+import { PermissionsBackend, PermissionsByNetworkTypeBackend } from 'store/api/auth.types';
 import { updatePermissions } from '../actions';
 import actionTypes from '../actionTypes';
 import { updateUser } from '../reducer';
 
-const mapPermissionsToPermissionsBackend: Record<keyof Permissions, keyof PermissionsBackend> = {
+const mapPermissionsToPermissionsBackend: Record<keyof Permissions, keyof PermissionsBackend | keyof PermissionsByNetworkTypeBackend> = {
   changeNetworkMode: 'can_change_network_mode',
   contactUsers: 'can_contact_users',
   freezeUsers: 'can_freeze_users',
   setFeeReceiver: 'can_change_payment_addresses',
   setPrice: 'can_change_price',
-  superAdmin: 'contract_super_admin',
+  superAdmin: 'super_admin',
   viewUsers: 'can_view_users',
 };
 
@@ -47,8 +47,6 @@ function* updatePermissionsSaga({
       ContractsNames.controller, isMainnet,
     ).address;
     const contract = contractsHelper.getControllerContract(provider, controllerAddress);
-
-    console.log('UPDATE', permissions);
 
     if (permissions.setFeeReceiver !== undefined) {
       yield call(
