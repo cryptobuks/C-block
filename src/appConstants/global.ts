@@ -4,7 +4,7 @@ export const COMPLETE_MODAL_DEFAULT_SUCCESS_TEXT = 'The transaction was successf
 export const COMPLETE_MODAL_CONTRACT_CREATION_SUCCESS_TEXT = `${COMPLETE_MODAL_DEFAULT_SUCCESS_TEXT}
  Your contract will soon appear in My contracts tab.`;
 
-export const isProduction = false;
+export const isProduction = true;
 
-export const CUSTOM_DEVELOPMENT_EMAIL = isProduction ? 'c-dev@bitflex.app' : 'c-dev@bitflex.app' as const;
-export const PRIVACY_SUPPORT_EMAIL = 'c-support@bitflex.app' as const;
+export const CUSTOM_DEVELOPMENT_EMAIL = isProduction ? 'dev@c-block.io' : 'dev@c-block.io' as const;
+export const PRIVACY_SUPPORT_EMAIL = 'support@c-block.io' as const;
