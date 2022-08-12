@@ -27,11 +27,11 @@ export const ChangePriceCard: VFC<ChangePriceCardProps> = ({
   const classes = useStyles();
   const [state, setState] = useState({
     celo: {
-      fieldValue: prices.celo || '0',
+      fieldValue: !Number.isNaN(+prices.celo) ? prices.celo : '0',
       isChangeMode: false,
     },
     cusd: {
-      fieldValue: prices.cusd || '0',
+      fieldValue: !Number.isNaN(+prices.cusd) ? prices.cusd : '0',
       isChangeMode: false,
     },
   });
