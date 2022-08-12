@@ -105,6 +105,10 @@ export const AdminPanel = () => {
 
   const [radioState, setRadioState] = useState(isMainnet ? 'mainnet' : 'testnet');
 
+  // useEffect(() => {
+  //   console.log(isMainnet);
+  // }, [isMainnet]);
+
   const radioHandler = useCallback(async (event) => {
     setRadioState(event.target.value);
     dispatch(toggleTestnet());

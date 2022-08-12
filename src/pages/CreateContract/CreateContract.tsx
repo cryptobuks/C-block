@@ -82,17 +82,15 @@ export const CreateContract = () => {
 
   const dispatch = useDispatch();
   const { connect } = useWalletConnectorContext();
-  const handleTestnetChange = useCallback(() => {
-    if (isMainnetDisabled) return;
+  const handleTestnetChange = useCallback(async () => {
     dispatch(toggleTestnet());
-    // if (checkUserAuthenticated) {
-    //   setNotification({
-    //     type: 'info',
-    //     message: 'You will be logged out. Log in once again',
-    //   });
-    // }
-    connect(wallet);
-  }, [connect, dispatch, isMainnetDisabled, wallet]);
+    await connect(wallet);
+    dispatch(
+      getContractsMinCreationPrice({
+        provider: getDefaultProvider(),
+      }),
+    );
+  }, [connect, dispatch, getDefaultProvider, wallet]);
 
   useEffect(() => {
     dispatch(
@@ -104,9 +102,9 @@ export const CreateContract = () => {
 
   useEffect(() => {
     if (isMainnet && isMainnetDisabled) {
-      dispatch(toggleTestnet());
+      handleTestnetChange().then();
     }
-  }, [dispatch, isMainnet, isMainnetDisabled]);
+  }, [handleTestnetChange, isMainnet, isMainnetDisabled]);
 
   const classes = useStyles();
 
