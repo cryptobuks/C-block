@@ -6,5 +6,5 @@ export const COMPLETE_MODAL_CONTRACT_CREATION_SUCCESS_TEXT = `${COMPLETE_MODAL_D
 
 export const isProduction = true;
 
-export const CUSTOM_DEVELOPMENT_EMAIL = isProduction ? 'dev@c-block.io' : 'dev@c-block.io' as const;
+export const CUSTOM_DEVELOPMENT_EMAIL = isProduction ? 'developer@c-block.io' : 'developer@c-block.io' as const;
 export const PRIVACY_SUPPORT_EMAIL = 'support@c-block.io' as const;
